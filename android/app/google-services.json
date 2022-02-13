@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "59788347672-jclghmg2pb8lc7jb519lqju2ln7vqqn0.apps.googleusercontent.com",
+          "client_id": "59788347672-2mjkvn0pfeuam2oi7ntud7de3asc9abh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.oladapo.mseries",
-            "certificate_hash": "d243959e45d932bb70b2f53907595cc22398e2ad"
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
         {
@@ -37,6 +37,13 @@
             {
               "client_id": "59788347672-lbm6ltot34t8lrh0c2r6n697q3la85tv.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "59788347672-kbana444ekcar8drebh1q178ft9b60er.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.oladapo.mseries"
+              }
             }
           ]
         }
