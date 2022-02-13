@@ -1,4 +1,6 @@
-const initial_state = {};
+const initial_state = {
+  user: null,
+};
 
 interface ActionTypes {
   type: string;
@@ -7,8 +9,8 @@ interface ActionTypes {
 
 const authReducer = (state = initial_state, { type, payload }: ActionTypes) => {
   switch (type) {
-    case '':
-      return state;
+    case 'SET_USER':
+      return { ...state, user: payload };
 
     default:
       return state;
