@@ -3,6 +3,8 @@ import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../actions/auth';
+//@ts-ignore
+import { IOS_CLIENT_ID, WEB_CLIENT_ID } from 'react-native-dotenv';
 
 const useAuth = () => {
   const [initializing, setInitializing] = useState(true);
@@ -15,10 +17,8 @@ const useAuth = () => {
       setAuthenticating(true);
 
       GoogleSignin.configure({
-        iosClientId:
-          '59788347672-kbana444ekcar8drebh1q178ft9b60er.apps.googleusercontent.com',
-        webClientId:
-          '59788347672-lbm6ltot34t8lrh0c2r6n697q3la85tv.apps.googleusercontent.com',
+        iosClientId: IOS_CLIENT_ID,
+        webClientId: WEB_CLIENT_ID,
       });
 
       await GoogleSignin.hasPlayServices();
