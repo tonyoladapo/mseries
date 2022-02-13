@@ -12,6 +12,8 @@ target 'mseries' do
     :hermes_enabled => false
   )
 
+  pod 'GoogleSignIn', '~> 6.0.2'
+
   target 'mseriesTests' do
     inherit! :complete
     # Pods for testing

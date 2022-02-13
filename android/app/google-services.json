@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "59788347672",
+    "project_id": "mseries-a0da1",
+    "storage_bucket": "mseries-a0da1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:59788347672:android:e4b59678d15d0e54da366d",
+        "android_client_info": {
+          "package_name": "com.oladapo.mseries"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "59788347672-jclghmg2pb8lc7jb519lqju2ln7vqqn0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.oladapo.mseries",
+            "certificate_hash": "d243959e45d932bb70b2f53907595cc22398e2ad"
+          }
+        },
+        {
+          "client_id": "59788347672-lbm6ltot34t8lrh0c2r6n697q3la85tv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLBqem2c-7w6HbONbBiKKmubtGktYN7gc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "59788347672-lbm6ltot34t8lrh0c2r6n697q3la85tv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
