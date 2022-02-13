@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useDispatch } from 'react-redux';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { setUser } from '../actions/auth';
 
 const useAuth = () => {
   const [initializing, setInitializing] = useState(true);
@@ -14,14 +15,16 @@ const useAuth = () => {
       setAuthenticating(true);
 
       GoogleSignin.configure({
-        webClientId:
+        iosClientId:
           '59788347672-kbana444ekcar8drebh1q178ft9b60er.apps.googleusercontent.com',
+        webClientId:
+          '59788347672-lbm6ltot34t8lrh0c2r6n697q3la85tv.apps.googleusercontent.com',
       });
 
       await GoogleSignin.hasPlayServices();
       const { idToken } = await GoogleSignin.signIn();
       const credential = auth.GoogleAuthProvider.credential(idToken);
-      await auth().signInWithCredential(credential);
+      console.log(await auth().signInWithCredential(credential));
     } catch (error) {
       console.log(error);
     }
@@ -46,7 +49,7 @@ const useAuth = () => {
   };
 
   const authStateListener = (user: FirebaseAuthTypes.User | null) => {
-    // dispatch(setUser(user));
+    dispatch(setUser(user));
     if (initializing) setInitializing(false);
     setAuthenticating(false);
   };
