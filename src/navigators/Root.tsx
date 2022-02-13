@@ -1,20 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
 import { ReducerTypes } from '../types/reducerTypes';
+import { RootStackParamList } from '../types/navigation';
+import auth from '@react-native-firebase/auth';
+import useAuth from '../hooks/useAuth';
 import Setup from './Setup';
-import Main from '../screens/Main';
+import Main from '../screens/root/Main';
+import prefReducer from '../reducers/pref';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 const Root = () => {
-  const { firstRun } = useSelector(({ pref }: ReducerTypes) => pref);
+  const { user } = useSelector(({ auth }: ReducerTypes) => auth);
+
+  const { authStateListener } = useAuth();
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(authStateListener);
+    return subscriber;
+  }, []);
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {firstRun ? (
+        {!user ? (
           <Stack.Screen
             name="Setup"
             component={Setup}
