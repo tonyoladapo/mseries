@@ -11,5 +11,13 @@ export type SetupStackParamList = {
   SignIn: undefined;
 };
 
+export type BottomTabParamList = {
+  Home: undefined;
+  Shows: undefined;
+  Discover: undefined;
+  More: undefined;
+};
+
 export type SetupNavigationProp = StackNavigationProp<SetupStackParamList>;
 export type RootNavigationProp = StackNavigationProp<RootStackParamList>;
+export type BottomNavigationProp = BottomTabNavigationProp<BottomTabParamList>;
