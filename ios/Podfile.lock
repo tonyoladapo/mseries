@@ -802,6 +802,8 @@ PODS:
   - RNGoogleSignin (7.0.4):
     - GoogleSignIn (~> 6.0.0)
     - React-Core
+  - RNLocalize (2.1.9):
+    - React-Core
   - RNScreens (3.11.1):
     - React-Core
     - React-RCTImage
@@ -872,6 +874,7 @@ DEPENDENCIES:
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
+  - RNLocalize (from `../node_modules/react-native-localize`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -985,6 +988,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNGoogleSignin:
     :path: "../node_modules/@react-native-google-signin/google-signin"
+  RNLocalize:
+    :path: "../node_modules/react-native-localize"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   Yoga:
@@ -1059,6 +1064,7 @@ SPEC CHECKSUMS:
   RNFBFirestore: a89dfd94118f67226e1b394d35a0095a44a5b87e
   RNGestureHandler: bf572f552ea324acd5b5464b8d30755b2d8c1de6
   RNGoogleSignin: c4381751eefd73c552b923ba347a9bfc6f18771c
+  RNLocalize: 291e5e21b53cd30b5205c10ed95d31b0dc9b8d63
   RNScreens: 4d83613b50b74ed277026375dc0810893b0c347f
   Yoga: 9b6696970c3289e8dea34b3eda93f23e61fb8121
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
