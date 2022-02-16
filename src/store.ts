@@ -5,6 +5,7 @@ import thunk from 'redux-thunk';
 
 import prefReducer from './reducers/pref';
 import authReducer from './reducers/auth';
+import showReducer from './reducers/show';
 
 const persistConfig = {
   key: 'root',
@@ -15,6 +16,7 @@ const persistConfig = {
 const reducers = combineReducers({
   pref: prefReducer,
   auth: authReducer,
+  show: showReducer,
 });
 
 const persisted_reducers = persistReducer(persistConfig, reducers);
