@@ -8,12 +8,15 @@ import auth from '@react-native-firebase/auth';
 import useAuth from '../hooks/useAuth';
 import Setup from './Setup';
 import Main from '../screens/root/Main';
-import prefReducer from '../reducers/pref';
+import Genres from '../screens/setup/Genres';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 const Root = () => {
-  const { user } = useSelector(({ auth }: ReducerTypes) => auth);
+  const { isAuthenticated } = useSelector(({ auth, pref }: ReducerTypes) => ({
+    ...auth,
+    ...pref,
+  }));
 
   const { authStateListener } = useAuth();
 
@@ -25,7 +28,7 @@ const Root = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {!user ? (
+        {!isAuthenticated ? (
           <Stack.Screen
             name="Setup"
             component={Setup}
@@ -37,6 +40,12 @@ const Root = () => {
               name="Main"
               component={Main}
               options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+              name="Genres"
+              component={Genres}
+              options={{ presentation: 'modal', headerShown: false }}
             />
           </>
         )}
