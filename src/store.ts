@@ -10,7 +10,7 @@ import showReducer from './reducers/show';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: [],
+  whitelist: ['pref', 'auth', 'show'],
 };
 
 const reducers = combineReducers({
