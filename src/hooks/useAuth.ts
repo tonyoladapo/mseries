@@ -2,7 +2,7 @@ import { useState } from 'react';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../actions/auth';
+import { setIsAuthenticated, setIsNewUser } from '../actions/pref';
 //@ts-ignore
 import { IOS_CLIENT_ID, WEB_CLIENT_ID } from 'react-native-dotenv';
 
@@ -24,7 +24,11 @@ const useAuth = () => {
       await GoogleSignin.hasPlayServices();
       const { idToken } = await GoogleSignin.signIn();
       const credential = auth.GoogleAuthProvider.credential(idToken);
-      console.log(await auth().signInWithCredential(credential));
+
+      const user = await auth().signInWithCredential(credential);
+      dispatch(setIsNewUser(user.additionalUserInfo?.isNewUser));
+
+      dispatch(setIsAuthenticated(true));
     } catch (error) {
       console.log(error);
     }
@@ -32,9 +36,9 @@ const useAuth = () => {
 
   const authAnonymously = async () => {
     try {
-      setAuthenticating(true);
-
       await auth().signInAnonymously();
+      dispatch(setIsNewUser(true));
+      dispatch(setIsAuthenticated(true));
     } catch (error) {
       console.log(error);
     }
@@ -43,13 +47,14 @@ const useAuth = () => {
   const signOut = async () => {
     try {
       await auth().signOut();
+      dispatch(setIsAuthenticated(false));
     } catch (error) {
       console.error(error);
     }
   };
 
   const authStateListener = (user: FirebaseAuthTypes.User | null) => {
-    dispatch(setUser(user));
+    // dispatch(setIsAuthenticated(!!user));
     if (initializing) setInitializing(false);
     setAuthenticating(false);
   };

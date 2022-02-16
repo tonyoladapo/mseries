@@ -5,16 +5,19 @@ import useAuth from '../../hooks/useAuth';
 
 const SignIn = () => {
   const { authWithGoogle, authAnonymously } = useAuth();
+
   return (
     <View style={styles.container}>
       <GoogleSigninButton
-        onPress={authWithGoogle}
+        onPress={async () => await authWithGoogle()}
         style={{ width: 192, height: 48 }}
         size={GoogleSigninButton.Size.Wide}
         color={GoogleSigninButton.Color.Dark}
       />
 
-      <TouchableOpacity style={styles.skipBtn} onPress={authAnonymously}>
+      <TouchableOpacity
+        style={styles.skipBtn}
+        onPress={async () => await authAnonymously()}>
         <Text>Skip</Text>
       </TouchableOpacity>
     </View>
