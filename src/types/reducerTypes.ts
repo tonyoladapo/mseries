@@ -23,7 +23,12 @@ export interface ShowReducer {
   userGenres: Genre[];
 }
 export interface DiscoverReducer {
-  discoverShows: DiscoverShow[];
+  discoverShows: Discover[];
+}
+
+export interface Discover {
+  listTitle: string;
+  shows: DiscoverShow[];
 }
 
 export interface Genre {
