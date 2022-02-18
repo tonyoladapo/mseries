@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { ReducerTypes } from './../types/reducerTypes';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setDiscoverShows } from '../actions/discover';
 import mseries from '../apis/mseries';
 
 const useDiscover = () => {
   const { userGenres } = useSelector(({ show }: ReducerTypes) => show);
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   const getDiscoverShows = async () => {
     try {
@@ -33,7 +36,7 @@ const useDiscover = () => {
         },
       });
 
-      return data;
+      dispatch(setDiscoverShows(data));
     } catch (error) {
       console.log(error);
     } finally {

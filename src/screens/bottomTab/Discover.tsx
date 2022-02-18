@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,25 +7,25 @@ import {
   Image,
   RefreshControl,
 } from 'react-native';
+import { useSelector } from 'react-redux';
+import { ReducerTypes } from '../../types/reducerTypes';
 import useDiscover from '../../hooks/useDiscover';
 
 const Discover = () => {
-  const [discoverShows, setDiscoverShows] = useState([]);
+  const { discoverShows } = useSelector(
+    ({ discover }: ReducerTypes) => discover,
+  );
   const { getDiscoverShows, loading } = useDiscover();
 
-  const fetchDiscoverShows = async () => {
-    setDiscoverShows(await getDiscoverShows());
-  };
-
   useEffect(() => {
-    fetchDiscoverShows();
+    getDiscoverShows();
   }, []);
 
   return (
     <View style={styles.container}>
       <FlatList
         refreshControl={
-          <RefreshControl refreshing={loading} onRefresh={fetchDiscoverShows} />
+          <RefreshControl refreshing={loading} onRefresh={getDiscoverShows} />
         }
         data={discoverShows}
         keyExtractor={({ listTitle }, index) => `${index}-${listTitle}`}
