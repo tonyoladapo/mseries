@@ -3,6 +3,7 @@ import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useDispatch } from 'react-redux';
 import { setIsAuthenticated, setIsNewUser } from '../actions/pref';
+import { setDiscoverShows } from '../actions/discover';
 //@ts-ignore
 import { IOS_CLIENT_ID, WEB_CLIENT_ID } from 'react-native-dotenv';
 
@@ -47,6 +48,7 @@ const useAuth = () => {
   const signOut = async () => {
     try {
       await auth().signOut();
+      dispatch(setDiscoverShows([]));
       dispatch(setIsAuthenticated(false));
     } catch (error) {
       console.error(error);
