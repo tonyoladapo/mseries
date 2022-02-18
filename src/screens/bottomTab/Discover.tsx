@@ -1,22 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Image,
+  RefreshControl,
+} from 'react-native';
 import useDiscover from '../../hooks/useDiscover';
 
 const Discover = () => {
   const [discoverShows, setDiscoverShows] = useState([]);
-  const { getDiscoverShows } = useDiscover();
+  const { getDiscoverShows, loading } = useDiscover();
+
+  const fetchDiscoverShows = async () => {
+    setDiscoverShows(await getDiscoverShows());
+  };
 
   useEffect(() => {
-    const fetch = async () => {
-      setDiscoverShows(await getDiscoverShows());
-    };
-
-    fetch();
+    fetchDiscoverShows();
   }, []);
 
   return (
     <View style={styles.container}>
       <FlatList
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={fetchDiscoverShows} />
+        }
         data={discoverShows}
         keyExtractor={({ listTitle }, index) => `${index}-${listTitle}`}
         renderItem={({ item }) => <Item item={item} />}
@@ -42,8 +52,6 @@ const Item = ({ item: { listTitle, shows } }: any) => {
               backgroundColor: 'tomato',
               marginHorizontal: 2,
               borderRadius: 7,
-              // alignItems: 'center',
-              // justifyContent: 'center',
             }}>
             <Image
               source={{
@@ -51,7 +59,6 @@ const Item = ({ item: { listTitle, shows } }: any) => {
               }}
               style={{ width: '100%', height: '100%' }}
             />
-            {/* <Text>{item.name}</Text> */}
           </View>
         )}
       />

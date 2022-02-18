@@ -1,12 +1,16 @@
+import { useState } from 'react';
 import { ReducerTypes } from './../types/reducerTypes';
-import mseries from '../apis/mseries';
 import { useSelector } from 'react-redux';
+import mseries from '../apis/mseries';
 
 const useDiscover = () => {
   const { userGenres } = useSelector(({ show }: ReducerTypes) => show);
+  const [loading, setLoading] = useState(false);
 
   const getDiscoverShows = async () => {
     try {
+      setLoading(true);
+
       const similarShowIds = [
         { id: '60059', name: 'Better Call Saul' },
         { id: '1399', name: 'Game of Thrones' },
@@ -32,10 +36,12 @@ const useDiscover = () => {
       return data;
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  return { getDiscoverShows };
+  return { loading, getDiscoverShows };
 };
 
 export default useDiscover;
