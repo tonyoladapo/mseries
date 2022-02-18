@@ -6,17 +6,19 @@ import thunk from 'redux-thunk';
 import prefReducer from './reducers/pref';
 import authReducer from './reducers/auth';
 import showReducer from './reducers/show';
+import discoverReducer from './reducers/discover';
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['pref', 'auth', 'show'],
+  whitelist: ['pref', 'auth', 'show', 'discover'],
 };
 
 const reducers = combineReducers({
   pref: prefReducer,
   auth: authReducer,
   show: showReducer,
+  discover: discoverReducer,
 });
 
 const persisted_reducers = persistReducer(persistConfig, reducers);
