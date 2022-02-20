@@ -10,21 +10,39 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Genre, ReducerTypes } from '../../types/reducerTypes';
 import { setSetupComplete, setIsNewUser } from '../../actions/pref';
 import { useNavigation } from '@react-navigation/native';
+import docRef from '../../firebase/docRef';
 
 const Genres = () => {
   const { genres } = useSelector(({ show }: ReducerTypes) => show);
-  const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
-
-  const { navigate, goBack } = useNavigation();
-
   const dispatch = useDispatch();
 
-  const addGenre = (genre: Genre) => {
-    setSelectedGenres([...selectedGenres, genre]);
+  const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
+
+  const { userDataRef } = docRef();
+  const { goBack } = useNavigation();
+
+  const addGenre = async (genre: Genre) => {
+    try {
+      setSelectedGenres([...selectedGenres, genre]);
+      await userDataRef
+        .collection('user_genres')
+        .doc(genre.id.toString())
+        .set(genre);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const removeGenre = (genre: Genre) => {
-    setSelectedGenres(selectedGenres.filter((g: Genre) => g.id !== genre.id));
+  const removeGenre = async (genre: Genre) => {
+    try {
+      setSelectedGenres(selectedGenres.filter((g: Genre) => g.id !== genre.id));
+      await userDataRef
+        .collection('user_genres')
+        .doc(genre.id.toString())
+        .delete();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
