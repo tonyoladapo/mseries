@@ -8,7 +8,8 @@ import auth from '@react-native-firebase/auth';
 import useAuth from '../hooks/useAuth';
 import Setup from './Setup';
 import Main from '../screens/root/Main';
-import Genres from '../screens/setup/Genres';
+import Genres from '../screens/root/Genres';
+import DiscoverMore from '../screens/root/DiscoverMore';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -47,6 +48,8 @@ const Root = () => {
               component={Genres}
               options={{ presentation: 'modal', headerShown: false }}
             />
+
+            <Stack.Screen name="DiscoverMore" component={DiscoverMore} />
           </>
         )}
       </Stack.Navigator>
