@@ -13,3 +13,8 @@ export interface DiscoverShow {
   first_air_date: string;
   popularity: number;
 }
+
+export interface Genre {
+  id: number;
+  name: string;
+}
