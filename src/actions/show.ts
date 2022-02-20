@@ -6,6 +6,6 @@ export const setGenres = (genres: Genre[]) => ({
 });
 
 export const setUserGenres = (genres: Genre[]) => ({
-  type: 'SET_GENRES',
+  type: 'SET_USER_GENRES',
   payload: genres,
 });
