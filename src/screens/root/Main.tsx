@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setUserGenres } from '../../actions/show';
+import { setUserGenres, setUserShows } from '../../actions/show';
 import docRef from '../../firebase/docRef';
 import BottomTab from '../../navigators/BottomTab';
 
@@ -8,26 +8,45 @@ const Main = () => {
   const dispatch = useDispatch();
   const { userDataRef } = docRef();
 
-  useEffect(() => {
-    const regGenresSnapshot = async () => {
-      try {
-        userDataRef.collection('user_genres').onSnapshot(querySnapshot => {
-          if (!querySnapshot) return;
+  const registerShowsSnapshot = () => {
+    try {
+      userDataRef.collection('user_shows').onSnapshot(querySnapshot => {
+        if (!querySnapshot) return;
 
-          const data: any[] = [];
+        const data: any[] = [];
 
-          querySnapshot.forEach((doc: any) => {
-            data.push(doc.data());
-          });
-
-          dispatch(setUserGenres(data));
+        querySnapshot.forEach(doc => {
+          data.push(doc.data());
         });
-      } catch (error) {
-        console.log(error);
-      }
-    };
 
-    regGenresSnapshot();
+        dispatch(setUserShows(data));
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const registerGenresSnapshot = async () => {
+    try {
+      userDataRef.collection('user_genres').onSnapshot(querySnapshot => {
+        if (!querySnapshot) return;
+
+        const data: any[] = [];
+
+        querySnapshot.forEach((doc: any) => {
+          data.push(doc.data());
+        });
+
+        dispatch(setUserGenres(data));
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    registerGenresSnapshot();
+    registerShowsSnapshot();
   }, []);
 
   return <BottomTab />;
