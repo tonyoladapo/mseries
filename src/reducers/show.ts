@@ -1,6 +1,7 @@
 const initial_state = {
   genres: [],
   userGenres: [],
+  userShows: [],
 };
 
 interface ActionTypes {
