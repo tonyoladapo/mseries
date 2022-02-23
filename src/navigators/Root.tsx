@@ -10,6 +10,7 @@ import Setup from './Setup';
 import Main from '../screens/root/Main';
 import Genres from '../screens/root/Genres';
 import DiscoverMore from '../screens/root/DiscoverMore';
+import ShowDetails from '../screens/setup/ShowDetails';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -50,6 +51,7 @@ const Root = () => {
             />
 
             <Stack.Screen name="DiscoverMore" component={DiscoverMore} />
+            <Stack.Screen name="ShowDetails" component={ShowDetails} />
           </>
         )}
       </Stack.Navigator>
