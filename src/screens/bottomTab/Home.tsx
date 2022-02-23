@@ -9,7 +9,6 @@ import useAuth from '../../hooks/useAuth';
 const Home = () => {
   const { isNewUser } = useSelector(({ pref }: ReducerTypes) => pref);
   const { signOut } = useAuth();
-
   const { navigate } = useNavigation<RootNavigationProp>();
 
   useEffect(() => {

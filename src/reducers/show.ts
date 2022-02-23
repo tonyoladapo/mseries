@@ -17,6 +17,9 @@ const showReducer = (state = initial_state, { type, payload }: ActionTypes) => {
     case 'SET_USER_GENRES':
       return { ...state, userGenres: payload };
 
+    case 'SET_USER_SHOWS':
+      return { ...state, userShows: payload };
+
     default:
       return state;
   }
