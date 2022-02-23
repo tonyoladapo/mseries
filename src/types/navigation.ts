@@ -5,7 +5,22 @@ export type RootStackParamList = {
   Main: undefined;
   Setup: undefined;
   Genres: undefined;
+  DiscoverMore: ListParams;
+  ShowDetails: {
+    //TODO: change param type
+    show: any;
+  };
 };
+
+export interface ListParams {
+  listParams:
+    | 'trending'
+    | 'anticipated'
+    | {
+        id: string;
+        type: 'genre' | 'show';
+      };
+}
 
 export type SetupStackParamList = {
   Welcome: undefined;
