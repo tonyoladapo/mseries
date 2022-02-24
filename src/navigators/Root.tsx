@@ -10,7 +10,7 @@ import Setup from './Setup';
 import Main from '../screens/root/Main';
 import Genres from '../screens/root/Genres';
 import DiscoverMore from '../screens/root/DiscoverMore';
-import ShowDetails from '../screens/setup/ShowDetails';
+import ShowDetails from '../screens/root/ShowDetails';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
