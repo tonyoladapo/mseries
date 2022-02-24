@@ -1,60 +1,87 @@
-import { useState } from 'react';
-import { Show } from '../types/show';
+import { setUnwatched, removeFromUnwatched } from '../actions/show';
+import { toggleAdded, toggleLoading, setSeasons } from '../actions/showDetails';
+import { useDispatch } from 'react-redux';
 import docRef from '../firebase/docRef';
 import mseries from '../apis/mseries';
+import tmdb from '../apis/tmdb';
 
-const useShow = () => {
+const useShow = (controller: AbortController) => {
   const { userDataRef } = docRef();
 
-  const [loading, setLoading] = useState(false);
-  const [fullShow, setFullShow] = useState<Show | null>(null);
+  const dispatch = useDispatch();
 
-  const [added, setAdded] = useState<boolean | undefined>(false);
-
-  const checkAdded = (id: string) => {
+  const checkAdded = async (id: string) => {
     try {
-      userDataRef
-        .collection('user_shows')
-        .doc(id)
-        .get()
-        .then(doc => {
-          if (doc.exists) setAdded(true);
+      const show = await userDataRef.collection('user_shows').doc(id).get();
+
+      if (show.exists) {
+        const { data } = await tmdb.get(`/tv/${id}`, {
+          signal: controller.signal,
         });
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  const addShow = async (showId: string) => {
-    try {
-      setLoading(true);
+        dispatch(setSeasons(data.seasons));
+      } else dispatch(setSeasons([]));
 
-      const { data } = await mseries.get(`/show/details/${showId}`);
-      setFullShow(data);
-      await userDataRef.collection('user_shows').doc(showId).set(data);
-      setAdded(true);
+      dispatch(toggleAdded(show.exists));
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false);
+      dispatch(toggleLoading(false));
+    }
+  };
+
+  const addShow = async (show: any) => {
+    try {
+      dispatch(toggleLoading(true));
+
+      await userDataRef
+        .collection('user_shows')
+        .doc(show.id.toString())
+        .set(show);
+
+      checkAdded(show.id.toString());
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const removeShow = async (showId: string) => {
     try {
-      setLoading(true);
+      dispatch(toggleLoading(true));
 
       await userDataRef.collection('user_shows').doc(showId).delete();
-      setFullShow(null);
-      setAdded(false);
+      dispatch(removeFromUnwatched(showId));
+      checkAdded(showId);
     } catch (error) {
       console.log(error);
-    } finally {
-      setLoading(false);
     }
   };
 
-  return { loading, fullShow, added, checkAdded, addShow, removeShow };
+  const getShowDetails = async (id: string) => {
+    try {
+      const { data: unwatched } = await mseries.get(`/show/unwatched/${id}`, {
+        signal: controller.signal,
+      });
+
+      dispatch(setUnwatched(id, unwatched));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const resetState = () => {
+    controller.abort();
+    dispatch(toggleAdded(false));
+    dispatch(setSeasons([]));
+  };
+
+  return {
+    checkAdded,
+    addShow,
+    removeShow,
+    getShowDetails,
+    resetState,
+  };
 };
 
 export default useShow;
