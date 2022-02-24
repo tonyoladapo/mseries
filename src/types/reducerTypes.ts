@@ -1,10 +1,11 @@
-import { DiscoverShow, Show } from './show';
+import { DiscoverShow, Season, Show } from './show';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 export interface ReducerTypes {
   pref: PrefReducer;
   auth: AuthReducer;
   show: ShowReducer;
   discover: DiscoverReducer;
+  showDetails: ShowDetailsReducer;
 }
 
 export interface PrefReducer {
@@ -22,7 +23,16 @@ export interface ShowReducer {
   genres: Genre[];
   userGenres: Genre[];
   userShows: Show[];
+  unwatched: object;
+  loading: boolean;
 }
+
+export interface ShowDetailsReducer {
+  loading: boolean;
+  added: boolean;
+  seasons: Season[];
+}
+
 export interface DiscoverReducer {
   discoverShows: Discover[];
 }
