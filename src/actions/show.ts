@@ -16,10 +16,10 @@ export const setUserShows = (shows: Show[]) => ({
   payload: shows,
 });
 
-export const setUnwatched = (id: string, unwatched: any) => {
+export const setUnwatched = (show: any) => {
   return {
     type: 'SET_UNWATCHED',
-    payload: { id, unwatched },
+    payload: show,
   };
 };
 
