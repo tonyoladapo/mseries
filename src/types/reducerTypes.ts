@@ -23,7 +23,7 @@ export interface ShowReducer {
   genres: Genre[];
   userGenres: Genre[];
   userShows: Show[];
-  unwatched: object;
+  unwatched: any[];
   loading: boolean;
 }
 
