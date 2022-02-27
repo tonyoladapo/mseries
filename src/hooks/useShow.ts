@@ -1,4 +1,3 @@
-import { setUnwatched, removeFromUnwatched } from '../actions/show';
 import { toggleAdded, toggleLoading, setSeasons } from '../actions/showDetails';
 import { useDispatch } from 'react-redux';
 import docRef from '../firebase/docRef';
@@ -39,6 +38,22 @@ const useShow = (controller: AbortController) => {
         .doc(show.id.toString())
         .set(show);
 
+      const { data: unwatched } = await mseries.get(
+        `/show/unwatched/${show.id}`,
+        {
+          signal: controller.signal,
+        },
+      );
+
+      await userDataRef
+        .collection('unwatched_shows')
+        .doc(show.id.toString())
+        .set({
+          seasons: unwatched,
+          name: show.name,
+          poster_path: show.poster_path,
+        });
+
       checkAdded(show.id.toString());
     } catch (error) {
       console.log(error);
@@ -50,20 +65,27 @@ const useShow = (controller: AbortController) => {
       dispatch(toggleLoading(true));
 
       await userDataRef.collection('user_shows').doc(showId).delete();
-      dispatch(removeFromUnwatched(showId));
+      await userDataRef.collection('unwatched_shows').doc(showId).delete();
       checkAdded(showId);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const getShowDetails = async (id: string) => {
+  const getShowDetails = async (
+    id: string,
+    name: string,
+    poster_path: string,
+  ) => {
     try {
-      const { data: unwatched } = await mseries.get(`/show/unwatched/${id}`, {
-        signal: controller.signal,
-      });
-
-      dispatch(setUnwatched(id, unwatched));
+      // const { data: unwatched } = await mseries.get(`/show/unwatched/${id}`, {
+      //   signal: controller.signal,
+      // });
+      // const batch = firestore().batch();
+      // for (const season in unwatched) {
+      //   batch.set(userDataRef.collection('unwatched_shows').doc(id), season);
+      // }
+      // dispatch(setUnwatched(id, unwatched, name, poster_path));
     } catch (error) {
       console.log(error);
     }
