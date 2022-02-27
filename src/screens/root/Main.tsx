@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setUserGenres, setUserShows } from '../../actions/show';
+import { setUserGenres, setUserShows, setUnwatched } from '../../actions/show';
 import docRef from '../../firebase/docRef';
 import BottomTab from '../../navigators/BottomTab';
 
@@ -20,6 +20,24 @@ const Main = () => {
         });
 
         dispatch(setUserShows(data));
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const registerUnwatchedShowsSnapshot = () => {
+    try {
+      userDataRef.collection('unwatched_shows').onSnapshot(querySnapshot => {
+        if (!querySnapshot) return;
+
+        const data: any[] = [];
+
+        querySnapshot.forEach(doc => {
+          data.push(doc.data());
+        });
+
+        dispatch(setUnwatched(data));
       });
     } catch (error) {
       console.log(error);
@@ -47,6 +65,7 @@ const Main = () => {
   useEffect(() => {
     registerGenresSnapshot();
     registerShowsSnapshot();
+    registerUnwatchedShowsSnapshot();
   }, []);
 
   return <BottomTab />;
