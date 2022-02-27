@@ -72,24 +72,24 @@ const useShow = (controller: AbortController) => {
     }
   };
 
-  const getShowDetails = async (
-    id: string,
-    name: string,
-    poster_path: string,
-  ) => {
-    try {
-      // const { data: unwatched } = await mseries.get(`/show/unwatched/${id}`, {
-      //   signal: controller.signal,
-      // });
-      // const batch = firestore().batch();
-      // for (const season in unwatched) {
-      //   batch.set(userDataRef.collection('unwatched_shows').doc(id), season);
-      // }
-      // dispatch(setUnwatched(id, unwatched, name, poster_path));
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getShowDetails = async (
+  //   id: string,
+  //   name: string,
+  //   poster_path: string,
+  // ) => {
+  //   try {
+  //     // const { data: unwatched } = await mseries.get(`/show/unwatched/${id}`, {
+  //     //   signal: controller.signal,
+  //     // });
+  //     // const batch = firestore().batch();
+  //     // for (const season in unwatched) {
+  //     //   batch.set(userDataRef.collection('unwatched_shows').doc(id), season);
+  //     // }
+  //     // dispatch(setUnwatched(id, unwatched, name, poster_path));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const resetState = () => {
     controller.abort();
@@ -101,7 +101,7 @@ const useShow = (controller: AbortController) => {
     checkAdded,
     addShow,
     removeShow,
-    getShowDetails,
+    // getShowDetails,
     resetState,
   };
 };

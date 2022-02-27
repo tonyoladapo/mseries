@@ -19,23 +19,20 @@ const ShowDetails = (props: any) => {
   const controller = new AbortController();
 
   const show = props.route.params.show;
-  const showId = show.id.toString();
+  const { id, name, poster_path } = show;
 
-  const { addShow, removeShow, getShowDetails, checkAdded, resetState } =
-    useShow(controller);
+  const showId = id.toString();
+
+  const { addShow, removeShow, checkAdded, resetState } = useShow(controller);
 
   useEffect(() => {
     checkAdded(showId);
     return () => resetState();
   }, []);
 
-  useEffect(() => {
-    added && getShowDetails(showId);
-  }, [added]);
-
   return (
     <ScrollView style={styles.container}>
-      <Text>{show.name}</Text>
+      <Text>{name}</Text>
       {loading ? (
         <ActivityIndicator style={{ padding: 16 }} />
       ) : (
