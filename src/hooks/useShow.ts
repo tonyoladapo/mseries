@@ -3,8 +3,9 @@ import { useDispatch } from 'react-redux';
 import docRef from '../firebase/docRef';
 import mseries from '../apis/mseries';
 import tmdb from '../apis/tmdb';
+import firestore from '@react-native-firebase/firestore';
 
-const useShow = (controller: AbortController) => {
+const useShow = (controller?: AbortController) => {
   const { userDataRef } = docRef();
 
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ const useShow = (controller: AbortController) => {
 
       if (show.exists) {
         const { data } = await tmdb.get(`/tv/${id}`, {
-          signal: controller.signal,
+          signal: controller && controller.signal,
         });
 
         dispatch(setSeasons(data.seasons));
@@ -41,7 +42,7 @@ const useShow = (controller: AbortController) => {
       const { data: unwatched } = await mseries.get(
         `/show/unwatched/${show.id}`,
         {
-          signal: controller.signal,
+          signal: controller && controller.signal,
         },
       );
 
@@ -52,6 +53,7 @@ const useShow = (controller: AbortController) => {
           seasons: unwatched,
           name: show.name,
           poster_path: show.poster_path,
+          id: show.id,
         });
 
       checkAdded(show.id.toString());
@@ -72,27 +74,71 @@ const useShow = (controller: AbortController) => {
     }
   };
 
-  // const getShowDetails = async (
-  //   id: string,
-  //   name: string,
-  //   poster_path: string,
-  // ) => {
-  //   try {
-  //     // const { data: unwatched } = await mseries.get(`/show/unwatched/${id}`, {
-  //     //   signal: controller.signal,
-  //     // });
-  //     // const batch = firestore().batch();
-  //     // for (const season in unwatched) {
-  //     //   batch.set(userDataRef.collection('unwatched_shows').doc(id), season);
-  //     // }
-  //     // dispatch(setUnwatched(id, unwatched, name, poster_path));
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const markEpisodeWatched = async (
+    showId: string,
+    seasonNumber: number,
+    episodeNumber: number,
+  ) => {
+    try {
+      const showRef = userDataRef.collection('unwatched_shows').doc(showId);
+      await firestore().runTransaction(async transaction => {
+        const show = await transaction.get(showRef);
+
+        if (!show.exists) return;
+
+        let { seasons }: any = show.data();
+        const key = `season ${seasonNumber}`;
+
+        let _seasons = seasons;
+
+        if (seasons[key].length == 1) {
+          delete _seasons[key];
+        } else {
+          _seasons[key] = seasons[key].filter(
+            ({ episode_number }: any) => episode_number != episodeNumber,
+          );
+        }
+
+        transaction.update(showRef, {
+          seasons: {
+            ...seasons,
+            ..._seasons,
+          },
+        });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const markSeasonWatched = async (showId: string, seasonNumber: number) => {
+    try {
+      const showRef = userDataRef.collection('unwatched_shows').doc(showId);
+      await firestore().runTransaction(async transaction => {
+        const show = await transaction.get(showRef);
+
+        if (!show.exists) return;
+
+        let { seasons }: any = show.data();
+        const key = `season ${seasonNumber}`;
+
+        let _seasons = seasons;
+        delete _seasons[key];
+
+        transaction.update(showRef, {
+          seasons: {
+            ...seasons,
+            ..._seasons,
+          },
+        });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const resetState = () => {
-    controller.abort();
+    controller && controller.abort();
     dispatch(toggleAdded(false));
     dispatch(setSeasons([]));
   };
@@ -101,8 +147,9 @@ const useShow = (controller: AbortController) => {
     checkAdded,
     addShow,
     removeShow,
-    // getShowDetails,
     resetState,
+    markEpisodeWatched,
+    markSeasonWatched,
   };
 };
 

@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { ReducerTypes } from '../../types/reducerTypes';
 import { useNavigation } from '@react-navigation/native';
 import { RootNavigationProp } from '../../types/navigation';
+import useShow from '../../hooks/useShow';
 import useAuth from '../../hooks/useAuth';
 
 const Home = () => {
@@ -49,10 +50,25 @@ const Item = ({ item }: any) => {
 
   const upNext = item.seasons[key][0];
 
+  const { markEpisodeWatched } = useShow();
+
+  const episodeTitle = upNext.name;
+  const showId = item.id.toString();
+  const seasonNumber = upNext.season_number.toString();
+  const episodeNumber = upNext.episode_number.toString();
+
   return (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() => markEpisodeWatched(showId, seasonNumber, episodeNumber)}
+      style={{
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        backgroundColor: 'tomato',
+        marginVertical: 2,
+      }}>
       <Text>{item.name}</Text>
-      <Text>{`Season ${upNext.season_number} episode ${upNext.episode_number}`}</Text>
+      <Text>{episodeTitle}</Text>
+      <Text>{`Season ${seasonNumber} episode ${episodeNumber}`}</Text>
     </TouchableOpacity>
   );
 };
