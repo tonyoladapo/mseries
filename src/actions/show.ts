@@ -29,3 +29,10 @@ export const removeFromUnwatched = (id: string) => {
     payload: id,
   };
 };
+
+export const setUnwatchedCollection = (collection: any) => {
+  return {
+    type: 'SET_UNWATCHED_COLLECTION',
+    payload: collection,
+  };
+};

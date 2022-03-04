@@ -3,6 +3,7 @@ const initial_state = {
   userGenres: [],
   userShows: [],
   unwatched: [],
+  unwatchedCollection: {},
 };
 
 interface ActionTypes {
@@ -27,6 +28,9 @@ const showReducer = (state = initial_state, { type, payload }: ActionTypes) => {
     case 'REMOVE_FROM_UNWATCHED':
       const shows: any = state.unwatched;
       return { ...state, unwatched: delete shows[payload] };
+
+    case 'SET_UNWATCHED_COLLECTION':
+      return { ...state, unwatchedCollection: payload };
 
     default:
       return state;
