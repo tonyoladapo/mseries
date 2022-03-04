@@ -25,6 +25,7 @@ export interface ShowReducer {
   userShows: Show[];
   unwatched: any[];
   loading: boolean;
+  unwatchedCollection: any;
 }
 
 export interface ShowDetailsReducer {
