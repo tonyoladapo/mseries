@@ -12,6 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import { RootNavigationProp } from '../../types/navigation';
 import useShow from '../../hooks/useShow';
 import useAuth from '../../hooks/useAuth';
+import moment from 'moment';
 
 const Home = () => {
   const { isNewUser, unwatched } = useSelector(
@@ -32,7 +33,10 @@ const Home = () => {
         data={unwatched}
         keyExtractor={({ name }, index) => `${index}-${name}`}
         renderItem={({ item }) =>
-          Object.keys(item.seasons).length > 0 ? <Item item={item} /> : null
+          Object.keys(item.seasons).length > 0 &&
+          moment(item.firstAirDate).isBefore(moment()) ? (
+            <Item item={item} />
+          ) : null
         }
       />
       <TouchableOpacity style={{ padding: 16 }} onPress={signOut}>
@@ -56,20 +60,27 @@ const Item = ({ item }: any) => {
   const showId = item.id.toString();
   const seasonNumber = upNext.season_number.toString();
   const episodeNumber = upNext.episode_number.toString();
+  const airDate = upNext.air_date;
 
   return (
-    <TouchableOpacity
-      onPress={() => markEpisodeWatched(showId, seasonNumber, episodeNumber)}
-      style={{
-        paddingHorizontal: 16,
-        paddingVertical: 8,
-        backgroundColor: 'tomato',
-        marginVertical: 2,
-      }}>
-      <Text>{item.name}</Text>
-      <Text>{episodeTitle}</Text>
-      <Text>{`Season ${seasonNumber} episode ${episodeNumber}`}</Text>
-    </TouchableOpacity>
+    <>
+      {moment(airDate).isBefore(moment()) && (
+        <TouchableOpacity
+          onPress={() =>
+            markEpisodeWatched(showId, seasonNumber, episodeNumber)
+          }
+          style={{
+            paddingHorizontal: 16,
+            paddingVertical: 8,
+            backgroundColor: 'tomato',
+            marginVertical: 2,
+          }}>
+          <Text>{item.name}</Text>
+          <Text>{episodeTitle}</Text>
+          <Text>{`Season ${seasonNumber} episode ${episodeNumber}`}</Text>
+        </TouchableOpacity>
+      )}
+    </>
   );
 };
 
