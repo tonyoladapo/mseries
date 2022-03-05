@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
 import { ReducerTypes } from '../types/reducerTypes';
 import { RootStackParamList } from '../types/navigation';
+import { appTheme } from '../constants/appTheme';
 import auth from '@react-native-firebase/auth';
 import useAuth from '../hooks/useAuth';
 import Setup from './Setup';
@@ -28,7 +29,7 @@ const Root = () => {
   }, []);
 
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={appTheme}>
       <Stack.Navigator>
         {!isAuthenticated ? (
           <Stack.Screen
