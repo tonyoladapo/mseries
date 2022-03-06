@@ -9,27 +9,18 @@ interface Props {
 
 const Logo = ({ fontSize = 20 }: Props) => {
   return (
-    <Text style={[styles.text, { fontFamily: 'SFProDisplay-Bold', fontSize }]}>
+    <Text fontFamily="Bold" style={{ fontSize }}>
       mSe
       <Text
-        style={[
-          styles.text,
-          {
-            color: colors.primaryGreen,
-            fontFamily: 'SFProDisplay-Bold',
-            fontSize,
-          },
-        ]}>
+        fontFamily="Bold"
+        style={{
+          color: colors.primaryGreen,
+          fontSize,
+        }}>
         ries
       </Text>
     </Text>
   );
 };
-
-const styles = StyleSheet.create({
-  text: {
-    fontSize: 30,
-  },
-});
 
 export default Logo;
