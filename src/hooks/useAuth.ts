@@ -33,6 +33,8 @@ const useAuth = () => {
       dispatch(setIsAuthenticated(true));
     } catch (error) {
       console.log(error);
+    } finally {
+      setAuthenticating(false);
     }
   };
 
@@ -43,6 +45,8 @@ const useAuth = () => {
       dispatch(setIsAuthenticated(true));
     } catch (error) {
       console.log(error);
+    } finally {
+      setAuthenticating(false);
     }
   };
 
