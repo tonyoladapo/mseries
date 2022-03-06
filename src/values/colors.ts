@@ -7,4 +7,5 @@ export const colors = {
   darkGreen: '#286053',
   primaryText: '#FFFFFF',
   mutedText: '#777777',
+  transparent: 'transparent',
 };
