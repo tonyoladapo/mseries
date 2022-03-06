@@ -11,6 +11,7 @@ import Logo from '../../components/Logo';
 import Pressable from '../../components/Pressable';
 import Icon from 'react-native-vector-icons/AntDesign';
 import LottieView from 'lottie-react-native';
+import HeaderText from '../../components/HeaderText';
 
 const Welcome = () => {
   const dispatch = useDispatch();
@@ -29,9 +30,7 @@ const Welcome = () => {
           <Logo />
         </View>
         <View style={styles.headerTextContainer}>
-          <Text fontFamily="Black" style={styles.welcomeText}>
-            Welcome!
-          </Text>
+          <HeaderText style={styles.welcomeText}>Welcome!</HeaderText>
           <Text fontFamily="Bold" style={styles.subtitle}>
             Track your favorite TV shows and get notified when a new episode
             airs.
@@ -83,8 +82,6 @@ const styles = StyleSheet.create({
   },
 
   welcomeText: {
-    fontSize: 40,
-    fontWeight: 'bold',
     paddingVertical: 2,
   },
 
