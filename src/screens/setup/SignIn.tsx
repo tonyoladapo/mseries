@@ -77,8 +77,6 @@ const styles = StyleSheet.create({
   },
 
   signinText: {
-    fontSize: 35,
-    fontWeight: 'bold',
     paddingVertical: 2,
   },
 
