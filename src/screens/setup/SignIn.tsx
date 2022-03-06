@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import { colors } from '../../values/colors';
 import { dimensions } from '../../values/dimensions';
 import Text from '../../components/Text';
@@ -11,7 +11,7 @@ import Pressable from '../../components/Pressable';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 const SignIn = () => {
-  const { authWithGoogle, authAnonymously } = useAuth();
+  const { authWithGoogle, authAnonymously, authenticating } = useAuth();
 
   return (
     <View style={styles.container}>
@@ -33,7 +33,10 @@ const SignIn = () => {
         />
       </View>
       <View style={styles.footer}>
-        <Pressable style={styles.signinButton} onPress={authWithGoogle}>
+        <Pressable
+          style={styles.signinButton}
+          onPress={authWithGoogle}
+          disabled={authenticating}>
           <View style={styles.buttonImageContainer}>
             <Image
               source={require('../../assets/images/google_logo.png')}
@@ -45,13 +48,30 @@ const SignIn = () => {
           </View>
         </Pressable>
 
-        <Pressable style={styles.skipButton} onPress={authAnonymously}>
+        <Pressable
+          style={styles.skipButton}
+          onPress={authAnonymously}
+          disabled={authenticating}>
           <Text fontFamily="Bold" style={styles.skipButtonText}>
             Skip
           </Text>
           <Icon name="right" size={18} color={colors.mutedText} />
         </Pressable>
       </View>
+      {authenticating && (
+        <View
+          style={{
+            alignSelf: 'center',
+            padding: 32,
+            backgroundColor: 'rgba(0,0,0,0.8)',
+            position: 'absolute',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 10,
+          }}>
+          <ActivityIndicator size="large" />
+        </View>
+      )}
     </View>
   );
 };
@@ -60,6 +80,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
+    justifyContent: 'center',
   },
 
   header: {
