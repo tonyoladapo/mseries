@@ -10,7 +10,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>LSApplicationCategoryType</key>
-	<string></string>
+	<string/>
 	<key>CFBundleDisplayName</key>
 	<string>mseries</string>
 	<key>CFBundleExecutable</key>
@@ -54,7 +54,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -74,5 +74,17 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>SFProDisplay-BlackItalic.OTF</string>
+		<string>SFProDisplay-Bold.OTF</string>
+		<string>SFProDisplay-HeavyItalic.OTF</string>
+		<string>SFProDisplay-LightItalic.OTF</string>
+		<string>SFProDisplay-Medium.OTF</string>
+		<string>SFProDisplay-Regular.OTF</string>
+		<string>SFProDisplay-SemiboldItalic.OTF</string>
+		<string>SFProDisplay-ThinItalic.OTF</string>
+		<string>SFProDisplay-UltralightItalic.OTF</string>
+	</array>
 </dict>
 </plist>
