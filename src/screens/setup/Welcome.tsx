@@ -5,7 +5,6 @@ import { SetupNavigationProp } from '../../types/navigation';
 import { useDispatch } from 'react-redux';
 import { setFirstRun } from '../../actions/pref';
 import { colors } from '../../values/colors';
-import { dimensions } from '../../values/dimensions';
 import Text from '../../components/Text';
 import useSetup from '../../hooks/useSetup';
 import Logo from '../../components/Logo';
@@ -53,7 +52,10 @@ const Welcome = () => {
             dispatch(setFirstRun(false));
             navigate('SignIn');
           }}>
-          <Icon name="right" size={20} color={colors.primaryText} />
+          <Text fontFamily="Bold" style={styles.getStartedText}>
+            Get Started
+          </Text>
+          <Icon name="right" size={18} color={colors.primaryGreen} />
         </Pressable>
       </View>
     </View>
@@ -102,11 +104,15 @@ const styles = StyleSheet.create({
   },
 
   nextButton: {
-    backgroundColor: colors.primaryGreen,
-    padding: 16,
-    borderRadius: dimensions.buttonBorderRadius,
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    width: '35%',
+  },
+
+  getStartedText: {
+    fontSize: 18,
+    color: colors.primaryGreen,
   },
 });
 
