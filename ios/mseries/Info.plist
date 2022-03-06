@@ -85,6 +85,15 @@
 		<string>SFProDisplay-SemiboldItalic.OTF</string>
 		<string>SFProDisplay-ThinItalic.OTF</string>
 		<string>SFProDisplay-UltralightItalic.OTF</string>
+		<string>SFProDisplay-Black.otf</string>
+		<string>SFProDisplay-BoldItalic.otf</string>
+		<string>SFProDisplay-Heavy.otf</string>
+		<string>SFProDisplay-Light.otf</string>
+		<string>SFProDisplay-MediumItalic.otf</string>
+		<string>SFProDisplay-RegularItalic.otf</string>
+		<string>SFProDisplay-Semibold.otf</string>
+		<string>SFProDisplay-Thin.otf</string>
+		<string>SFProDisplay-Ultralight.otf</string>
 	</array>
 </dict>
 </plist>
