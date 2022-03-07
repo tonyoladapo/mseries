@@ -1,6 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomTabParamList } from '../types/navigation';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Home from '../screens/bottomTab/Home';
 import Shows from '../screens/bottomTab/Shows';
 import Discover from '../screens/bottomTab/Discover';
@@ -14,10 +15,42 @@ const BottomTab = () => {
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{ header: props => <AnimatedHeader {...props} /> }}>
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Shows" component={Shows} />
-      <Tab.Screen name="Discover" component={Discover} />
-      <Tab.Screen name="More" component={More} />
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="home" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Shows"
+        component={Shows}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="television-classic" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Discover"
+        component={Discover}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="magnify" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="More"
+        component={More}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="dots-horizontal" color={color} size={size} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };
