@@ -25,3 +25,17 @@ export const setIsNewUser = (isNewUser: boolean | undefined) => {
     payload: isNewUser,
   };
 };
+
+export const toggleIsHeaderTransparent = (isHeaderTransparent: boolean) => {
+  return {
+    type: 'TOGGLE_HEADER_TRANSPARENT',
+    payload: isHeaderTransparent,
+  };
+};
+
+export const setHeaderHeight = (headerHeight: number) => {
+  return {
+    type: 'SET_HEADER_HEIGHT',
+    payload: headerHeight,
+  };
+};

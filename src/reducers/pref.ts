@@ -3,6 +3,8 @@ const initial_state = {
   setupComplete: false,
   isAuthenticated: false,
   isNewUser: true,
+  isHeaderTransparent: false,
+  headerHeight: 0,
 };
 
 interface ActionTypes {
@@ -23,6 +25,12 @@ const prefReducer = (state = initial_state, { type, payload }: ActionTypes) => {
 
     case 'SET_IS_NEW_USER':
       return { ...state, isNewUser: payload };
+
+    case 'TOGGLE_HEADER_TRANSPARENT':
+      return { ...state, isHeaderTransparent: payload };
+
+    case 'SET_HEADER_HEIGHT':
+      return { ...state, headerHeight: payload };
 
     default:
       return state;

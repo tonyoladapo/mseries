@@ -13,6 +13,8 @@ export interface PrefReducer {
   setupComplete: boolean;
   isAuthenticated: boolean;
   isNewUser: boolean | undefined;
+  isHeaderTransparent: boolean;
+  headerHeight: number;
 }
 
 export interface AuthReducer {
