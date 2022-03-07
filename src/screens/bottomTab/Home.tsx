@@ -1,24 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  FlatList,
-} from 'react-native';
+import React, { useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ReducerTypes } from '../../types/reducerTypes';
 import { useNavigation } from '@react-navigation/native';
 import { RootNavigationProp } from '../../types/navigation';
-import useShow from '../../hooks/useShow';
-import useAuth from '../../hooks/useAuth';
-import moment from 'moment';
+import BottomTabList from '../../components/BottomTabList/BottomTabList';
+import ListItem from '../../components/Home/ListItem';
 
 const Home = () => {
-  const { isNewUser, unwatched } = useSelector(
+  const { isNewUser, unwatched, headerHeight } = useSelector(
     ({ pref, show }: ReducerTypes) => ({ ...pref, ...show }),
   );
-  const { signOut } = useAuth();
   const { navigate } = useNavigation<RootNavigationProp>();
 
   useEffect(() => {
@@ -29,58 +21,14 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
-      <FlatList
+      <BottomTabList
+        title="Home"
         data={unwatched}
+        contentContainerStyle={{ paddingTop: headerHeight }}
         keyExtractor={({ name }, index) => `${index}-${name}`}
-        renderItem={({ item }) =>
-          Object.keys(item.seasons).length > 0 &&
-          moment(item.firstAirDate).isBefore(moment()) ? (
-            <Item item={item} />
-          ) : null
-        }
+        renderItem={({ item }) => <ListItem item={item} />}
       />
-      <TouchableOpacity style={{ padding: 16 }} onPress={signOut}>
-        <Text>Sign out</Text>
-      </TouchableOpacity>
-      <Text>Home</Text>
     </View>
-  );
-};
-
-const Item = ({ item }: any) => {
-  let key = Object.keys(item.seasons).reduce((key, v) =>
-    v.slice(7) < key.slice(7) ? v : key,
-  );
-
-  const upNext = item.seasons[key][0];
-
-  const { markEpisodeWatched } = useShow();
-
-  const episodeTitle = upNext.name;
-  const showId = item.id.toString();
-  const seasonNumber = upNext.season_number.toString();
-  const episodeNumber = upNext.episode_number.toString();
-  const airDate = upNext.air_date;
-
-  return (
-    <>
-      {moment(airDate).isBefore(moment()) && (
-        <TouchableOpacity
-          onPress={() =>
-            markEpisodeWatched(showId, seasonNumber, episodeNumber)
-          }
-          style={{
-            paddingHorizontal: 16,
-            paddingVertical: 8,
-            backgroundColor: 'tomato',
-            marginVertical: 2,
-          }}>
-          <Text>{item.name}</Text>
-          <Text>{episodeTitle}</Text>
-          <Text>{`Season ${seasonNumber} episode ${episodeNumber}`}</Text>
-        </TouchableOpacity>
-      )}
-    </>
   );
 };
 
