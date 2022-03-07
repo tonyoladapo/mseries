@@ -199,8 +199,6 @@ dependencies {
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
-    implementation project(path: ':react-native-background-task')
-
     implementation "com.google.android.gms:play-services-auth:${safeExtGet('googlePlayServicesAuthVersion', '19.2.0')}"
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
