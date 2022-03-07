@@ -8,14 +8,14 @@ import {
 } from '../../actions/show';
 import { syncShows } from '../../hooks/useShow';
 //@ts-ignore
-import BackgroundTask from 'react-native-background-task';
+// import BackgroundTask from 'react-native-background-task';
 import docRef from '../../firebase/docRef';
 import BottomTab from '../../navigators/BottomTab';
 
-BackgroundTask.define(async () => {
-  syncShows();
-  BackgroundTask.finish();
-});
+// BackgroundTask.define(async () => {
+//   syncShows();
+//   BackgroundTask.finish();
+// });
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -79,10 +79,10 @@ const Main = () => {
   };
 
   useEffect(() => {
-    BackgroundTask.schedule({
-      period: 86400,
-    });
-    BackgroundTask.cancel();
+    // BackgroundTask.schedule({
+    //   period: 86400,
+    // });
+    // BackgroundTask.cancel();
 
     registerGenresSnapshot();
     registerShowsSnapshot();
