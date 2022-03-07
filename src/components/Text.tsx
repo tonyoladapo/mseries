@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text as RNText, TextProps, TextStyle, Platform } from 'react-native';
+import { Text as RNText, TextProps, Platform } from 'react-native';
 import { colors } from '../values/colors';
 
 interface Props extends TextProps {
