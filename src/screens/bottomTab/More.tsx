@@ -1,10 +1,17 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import Pressable from '../../components/Pressable';
+import Text from '../../components/Text';
+import useAuth from '../../hooks/useAuth';
 
 const More = () => {
+  const { signOut } = useAuth();
+
   return (
     <View style={styles.container}>
-      <Text>More</Text>
+      <Pressable onPress={signOut}>
+        <Text>Logout</Text>
+      </Pressable>
     </View>
   );
 };
