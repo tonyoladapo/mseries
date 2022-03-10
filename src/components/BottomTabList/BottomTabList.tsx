@@ -15,6 +15,7 @@ const BottomTabList = ({ title, ...restProps }: Props) => {
 
   return (
     <RNFlatlist
+      showsVerticalScrollIndicator={false}
       onScroll={({
         nativeEvent: {
           contentOffset: { y },
