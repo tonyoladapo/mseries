@@ -57,7 +57,11 @@ const Root = () => {
               <Stack.Screen
                 name="Genres"
                 component={Genres}
-                options={{ presentation: 'modal', headerShown: false }}
+                options={{
+                  presentation: 'modal',
+                  headerShown: false,
+                  gestureEnabled: false,
+                }}
               />
 
               <Stack.Screen name="DiscoverMore" component={DiscoverMore} />
