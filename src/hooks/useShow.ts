@@ -54,11 +54,13 @@ const useShow = (controller?: AbortController) => {
         .collection('unwatched_shows')
         .doc(show.id.toString())
         .set({
-          seasons: unwatched,
+          seasons: unwatched.seasons,
           name: show.name,
           poster_path: show.poster_path,
           id: show.id,
           firstAirDate: show.first_air_date,
+          numOfAiredEpisodes: unwatched.numOfAiredEpisodes,
+          numOfWatchedEpisodes: unwatched.numOfWatchedEpisodes,
         });
 
       checkAdded(show.id.toString());
@@ -83,6 +85,7 @@ const useShow = (controller?: AbortController) => {
     showId: string,
     seasonNumber: number,
     episodeNumber: number,
+    numOfWatchedEpisodes: number,
   ) => {
     try {
       let _seasons = unwatchedCollection[showId].seasons;
@@ -98,6 +101,7 @@ const useShow = (controller?: AbortController) => {
         .collection('unwatched_shows')
         .doc(showId)
         .update({
+          numOfWatchedEpisodes: numOfWatchedEpisodes + 1,
           seasons: { ...unwatchedCollection[showId].seasons, ..._seasons },
         });
     } catch (error) {
@@ -105,17 +109,23 @@ const useShow = (controller?: AbortController) => {
     }
   };
 
-  const markSeasonWatched = async (showId: string, seasonNumber: number) => {
+  const markSeasonWatched = async (
+    showId: string,
+    seasonNumber: number,
+    numOfWatchedEpisodes: number,
+  ) => {
     try {
       let _seasons = unwatchedCollection[showId].seasons;
       const key = `season ${seasonNumber}`;
 
+      const numOfEpisodes = _seasons[key].length;
       delete _seasons[key];
 
       await userDataRef
         .collection('unwatched_shows')
         .doc(showId)
         .update({
+          numOfWatchedEpisodes: numOfWatchedEpisodes + numOfEpisodes,
           seasons: { ...unwatchedCollection[showId].seasons, ..._seasons },
         });
     } catch (error) {
@@ -169,7 +179,7 @@ export const syncShows = async () => {
     const batch = firestore().batch();
 
     Object.keys(unwatched).map(key => {
-      batch.set(
+      batch.update(
         userDataRef.collection('unwatched_shows').doc(key),
         unwatched[key],
       );
