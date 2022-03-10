@@ -7,6 +7,7 @@ import Shows from '../screens/bottomTab/Shows';
 import Discover from '../screens/bottomTab/Discover';
 import More from '../screens/bottomTab/More';
 import AnimatedHeader from '../components/AnimatedHeader';
+import { colors } from '../values/colors';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -14,7 +15,10 @@ const BottomTab = () => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      screenOptions={{ header: props => <AnimatedHeader {...props} /> }}>
+      screenOptions={{
+        header: props => <AnimatedHeader {...props} />,
+        tabBarStyle: { backgroundColor: colors.primaryBackground },
+      }}>
       <Tab.Screen
         name="Home"
         component={Home}
