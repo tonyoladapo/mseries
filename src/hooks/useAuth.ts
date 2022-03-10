@@ -4,6 +4,12 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useDispatch } from 'react-redux';
 import { setIsAuthenticated, setIsNewUser } from '../actions/pref';
 import { setUser } from '../actions/auth';
+import {
+  setUserGenres,
+  setUserShows,
+  setUnwatched,
+  setUnwatchedCollection,
+} from '../actions/show';
 import { setDiscoverShows } from '../actions/discover';
 //@ts-ignore
 import { IOS_CLIENT_ID, WEB_CLIENT_ID } from 'react-native-dotenv';
@@ -54,6 +60,10 @@ const useAuth = () => {
     try {
       await auth().signOut();
       dispatch(setDiscoverShows([]));
+      dispatch(setUserGenres([]));
+      dispatch(setUserShows([]));
+      dispatch(setUnwatched([]));
+      dispatch(setUnwatchedCollection({}));
       dispatch(setIsAuthenticated(false));
     } catch (error) {
       console.error(error);
