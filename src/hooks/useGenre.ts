@@ -1,6 +1,7 @@
 import { Genre } from './../types/show';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import { setIsNewUser, setSetupComplete } from '../actions/pref';
 import docRef from '../firebase/docRef';
 import firestore from '@react-native-firebase/firestore';
@@ -10,6 +11,7 @@ const useGenre = () => {
 
   const dispatch = useDispatch();
   const { userDataRef } = docRef();
+  const { goBack } = useNavigation();
 
   const addGenre = async (genre: Genre) => {
     try {
@@ -29,6 +31,8 @@ const useGenre = () => {
 
   const saveGenres = async () => {
     try {
+      goBack();
+
       const batch = firestore().batch();
 
       selectedGenres.map(genre => {

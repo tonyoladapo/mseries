@@ -1,99 +1,78 @@
-import React, { useState } from 'react';
-import {
-  SafeAreaView,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-} from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import { Genre, ReducerTypes } from '../../types/reducerTypes';
-import { setSetupComplete, setIsNewUser } from '../../actions/pref';
-import { useNavigation } from '@react-navigation/native';
-import docRef from '../../firebase/docRef';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { colors } from '../../values/colors';
+import Logo from '../../components/Logo';
+import HeaderText from '../../components/HeaderText';
+import Text from '../../components/Text';
+import GenresList from '../../components/Genres/GenresList';
+import FinishButton from '../../components/Genres/FinishButton';
+import useGenre from '../../hooks/useGenre';
 
 const Genres = () => {
-  const { genres } = useSelector(({ show }: ReducerTypes) => show);
-  const dispatch = useDispatch();
-
-  const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
-
-  const { userDataRef } = docRef();
-  const { goBack } = useNavigation();
-
-  const addGenre = async (genre: Genre) => {
-    try {
-      setSelectedGenres([...selectedGenres, genre]);
-      await userDataRef
-        .collection('user_genres')
-        .doc(genre.id.toString())
-        .set(genre);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const removeGenre = async (genre: Genre) => {
-    try {
-      setSelectedGenres(selectedGenres.filter((g: Genre) => g.id !== genre.id));
-      await userDataRef
-        .collection('user_genres')
-        .doc(genre.id.toString())
-        .delete();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { addGenre, removeGenre, selectedGenres, saveGenres } = useGenre();
 
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        numColumns={3}
-        data={genres}
-        keyExtractor={({ id, name }, index) => `${index}-${name}-${id}`}
-        renderItem={({ item }) => (
-          <Item item={item} addGenre={addGenre} removeGenre={removeGenre} />
-        )}
-      />
-
-      {selectedGenres.length >= 3 && (
-        <TouchableOpacity
-          style={{ padding: 16 }}
-          onPress={() => {
-            dispatch(setIsNewUser(false));
-            dispatch(setSetupComplete(true));
-            goBack();
-          }}>
-          <Text>Finish</Text>
-        </TouchableOpacity>
-      )}
-    </SafeAreaView>
-  );
-};
-
-const Item = ({ item, addGenre, removeGenre }: any) => {
-  const [selected, setSelected] = useState(false);
-
-  return (
-    <TouchableOpacity
-      onPress={() => {
-        setSelected(!selected);
-        selected ? removeGenre(item) : addGenre(item);
-      }}
-      style={{
-        padding: 16,
-        borderRadius: 50,
-        margin: 3,
-        backgroundColor: selected ? 'tomato' : '#ccc',
-      }}>
-      <Text>{item.name}</Text>
-    </TouchableOpacity>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <View style={styles.logoContainer}>
+          <Logo />
+        </View>
+        <View style={styles.headerTextContainer}>
+          <HeaderText style={styles.genreText}>Genres</HeaderText>
+          <Text fontFamily="Bold" style={styles.subtitle}>
+            Pick your favorite genres to get recommendations.
+          </Text>
+        </View>
+      </View>
+      <View style={styles.body}>
+        <GenresList addGenre={addGenre} removeGenre={removeGenre} />
+      </View>
+      <View style={styles.footer}>
+        <FinishButton selectedGenres={selectedGenres} saveGenres={saveGenres} />
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: 16,
+  },
+
+  header: {
+    flex: 0.35,
+  },
+
+  logoContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+
+  headerTextContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+
+  genreText: {
+    paddingVertical: 2,
+  },
+
+  subtitle: {
+    color: colors.mutedText,
+    paddingVertical: 2,
+  },
+
+  body: {
+    flex: 0.45,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  footer: {
+    flex: 0.25,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
   },
 });
 
