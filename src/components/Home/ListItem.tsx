@@ -116,7 +116,6 @@ const Item = ({ item }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.secondaryBackground,
     height: 130,
     flexDirection: 'row',
     marginVertical: 8,
