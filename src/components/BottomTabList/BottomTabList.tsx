@@ -8,12 +8,14 @@ import ListHeader from './ListHeader';
 interface Props extends FlatListProps<any> {
   title: string;
   containerStyles?: any;
+  searchbarShown?: boolean;
 }
 
 const BottomTabList = ({
   title,
   data,
   containerStyles,
+  searchbarShown,
   ...restProps
 }: Props) => {
   const dispatch = useDispatch();
@@ -35,7 +37,11 @@ const BottomTabList = ({
           : dispatch(toggleIsHeaderTransparent(false));
       }}
       ListHeaderComponent={
-        <ListHeader title={title} setListHeaderHeight={setListHeaderHeight} />
+        <ListHeader
+          title={title}
+          setListHeaderHeight={setListHeaderHeight}
+          searchbarShown={searchbarShown}
+        />
       }
       contentContainerStyle={
         //@ts-ignore
