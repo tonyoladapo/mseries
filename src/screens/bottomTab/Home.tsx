@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { ReducerTypes } from '../../types/reducerTypes';
 import { useNavigation } from '@react-navigation/native';
 import { RootNavigationProp } from '../../types/navigation';
+import { colors } from '../../values/colors';
 import BottomTabList from '../../components/BottomTabList/BottomTabList';
 import ListItem from '../../components/Home/ListItem';
 import HomeEmptyList from '../../components/Home/HomeEmptyList';
@@ -38,6 +39,7 @@ const Home = () => {
         keyExtractor={({ name }, index) => `${index}-${name}`}
         renderItem={({ item }) => <ListItem item={item} />}
         ListEmptyComponent={<HomeEmptyList />}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
       />
     </View>
   );
@@ -46,6 +48,12 @@ const Home = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+
+  separator: {
+    marginVertical: 16,
+    borderWidth: 0.5,
+    borderColor: colors.secondaryBackground,
   },
 });
 
