@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { RootNavigationProp } from '../../types/navigation';
 import BottomTabList from '../../components/BottomTabList/BottomTabList';
 import ListItem from '../../components/Home/ListItem';
+import HomeEmptyList from '../../components/Home/HomeEmptyList';
 
 const Home = () => {
   const { isNewUser, unwatched, headerHeight } = useSelector(
@@ -24,9 +25,19 @@ const Home = () => {
       <BottomTabList
         title="Home"
         data={unwatched}
-        contentContainerStyle={{ paddingTop: headerHeight }}
+        contentContainerStyle={
+          unwatched.length
+            ? {
+                paddingTop: headerHeight,
+              }
+            : {
+                paddingTop: headerHeight,
+                flex: 1,
+              }
+        }
         keyExtractor={({ name }, index) => `${index}-${name}`}
         renderItem={({ item }) => <ListItem item={item} />}
+        ListEmptyComponent={<HomeEmptyList />}
       />
     </View>
   );
