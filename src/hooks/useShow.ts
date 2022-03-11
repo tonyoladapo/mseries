@@ -34,9 +34,18 @@ const useShow = (controller?: AbortController) => {
     }
   };
 
-  const addShow = async (show: any) => {
+  const addShow = async (_show: any) => {
     try {
       dispatch(toggleLoading(true));
+
+      const { data } = await tmdb.get(`/tv/${_show.id}`);
+
+      const show = {
+        ..._show,
+        status: data.status,
+        lastEpisodeToAir: data.last_episode_to_air,
+        nextEpisodeToAir: data.next_episode_to_air,
+      };
 
       await userDataRef
         .collection('user_shows')
