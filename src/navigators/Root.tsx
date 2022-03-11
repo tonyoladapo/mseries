@@ -14,6 +14,7 @@ import Main from '../screens/root/Main';
 import Genres from '../screens/root/Genres';
 import DiscoverMore from '../screens/root/DiscoverMore';
 import ShowDetails from '../screens/root/ShowDetails';
+import Search from '../screens/root/Search';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -51,7 +52,7 @@ const Root = () => {
               <Stack.Screen
                 name="Main"
                 component={Main}
-                options={{ headerShown: false }}
+                options={{ headerShown: false, title: 'Home' }}
               />
 
               <Stack.Screen
@@ -66,6 +67,13 @@ const Root = () => {
 
               <Stack.Screen name="DiscoverMore" component={DiscoverMore} />
               <Stack.Screen name="ShowDetails" component={ShowDetails} />
+              <Stack.Screen
+                name="Search"
+                component={Search}
+                options={{
+                  headerStyle: { backgroundColor: colors.transparent },
+                }}
+              />
             </>
           )}
         </Stack.Navigator>

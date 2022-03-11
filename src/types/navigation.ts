@@ -10,6 +10,7 @@ export type RootStackParamList = {
     //TODO: change param type
     show: any;
   };
+  Search: undefined;
 };
 
 export interface ListParams {
