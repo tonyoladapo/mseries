@@ -6,6 +6,7 @@ export interface ReducerTypes {
   show: ShowReducer;
   discover: DiscoverReducer;
   showDetails: ShowDetailsReducer;
+  search: SearchReducer;
 }
 
 export interface PrefReducer {
@@ -38,6 +39,11 @@ export interface ShowDetailsReducer {
 
 export interface DiscoverReducer {
   discoverShows: Discover[];
+}
+
+export interface SearchReducer {
+  searchResults: any[];
+  loading: boolean;
 }
 
 export interface Discover {
