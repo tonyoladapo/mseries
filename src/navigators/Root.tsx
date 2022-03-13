@@ -7,6 +7,7 @@ import { ReducerTypes } from '../types/reducerTypes';
 import { RootStackParamList } from '../types/navigation';
 import { appTheme } from '../constants/appTheme';
 import { colors } from '../values/colors';
+import Icon from 'react-native-vector-icons/AntDesign';
 import auth from '@react-native-firebase/auth';
 import useAuth from '../hooks/useAuth';
 import Setup from './Setup';
@@ -40,7 +41,13 @@ const Root = () => {
         backgroundColor={colors.transparent}
       />
       <NavigationContainer theme={appTheme}>
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{
+            headerBackTitleVisible: false,
+            headerBackImage: () => (
+              <Icon name="left" size={24} color={colors.primaryText} />
+            ),
+          }}>
           {!isAuthenticated ? (
             <Stack.Screen
               name="Setup"
