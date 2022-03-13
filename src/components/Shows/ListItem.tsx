@@ -2,9 +2,10 @@ import React from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import { dimensions } from '../../values/dimensions';
 import { useNavigation } from '@react-navigation/native';
+import { RootNavigationProp } from '../../types/navigation';
+import { colors } from '../../values/colors';
 import Text from '../Text';
 import Pressable from '../Pressable';
-import { RootNavigationProp } from '../../types/navigation';
 
 const ListItem = ({ item }) => {
   const { navigate } = useNavigation<RootNavigationProp>();
@@ -40,7 +41,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     height: 290,
-    marginVertical: 4,
     borderRadius: dimensions.cardBorderRadius,
     overflow: 'hidden',
   },
@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
   textContainer: {
     flex: 2,
     justifyContent: 'center',
-    paddingHorizontal: 6,
   },
 
   image: {
@@ -62,7 +61,9 @@ const styles = StyleSheet.create({
     borderRadius: dimensions.cardBorderRadius,
   },
 
-  title: {},
+  title: {
+    color: colors.mutedText,
+  },
 });
 
 export default ListItem;
