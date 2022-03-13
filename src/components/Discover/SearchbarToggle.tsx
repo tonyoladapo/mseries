@@ -1,12 +1,12 @@
 import React from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Pressable from '../Pressable';
-import Text from '../Text';
 import { colors } from '../../values/colors';
 import { dimensions } from '../../values/dimensions';
 import { RootNavigationProp } from '../../types/navigation';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Pressable from '../Pressable';
+import Text from '../Text';
 
 const SearchbarToggle = () => {
   const { navigate } = useNavigation<RootNavigationProp>();
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     marginTop: Platform.OS === 'ios' ? 8 : 0,
     marginHorizontal: 16,
+    marginBottom: 4,
   },
 
   searchText: {
