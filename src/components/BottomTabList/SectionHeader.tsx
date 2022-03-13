@@ -26,12 +26,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
-    paddingVertical: 8,
+    marginTop: 8,
   },
 
   title: {
     color: colors.primaryGreen,
-    fontSize: 16,
+    fontSize: 15,
   },
 });
 
