@@ -14,8 +14,12 @@ const ListItem = ({ item }) => {
     <Pressable
       shrinkScale={0.98}
       style={styles.container}
-      // onPress={() => navigate('ShowDetails')}
-    >
+      onPress={() =>
+        navigate('ShowDetails', {
+          showId: item.id,
+          title: item.name,
+        })
+      }>
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}
