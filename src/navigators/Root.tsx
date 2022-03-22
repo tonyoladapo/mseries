@@ -73,7 +73,14 @@ const Root = () => {
               />
 
               <Stack.Screen name="DiscoverMore" component={DiscoverMore} />
-              <Stack.Screen name="ShowDetails" component={ShowDetails} />
+              <Stack.Screen
+                name="ShowDetails"
+                component={ShowDetails}
+                options={{
+                  headerStyle: { backgroundColor: colors.transparent },
+                  headerTitle: '',
+                }}
+              />
               <Stack.Screen
                 name="Search"
                 component={Search}
