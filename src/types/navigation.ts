@@ -7,8 +7,8 @@ export type RootStackParamList = {
   Genres: undefined;
   DiscoverMore: ListParams;
   ShowDetails: {
-    //TODO: change param type
-    show: any;
+    showId: string | number;
+    title?: string;
   };
   Search: undefined;
 };
