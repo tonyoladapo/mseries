@@ -19,17 +19,24 @@ const DiscoverMore = ({ route }: any) => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getMoreDiscoverShows(listParams, page);
-      setShows([data]);
+      console.log(`page - ${page}`, data.length, data[0].name);
+
+      // setShows([...shows, ...data]);
     };
 
     fetchData();
   }, [page]);
+
+  setInterval(() => {
+    setPage(page + 1);
+  }, 3000);
 
   return (
     <View style={styles.container}>
       <FlatList
         extraData={shows}
         onEndReached={() => setPage(page + 1)}
+        onEndReachedThreshold={0.1}
         numColumns={3}
         data={shows}
         keyExtractor={({ id, name }, index) => `${index}-${name}-${id}`}
