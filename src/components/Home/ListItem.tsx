@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { colors } from '../../values/colors';
 import { dimensions } from '../../values/dimensions';
+import { useNavigation } from '@react-navigation/native';
+import { RootNavigationProp } from '../../types/navigation';
 import Text from '../Text';
 import Pressable from '../Pressable';
 import moment from 'moment';
@@ -35,6 +37,8 @@ const Item = ({ item }) => {
 
   const { markEpisodeWatched } = useShow();
 
+  const { navigate } = useNavigation<RootNavigationProp>();
+
   const episodeTitle = upNext.name;
   const showId = item.id.toString();
   const seasonNumber = upNext.season_number.toString();
@@ -52,7 +56,15 @@ const Item = ({ item }) => {
   return (
     <>
       {moment(airDate).isBefore(moment()) && (
-        <Pressable style={styles.container} shrinkScale={0.98}>
+        <Pressable
+          style={styles.container}
+          shrinkScale={0.98}
+          onPress={() =>
+            navigate('ShowDetails', {
+              showId,
+              title: item.name,
+            })
+          }>
           <View style={styles.posterContainer}>
             <Image
               source={{
