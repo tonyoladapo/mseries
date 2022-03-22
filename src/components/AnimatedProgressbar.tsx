@@ -4,7 +4,7 @@ import { colors } from '../values/colors';
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 
-const AnimatedProgressbar = ({ progress }) => {
+const AnimatedProgressbar = ({ progress, width = '50%' }) => {
   const [progressAnimVal] = useState(new Animated.Value(0));
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const AnimatedProgressbar = ({ progress }) => {
     outputRange: [colors.primaryRed, colors.primaryYellow, colors.primaryGreen],
   });
 
-  const width = progressAnimVal.interpolate({
+  const animWidth = progressAnimVal.interpolate({
     inputRange: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
     outputRange: [
       '0%',
@@ -38,9 +38,9 @@ const AnimatedProgressbar = ({ progress }) => {
   });
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { width }]}>
       <AnimatedView
-        style={[styles.progress, { backgroundColor: color, width }]}
+        style={[styles.progress, { backgroundColor: color, width: animWidth }]}
       />
     </View>
   );
@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.mutedText,
     height: 5,
-    width: '50%',
     borderRadius: 5,
   },
 
