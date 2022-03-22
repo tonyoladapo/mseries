@@ -1,6 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
+import { colors } from '../../values/colors';
 import { dimensions } from '../../values/dimensions';
+import { useNavigation } from '@react-navigation/native';
+import { RootNavigationProp } from '../../types/navigation';
 import Pressable from '../Pressable';
 import Text from '../Text';
 
@@ -9,8 +12,18 @@ interface Props {
 }
 
 const SearchItem = ({ item }: Props) => {
+  const { navigate } = useNavigation<RootNavigationProp>();
+
   return (
-    <Pressable shrinkScale={0.98} style={styles.container}>
+    <Pressable
+      shrinkScale={0.98}
+      style={styles.container}
+      onPress={() =>
+        navigate('ShowDetails', {
+          showId: item.id,
+          title: item.name,
+        })
+      }>
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}
@@ -57,7 +70,9 @@ const styles = StyleSheet.create({
     borderRadius: dimensions.cardBorderRadius,
   },
 
-  title: {},
+  title: {
+    color: colors.mutedText,
+  },
 });
 
 export default SearchItem;
