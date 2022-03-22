@@ -39,7 +39,13 @@ const Home = () => {
         keyExtractor={({ name }, index) => `${index}-${name}`}
         renderItem={({ item }) => <ListItem item={item} />}
         ListEmptyComponent={<HomeEmptyList />}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        ItemSeparatorComponent={({
+          leadingItem: { numOfAiredEpisodes, numOfWatchedEpisodes },
+        }) => {
+          return numOfAiredEpisodes != numOfWatchedEpisodes ? (
+            <View style={styles.separator} />
+          ) : null;
+        }}
       />
     </View>
   );
