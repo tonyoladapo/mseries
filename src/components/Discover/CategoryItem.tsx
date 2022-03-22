@@ -2,6 +2,8 @@ import React, { memo } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import { colors } from '../../values/colors';
 import { dimensions } from '../../values/dimensions';
+import { useNavigation } from '@react-navigation/native';
+import { RootNavigationProp } from '../../types/navigation';
 import Pressable from '../Pressable';
 import Text from '../Text';
 
@@ -10,8 +12,18 @@ interface Props {
 }
 
 const CategoryItem = ({ item }: Props) => {
+  const { navigate } = useNavigation<RootNavigationProp>();
+
   return (
-    <Pressable shrinkScale={0.98} style={styles.container}>
+    <Pressable
+      shrinkScale={0.98}
+      style={styles.container}
+      onPress={() =>
+        navigate('ShowDetails', {
+          showId: item.id,
+          title: item.name,
+        })
+      }>
       <View style={{ flex: 8 }}>
         <Image
           style={styles.poster}
