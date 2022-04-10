@@ -29,13 +29,13 @@ const ShowDetails = ({ route }) => {
 
       Animated.timing(opacity, {
         toValue: 1,
-        duration: 500,
+        duration: 100,
         useNativeDriver: false,
       }).start();
     } else {
       Animated.timing(opacity, {
         toValue: 0,
-        duration: 500,
+        duration: 100,
         useNativeDriver: false,
       }).start(() => {
         setShowingSeasons(false);
@@ -64,7 +64,7 @@ const ShowDetails = ({ route }) => {
           />
           <Overview overview={showDetails.overview} />
           <AnimatedView style={{ opacity }}>
-            {showingSeasons && (
+            {showingSeasons && progress.seasons && (
               <Seasons showId={showId} progress={progress} added={added} />
             )}
           </AnimatedView>
