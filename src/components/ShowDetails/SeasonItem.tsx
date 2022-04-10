@@ -5,15 +5,56 @@ import { dimensions } from '../../values/dimensions';
 import AnimatedProgressbar from '../AnimatedProgressbar';
 import Text from '../Text';
 import Pressable from '../Pressable';
+import CheckBox from '../CheckBox';
+import useShow from '../../hooks/useShow';
 
-const SeasonItem = ({ seasonName, numOfWatchedEpisodes, numOfEpisodes }) => {
+const SeasonItem = ({ seasonName, season, showId }) => {
+  const {
+    completed,
+    numberOfAiredEpisodes,
+    numberOfWatchedEpisodes,
+    numberOfEpisodes,
+  } = season;
+
+  const seasonNumber = parseInt(seasonName.slice(7));
+
   const [progress, setProgress] = useState(0);
+  const [checked, setChecked] = useState(completed);
+
+  const { markSeasonWatched, markSeasonUnwatched } = useShow();
+
+  const handleChecked = () => {
+    if (checked) {
+      setChecked(!checked);
+
+      markSeasonUnwatched(
+        showId.toString(),
+        seasonNumber,
+        numberOfWatchedEpisodes,
+      );
+    } else {
+      setChecked(!checked);
+
+      markSeasonWatched(
+        showId.toString(),
+        seasonNumber,
+        numberOfWatchedEpisodes,
+      );
+    }
+  };
 
   useEffect(() => {
     setProgress(
-      numOfEpisodes > 0 ? (numOfWatchedEpisodes / numOfEpisodes) * 100 : 0,
+      numberOfAiredEpisodes > 0
+        ? (numberOfWatchedEpisodes / numberOfAiredEpisodes) * 100
+        : 0,
     );
-  }, [numOfWatchedEpisodes, numOfEpisodes, seasonName]);
+  }, [
+    numberOfWatchedEpisodes,
+    numberOfAiredEpisodes,
+    seasonName,
+    numberOfEpisodes,
+  ]);
 
   return (
     <Pressable style={styles.container}>
@@ -40,14 +81,18 @@ const SeasonItem = ({ seasonName, numOfWatchedEpisodes, numOfEpisodes }) => {
         <Text
           fontFamily="Semibold"
           style={{ color: colors.mutedText, fontSize: 15 }}>
-          {numOfWatchedEpisodes}/{numOfEpisodes}
+          {numberOfWatchedEpisodes}/{numberOfEpisodes}
         </Text>
       </View>
       <View
         style={{
           flex: 2,
           paddingVertical: 16,
-        }}></View>
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <CheckBox checked={checked} onPress={handleChecked} />
+      </View>
     </Pressable>
   );
 };
