@@ -28,9 +28,7 @@ const useMyShows = () => {
         title: 'Ended Shows',
         data: userShows.filter(
           ({ status, lastEpisodeToAir }: any) =>
-            status === 'Ended' ||
-            (status === 'Canceled' &&
-              moment(lastEpisodeToAir.air_date).isBefore(moment())),
+            status === 'Ended' || status === 'Canceled',
         ),
       },
     ]);

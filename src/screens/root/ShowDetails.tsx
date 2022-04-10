@@ -1,34 +1,52 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  View,
-  Text,
   StyleSheet,
+  View,
   ActivityIndicator,
   ScrollView,
+  Animated,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
-import { ReducerTypes } from '../../types/reducerTypes';
-import useShowDetails from '../../hooks/useShowDetails';
-import useShow from '../../hooks/useShow';
-import Header from '../../components/ShowDetails/Header';
 import moment from 'moment';
+import useShowDetails from '../../hooks/useShowDetails';
+import Header from '../../components/ShowDetails/Header';
 import Info from '../../components/ShowDetails/Info';
 import Overview from '../../components/ShowDetails/Overview';
-import Seasons from '../../components/ShowDetails/Seasons';
 import SimilarShows from '../../components/ShowDetails/SimilarShows';
+import Seasons from '../../components/ShowDetails/Seasons';
+
+const AnimatedView = Animated.createAnimatedComponent(View);
 
 const ShowDetails = ({ route }) => {
   const { showId } = route.params;
-  const { showDetails, added } = useShowDetails(showId);
-  // showDetails !== null && console.log(Object.keys(showDetails));
+  const { added, loading, showDetails, progress } = useShowDetails(showId);
 
-  // showDetails !== null && console.log(showDetails.similar);
+  const [showingSeasons, setShowingSeasons] = useState(added);
+  const [opacity] = useState(new Animated.Value(0));
+
+  useEffect(() => {
+    if (progress != null && !!Object.keys(progress).length) {
+      setShowingSeasons(true);
+
+      Animated.timing(opacity, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: false,
+      }).start();
+    } else {
+      Animated.timing(opacity, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: false,
+      }).start(() => {
+        setShowingSeasons(false);
+      });
+    }
+  }, [progress]);
 
   return (
     <>
-      {showDetails !== null ? (
-        <ScrollView style={styles.container}>
+      {showDetails !== null && !loading ? (
+        <ScrollView>
           <Header
             showId={showId}
             title={showDetails.name}
@@ -45,12 +63,12 @@ const ShowDetails = ({ route }) => {
             runtime={showDetails.episode_run_time[0]}
           />
           <Overview overview={showDetails.overview} />
-          <Seasons
-            added={added}
-            showId={showId}
-            seasonDetails={showDetails.seasons}
-          />
-          <SimilarShows similar={showDetails.similar} />
+          <AnimatedView style={{ opacity }}>
+            {showingSeasons && (
+              <Seasons showId={showId} progress={progress} added={added} />
+            )}
+          </AnimatedView>
+          <SimilarShows similar={showDetails.similar.results} />
         </ScrollView>
       ) : (
         <View style={styles.loadingContainer}>

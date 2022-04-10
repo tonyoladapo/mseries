@@ -1,60 +1,69 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { ReducerTypes } from '../types/reducerTypes';
-import tmdb from '../apis/tmdb';
-import useShow from './useShow';
 import mseries from '../apis/mseries';
+import axios from 'axios';
+import useShow from './useShow';
 
-const useShowDetails = (
-  showId: string | number,
-  controller?: AbortController,
-) => {
+const useShowDetails = (showId: string) => {
+  const { unwatched, user } = useSelector(({ show, auth }: ReducerTypes) => ({
+    ...show,
+    ...auth,
+  }));
+  const { checkAdded } = useShow();
+
   const [showDetails, setShowDetails] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [added, setAdded] = useState<boolean | undefined>(false);
+  const [progress, setProgress] = useState<any>(null);
 
-  const { added, loading } = useSelector(
-    ({ showDetails }: ReducerTypes) => showDetails,
-  );
-  const { checkAdded } = useShow(controller);
+  useEffect(() => {
+    (async () => {
+      setAdded(await checkAdded(showId));
+      getProgress();
+    })();
+  }, [unwatched]);
 
   useEffect(() => {
     getShowDetails();
   }, []);
 
-  const getSeasons = async () => {
-    try {
-      const { data } = await mseries.get(`/show/unwatched/${showId}`);
-      return data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const getShowDetails = async () => {
     try {
-      const { data } = await tmdb.get(`/tv/${showId}`, {
-        params: {
-          append_to_response: 'similar,videos',
-        },
-      });
+      setLoading(true);
 
-      const similar = data.similar.results;
-      const trailer = data.videos.results.find(
-        video => video.type === 'Trailer',
+      const { data } = await axios.get(
+        `http://localhost:9000/api/v1/show/${showId}`,
       );
 
-      setShowDetails({
-        ...data,
-        similar,
-        trailer: trailer ? trailer : null,
-        seasons: await getSeasons(),
-      });
-      checkAdded(showId.toString());
+      setShowDetails(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getProgress = async () => {
+    try {
+      const token = await user?.getIdToken();
+
+      const { data } = await axios.get(
+        `http://localhost:9000/api/v1/show/${showId}/progress`,
+        {
+          headers: {
+            token: typeof token === 'string' && token,
+          },
+        },
+      );
+
+      Object.keys(data).length ? setProgress(data) : setProgress({});
     } catch (error) {
       console.log(error);
     }
   };
 
-  return { showDetails, added, loading };
+  return { added, loading, showDetails, progress, setAdded };
 };
 
 export default useShowDetails;

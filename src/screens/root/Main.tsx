@@ -41,7 +41,7 @@ const Main = () => {
 
   const registerUnwatchedShowsSnapshot = () => {
     try {
-      userDataRef.collection('unwatched_shows').onSnapshot(querySnapshot => {
+      userDataRef.collection('seasons').onSnapshot(querySnapshot => {
         if (!querySnapshot) return;
 
         const data: any[] = [];

@@ -26,6 +26,7 @@ const Home = () => {
       <BottomTabList
         title="Home"
         data={unwatched}
+        extraData={unwatched}
         contentContainerStyle={
           unwatched.length
             ? {

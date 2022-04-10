@@ -10,7 +10,7 @@ const AnimatedProgressbar = ({ progress, width = '50%' }) => {
   useEffect(() => {
     Animated.timing(progressAnimVal, {
       toValue: progress,
-      duration: 100,
+      duration: 300,
       useNativeDriver: false,
     }).start();
   }, [progress]);

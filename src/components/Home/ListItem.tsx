@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { colors } from '../../values/colors';
 import { dimensions } from '../../values/dimensions';
 import { useNavigation } from '@react-navigation/native';
 import { RootNavigationProp } from '../../types/navigation';
+import useHome from '../../hooks/useHome';
 import Text from '../Text';
 import Pressable from '../Pressable';
 import moment from 'moment';
@@ -26,32 +27,19 @@ const ListItem = ({ item }: Props) => {
 };
 
 const Item = ({ item }) => {
-  let key = Object.keys(item.seasons).reduce((key, val) => {
-    return parseInt(val.replace(/^.*?(\d+).*/, '$1')) <
-      parseInt(key.replace(/^.*?(\d+).*/, '$1'))
-      ? val
-      : key;
-  });
-
-  const upNext = item.seasons[key][0];
+  const { findUpNext, progress, numOfWatchedEpisodes } = useHome(item);
 
   const { markEpisodeWatched } = useShow();
-
   const { navigate } = useNavigation<RootNavigationProp>();
+
+  let upNext = findUpNext();
+  if (!upNext) return null;
 
   const episodeTitle = upNext.name;
   const showId = item.id.toString();
   const seasonNumber = upNext.season_number.toString();
   const episodeNumber = upNext.episode_number.toString();
   const airDate = upNext.air_date;
-  const numOfWatchedEpisodes = item.numOfWatchedEpisodes;
-  const numOfAiredEpisodes = item.numOfAiredEpisodes;
-
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    setProgress(Math.floor((numOfWatchedEpisodes / numOfAiredEpisodes) * 100));
-  }, [numOfWatchedEpisodes, numOfAiredEpisodes]);
 
   return (
     <>
