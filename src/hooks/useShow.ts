@@ -7,26 +7,25 @@ import mseries from '../apis/mseries';
 import tmdb from '../apis/tmdb';
 import qs from 'query-string';
 import firestore from '@react-native-firebase/firestore';
+import axios from 'axios';
 
 const useShow = (controller?: AbortController) => {
   const { userDataRef } = docRef();
 
-  const { unwatchedCollection } = useSelector(({ show }: ReducerTypes) => show);
+  const { unwatchedCollection, user } = useSelector(
+    ({ show, auth }: ReducerTypes) => ({ ...show, ...auth }),
+  );
   const dispatch = useDispatch();
 
   const checkAdded = async (id: string) => {
     try {
-      const show = await userDataRef.collection('user_shows').doc(id).get();
+      const { exists } = await userDataRef
+        .collection('user_shows')
+        .doc(id.toString())
+        .get();
 
-      if (show.exists) {
-        const { data } = await tmdb.get(`/tv/${id}`, {
-          signal: controller && controller.signal,
-        });
-
-        dispatch(setSeasons(data.seasons));
-      } else dispatch(setSeasons([]));
-
-      dispatch(toggleAdded(show.exists));
+      dispatch(toggleAdded(exists));
+      return exists;
     } catch (error) {
       console.log(error);
     } finally {
@@ -38,41 +37,14 @@ const useShow = (controller?: AbortController) => {
     try {
       dispatch(toggleLoading(true));
 
-      const { data } = await tmdb.get(`/tv/${_show.id}`);
-
-      const show = {
-        ..._show,
-        status: data.status,
-        lastEpisodeToAir: data.last_episode_to_air,
-        nextEpisodeToAir: data.next_episode_to_air,
-      };
-
-      await userDataRef
-        .collection('user_shows')
-        .doc(show.id.toString())
-        .set(show);
-
-      const { data: unwatched } = await mseries.get(
-        `/show/unwatched/${show.id}`,
-        {
-          signal: controller && controller.signal,
+      const token = await user?.getIdToken();
+      await axios.get(`http://localhost:9000/api/v1/show/add/${_show.id}`, {
+        headers: {
+          token: typeof token === 'string' && token,
         },
-      );
+      });
 
-      await userDataRef
-        .collection('unwatched_shows')
-        .doc(show.id.toString())
-        .set({
-          seasons: unwatched.seasons,
-          name: show.name,
-          poster_path: show.poster_path,
-          id: show.id,
-          firstAirDate: show.first_air_date,
-          numOfAiredEpisodes: unwatched.numOfAiredEpisodes,
-          numOfWatchedEpisodes: unwatched.numOfWatchedEpisodes,
-        });
-
-      checkAdded(show.id.toString());
+      checkAdded(_show.id.toString());
     } catch (error) {
       console.log(error);
     }
@@ -83,7 +55,7 @@ const useShow = (controller?: AbortController) => {
       dispatch(toggleLoading(true));
 
       await userDataRef.collection('user_shows').doc(showId).delete();
-      await userDataRef.collection('unwatched_shows').doc(showId).delete();
+      await userDataRef.collection('seasons').doc(showId).delete();
       checkAdded(showId);
     } catch (error) {
       console.log(error);
@@ -100,14 +72,18 @@ const useShow = (controller?: AbortController) => {
       let _seasons = unwatchedCollection[showId].seasons;
       const key = `season ${seasonNumber}`;
 
-      if (_seasons[key].length == 1) delete _seasons[key];
-      else
-        _seasons[key] = _seasons[key].filter(
-          ({ episode_number }: any) => episode_number != episodeNumber,
-        );
+      let idx = _seasons[key].episodes.findIndex(
+        ({ episode_number }) => episodeNumber == episode_number,
+      );
+      _seasons[key].episodes[idx].watched = true;
+
+      _seasons[key].numberOfWatchedEpisodes =
+        _seasons[key].numberOfWatchedEpisodes + 1;
+
+      if (!_seasons[key].episodes[idx + 1]) _seasons[key].completed = true;
 
       await userDataRef
-        .collection('unwatched_shows')
+        .collection('seasons')
         .doc(showId)
         .update({
           numOfWatchedEpisodes: numOfWatchedEpisodes + 1,
@@ -128,10 +104,16 @@ const useShow = (controller?: AbortController) => {
       const key = `season ${seasonNumber}`;
 
       const numOfEpisodes = _seasons[key].length;
-      delete _seasons[key];
+
+      _seasons[key].completed = true;
+      _seasons[key].numberOfWatchedEpisodes = _seasons[key].numberOfEpisodes;
+
+      _seasons[key].episodes.map(episode => {
+        episode.watched = true;
+      });
 
       await userDataRef
-        .collection('unwatched_shows')
+        .collection('seasons')
         .doc(showId)
         .update({
           numOfWatchedEpisodes: numOfWatchedEpisodes + numOfEpisodes,

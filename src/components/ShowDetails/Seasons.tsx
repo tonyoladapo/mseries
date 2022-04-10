@@ -1,75 +1,67 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Animated } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { StyleSheet, View, ScrollView, FlatList } from 'react-native';
 import { colors } from '../../values/colors';
 import Text from '../Text';
 import SeasonItem from './SeasonItem';
 
-const AnimatedView = Animated.createAnimatedComponent(View);
+const Seasons = ({ showId, progress, added }) => {
+  const [seasons, setSeasons] = useState<string[]>([]);
+  const [scrollviewWidth, setScrollviewWidth] = useState(0);
 
-const Seasons = ({ added, showId, seasonDetails }) => {
-  const [animVal] = useState(new Animated.Value(0));
-  const [isShowing, setIsShowing] = useState(added);
-
-  const show = () => {
-    setIsShowing(true);
-
-    Animated.timing(animVal, {
-      toValue: 1,
-      duration: 300,
-      useNativeDriver: false,
-    }).start();
-  };
-
-  const hide = () => {
-    Animated.timing(animVal, {
-      toValue: 0,
-      duration: 300,
-      useNativeDriver: false,
-    }).start(() => {
-      setIsShowing(false);
-    });
-  };
+  const scrollviewRef = useRef<ScrollView>(null);
 
   useEffect(() => {
-    added ? show() : hide();
+    if (added && progress != null) {
+      let arr: string[] = [];
+
+      for (let key in progress.seasons) {
+        arr.push(key);
+      }
+
+      setSeasons(
+        arr.sort((a, b) => {
+          return parseInt(a.slice(7)) - parseInt(b.slice(7));
+        }),
+      );
+    }
   }, [added]);
 
-  const seasons: any = [];
-
-  for (let key in seasonDetails.seasons) {
-    seasons.push(key);
-  }
-
   return (
-    <>
-      {isShowing && (
-        <View style={styles.container}>
-          <AnimatedView
-            style={{
-              //   height: heightInterpolator,
-              opacity: animVal,
-            }}>
-            <Text style={styles.title} fontFamily="Bold">
-              Seasons
-            </Text>
+    <ScrollView
+      ref={scrollviewRef}
+      onLayout={({
+        nativeEvent: {
+          layout: { width },
+        },
+      }) => setScrollviewWidth(width)}
+      style={styles.container}
+      horizontal
+      scrollEnabled={false}>
+      <View style={{ width: scrollviewWidth }}>
+        <Text style={styles.title} fontFamily="Bold">
+          Seasons
+        </Text>
 
-            <View>
-              {seasons.map((season, index) => {
-                return (
-                  <SeasonItem
-                    key={`${index}-${showId}-${season}`}
-                    season={seasonDetails.seasons[season]}
-                    seasonName={season}
-                    numOfWatchedEpisodes={seasonDetails.numOfWatchedEpisodes}
-                    numOfAiredEpisodes={seasonDetails.numOfAiredEpisodes}
-                  />
-                );
-              })}
-            </View>
-          </AnimatedView>
-        </View>
-      )}
-    </>
+        <>
+          <FlatList
+            data={seasons}
+            keyExtractor={(seasonName, index) =>
+              `${index}-${seasonName}-${Date.now()}`
+            }
+            scrollEnabled={false}
+            renderItem={({ item }) => (
+              <SeasonItem
+                seasonName={item}
+                numOfEpisodes={progress.seasons[item].numberOfEpisodes}
+                numOfWatchedEpisodes={
+                  progress.seasons[item].numberOfWatchedEpisodes
+                }
+              />
+            )}
+          />
+        </>
+      </View>
+    </ScrollView>
   );
 };
 

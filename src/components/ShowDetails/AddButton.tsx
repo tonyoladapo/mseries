@@ -11,8 +11,8 @@ import { ReducerTypes } from '../../types/reducerTypes';
 import useShow from '../../hooks/useShow';
 import Text from '../Text';
 
-const AddButton = ({ show }) => {
-  const { loading, added } = useSelector(
+const AddButton = ({ show, added }) => {
+  const { loading } = useSelector(
     ({ showDetails }: ReducerTypes) => showDetails,
   );
 

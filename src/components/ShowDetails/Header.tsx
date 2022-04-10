@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import { colors } from '../../values/colors';
 import { dimensions } from '../../values/dimensions';
@@ -11,11 +11,11 @@ interface Props {
   posterPath: string;
   status: string;
   year: number | string;
-  added: boolean;
+  added: boolean | undefined;
   show: any;
 }
 
-const Header = ({ title, posterPath, status, year, show }: Props) => {
+const Header = ({ title, posterPath, status, year, show, added }: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.posterContainer}>
@@ -44,7 +44,7 @@ const Header = ({ title, posterPath, status, year, show }: Props) => {
           </Text>
         </View>
         <View style={{ flex: 3 }}>
-          <AddButton show={show} />
+          <AddButton show={show} added={added} />
         </View>
       </View>
     </View>

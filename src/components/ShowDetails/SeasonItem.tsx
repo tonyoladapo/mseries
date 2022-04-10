@@ -1,20 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { colors } from '../../values/colors';
 import { dimensions } from '../../values/dimensions';
 import AnimatedProgressbar from '../AnimatedProgressbar';
 import Text from '../Text';
+import Pressable from '../Pressable';
 
-const SeasonItem = ({
-  season,
-  seasonName,
-  numOfWatchedEpisodes,
-  numOfAiredEpisodes,
-}) => {
-  console.log(numOfWatchedEpisodes, numOfAiredEpisodes);
+const SeasonItem = ({ seasonName, numOfWatchedEpisodes, numOfEpisodes }) => {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    setProgress(
+      numOfEpisodes > 0 ? (numOfWatchedEpisodes / numOfEpisodes) * 100 : 0,
+    );
+  }, [numOfWatchedEpisodes, numOfEpisodes, seasonName]);
 
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container}>
       <View
         style={{
           flex: 2.5,
@@ -34,11 +36,11 @@ const SeasonItem = ({
           flexDirection: 'row',
           alignItems: 'center',
         }}>
-        <AnimatedProgressbar progress={100} width="70%" />
+        <AnimatedProgressbar progress={progress} width="70%" />
         <Text
           fontFamily="Semibold"
           style={{ color: colors.mutedText, fontSize: 15 }}>
-          s
+          {numOfWatchedEpisodes}/{numOfEpisodes}
         </Text>
       </View>
       <View
@@ -46,7 +48,7 @@ const SeasonItem = ({
           flex: 2,
           paddingVertical: 16,
         }}></View>
-    </View>
+    </Pressable>
   );
 };
 
