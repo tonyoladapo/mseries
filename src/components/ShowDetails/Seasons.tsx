@@ -51,11 +51,9 @@ const Seasons = ({ showId, progress, added }) => {
             scrollEnabled={false}
             renderItem={({ item }) => (
               <SeasonItem
+                showId={showId}
                 seasonName={item}
-                numOfEpisodes={progress.seasons[item].numberOfEpisodes}
-                numOfWatchedEpisodes={
-                  progress.seasons[item].numberOfWatchedEpisodes
-                }
+                season={progress.seasons[item]}
               />
             )}
           />
