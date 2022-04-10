@@ -8,6 +8,7 @@ import tmdb from '../apis/tmdb';
 import qs from 'query-string';
 import firestore from '@react-native-firebase/firestore';
 import axios from 'axios';
+import moment from 'moment';
 
 const useShow = (controller?: AbortController) => {
   const { userDataRef } = docRef();
@@ -103,20 +104,52 @@ const useShow = (controller?: AbortController) => {
       let _seasons = unwatchedCollection[showId].seasons;
       const key = `season ${seasonNumber}`;
 
-      const numOfEpisodes = _seasons[key].length;
-
       _seasons[key].completed = true;
-      _seasons[key].numberOfWatchedEpisodes = _seasons[key].numberOfEpisodes;
 
       _seasons[key].episodes.map(episode => {
-        episode.watched = true;
+        moment(episode.air_date).isBefore(moment()) && (episode.watched = true);
       });
+
+      _seasons[key].numberOfWatchedEpisodes =
+        _seasons[key].numberOfAiredEpisodes;
 
       await userDataRef
         .collection('seasons')
         .doc(showId)
         .update({
-          numOfWatchedEpisodes: numOfWatchedEpisodes + numOfEpisodes,
+          numOfWatchedEpisodes:
+            numOfWatchedEpisodes + _seasons[key].numberOfAiredEpisodes,
+          seasons: { ...unwatchedCollection[showId].seasons, ..._seasons },
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const markSeasonUnwatched = async (
+    showId: string,
+    seasonNumber: number,
+    numOfWatchedEpisodes: number,
+  ) => {
+    try {
+      let _seasons = unwatchedCollection[showId].seasons;
+      const key = `season ${seasonNumber}`;
+
+      _seasons[key].completed = false;
+
+      _seasons[key].episodes.map(episode => {
+        moment(episode.air_date).isBefore(moment()) &&
+          (episode.watched = false);
+      });
+
+      _seasons[key].numberOfWatchedEpisodes = 0;
+
+      await userDataRef
+        .collection('seasons')
+        .doc(showId)
+        .update({
+          numOfWatchedEpisodes:
+            numOfWatchedEpisodes - _seasons[key].numberOfAiredEpisodes,
           seasons: { ...unwatchedCollection[showId].seasons, ..._seasons },
         });
     } catch (error) {
@@ -137,6 +170,7 @@ const useShow = (controller?: AbortController) => {
     resetState,
     markEpisodeWatched,
     markSeasonWatched,
+    markSeasonUnwatched,
   };
 };
 
