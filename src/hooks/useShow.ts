@@ -73,21 +73,59 @@ const useShow = (controller?: AbortController) => {
       let _seasons = unwatchedCollection[showId].seasons;
       const key = `season ${seasonNumber}`;
 
-      let idx = _seasons[key].episodes.findIndex(
-        ({ episode_number }) => episodeNumber == episode_number,
-      );
-      _seasons[key].episodes[idx].watched = true;
+      let allEpisodesWatched = true;
+
+      _seasons[key].episodes.map(({ episode_number }, index) => {
+        if (episodeNumber == episode_number) {
+          _seasons[key].episodes[index].watched = true;
+        }
+
+        if (!_seasons[key].episodes[index].watched) allEpisodesWatched = false;
+      });
 
       _seasons[key].numberOfWatchedEpisodes =
         _seasons[key].numberOfWatchedEpisodes + 1;
 
-      if (!_seasons[key].episodes[idx + 1]) _seasons[key].completed = true;
+      _seasons[key].completed = allEpisodesWatched;
 
       await userDataRef
         .collection('seasons')
         .doc(showId)
         .update({
           numOfWatchedEpisodes: numOfWatchedEpisodes + 1,
+          seasons: { ...unwatchedCollection[showId].seasons, ..._seasons },
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const markEpisodeUnwatched = async (
+    showId: string,
+    seasonNumber: number,
+    episodeNumber: number,
+    numOfWatchedEpisodes: number,
+  ) => {
+    try {
+      let _seasons = unwatchedCollection[showId].seasons;
+      const key = `season ${seasonNumber}`;
+
+      _seasons[key].episodes.map(({ episode_number }, index) => {
+        if (episodeNumber == episode_number) {
+          _seasons[key].episodes[index].watched = false;
+        }
+      });
+
+      _seasons[key].completed = false;
+
+      _seasons[key].numberOfWatchedEpisodes =
+        _seasons[key].numberOfWatchedEpisodes - 1;
+
+      await userDataRef
+        .collection('seasons')
+        .doc(showId)
+        .update({
+          numOfWatchedEpisodes: numOfWatchedEpisodes - 1,
           seasons: { ...unwatchedCollection[showId].seasons, ..._seasons },
         });
     } catch (error) {
@@ -169,6 +207,7 @@ const useShow = (controller?: AbortController) => {
     removeShow,
     resetState,
     markEpisodeWatched,
+    markEpisodeUnwatched,
     markSeasonWatched,
     markSeasonUnwatched,
   };
