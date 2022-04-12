@@ -11,6 +11,10 @@ export type RootStackParamList = {
     title?: string;
   };
   Search: undefined;
+  SeasonDetails: {
+    showId: string | number;
+    episodes: any[];
+  };
 };
 
 export interface ListParams {

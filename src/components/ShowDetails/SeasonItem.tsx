@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { colors } from '../../values/colors';
 import { dimensions } from '../../values/dimensions';
+import { useNavigation } from '@react-navigation/native';
 import AnimatedProgressbar from '../AnimatedProgressbar';
 import Text from '../Text';
 import Pressable from '../Pressable';
 import CheckBox from '../CheckBox';
 import useShow from '../../hooks/useShow';
+import { RootNavigationProp } from '../../types/navigation';
 
 const SeasonItem = ({ seasonName, season, showId }) => {
   const {
@@ -14,9 +16,12 @@ const SeasonItem = ({ seasonName, season, showId }) => {
     numberOfAiredEpisodes,
     numberOfWatchedEpisodes,
     numberOfEpisodes,
+    episodes,
   } = season;
 
   const seasonNumber = parseInt(seasonName.slice(7));
+
+  const { navigate } = useNavigation<RootNavigationProp>();
 
   const [progress, setProgress] = useState(0);
   const [checked, setChecked] = useState(completed);
@@ -57,7 +62,14 @@ const SeasonItem = ({ seasonName, season, showId }) => {
   ]);
 
   return (
-    <Pressable style={styles.container}>
+    <Pressable
+      style={styles.container}
+      onPress={() =>
+        navigate('SeasonDetails', {
+          showId,
+          episodes,
+        })
+      }>
       <View
         style={{
           flex: 2.5,

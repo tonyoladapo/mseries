@@ -16,6 +16,7 @@ import Genres from '../screens/root/Genres';
 import DiscoverMore from '../screens/root/DiscoverMore';
 import ShowDetails from '../screens/root/ShowDetails';
 import Search from '../screens/root/Search';
+import SeasonDetails from '../screens/root/SeasonDetails';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -86,6 +87,14 @@ const Root = () => {
                 component={Search}
                 options={{
                   headerStyle: { backgroundColor: colors.transparent },
+                }}
+              />
+              <Stack.Screen
+                name="SeasonDetails"
+                component={SeasonDetails}
+                options={{
+                  headerStyle: { backgroundColor: colors.transparent },
+                  headerTitle: '',
                 }}
               />
             </>
