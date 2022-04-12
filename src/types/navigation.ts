@@ -14,6 +14,7 @@ export type RootStackParamList = {
   SeasonDetails: {
     showId: string | number;
     episodes: any[];
+    seasonName: string;
   };
 };
 
