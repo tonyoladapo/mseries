@@ -6,7 +6,13 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 const AnimatedView = Animated.createAnimatedComponent(View);
 
-const CheckBox = ({ checked, onPress }) => {
+interface Props {
+  checked: boolean;
+  onPress: () => void;
+  disabled?: boolean;
+}
+
+const CheckBox = ({ checked, onPress, disabled }: Props) => {
   const [animval] = useState(new Animated.Value(0));
 
   const backgroundColor = animval.interpolate({
@@ -29,7 +35,14 @@ const CheckBox = ({ checked, onPress }) => {
 
   return (
     <AnimatedPressable
-      style={[styles.container, { backgroundColor }]}
+      disabled={disabled}
+      style={[
+        styles.container,
+        {
+          backgroundColor: disabled ? colors.transparent : backgroundColor,
+          borderColor: disabled ? colors.mutedText : colors.darkGreen,
+        },
+      ]}
       onPress={onPress}>
       <AnimatedView style={{ opacity: iconOpacity }}>
         <Icon name="check" color={colors.primaryGreen} />
@@ -43,7 +56,6 @@ const styles = StyleSheet.create({
     padding: 6,
     borderRadius: 100,
     borderWidth: 2,
-    borderColor: colors.darkGreen,
   },
 });
 
