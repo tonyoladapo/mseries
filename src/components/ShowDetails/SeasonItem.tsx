@@ -3,12 +3,12 @@ import { View, StyleSheet } from 'react-native';
 import { colors } from '../../values/colors';
 import { dimensions } from '../../values/dimensions';
 import { useNavigation } from '@react-navigation/native';
+import { RootNavigationProp } from '../../types/navigation';
 import AnimatedProgressbar from '../AnimatedProgressbar';
 import Text from '../Text';
 import Pressable from '../Pressable';
 import CheckBox from '../CheckBox';
 import useShow from '../../hooks/useShow';
-import { RootNavigationProp } from '../../types/navigation';
 
 const SeasonItem = ({ seasonName, season, showId }) => {
   const {
@@ -24,22 +24,17 @@ const SeasonItem = ({ seasonName, season, showId }) => {
   const { navigate } = useNavigation<RootNavigationProp>();
 
   const [progress, setProgress] = useState(0);
-  const [checked, setChecked] = useState(completed);
 
   const { markSeasonWatched, markSeasonUnwatched } = useShow();
 
-  const handleChecked = () => {
-    if (checked) {
-      setChecked(!checked);
-
+  const handleChecked = async () => {
+    if (completed) {
       markSeasonUnwatched(
         showId.toString(),
         seasonNumber,
         numberOfWatchedEpisodes,
       );
     } else {
-      setChecked(!checked);
-
       markSeasonWatched(
         showId.toString(),
         seasonNumber,
@@ -68,6 +63,7 @@ const SeasonItem = ({ seasonName, season, showId }) => {
         navigate('SeasonDetails', {
           showId,
           episodes,
+          seasonName,
         })
       }>
       <View
@@ -103,7 +99,7 @@ const SeasonItem = ({ seasonName, season, showId }) => {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        <CheckBox checked={checked} onPress={handleChecked} />
+        <CheckBox checked={completed} onPress={handleChecked} />
       </View>
     </Pressable>
   );
