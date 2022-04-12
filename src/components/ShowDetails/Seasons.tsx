@@ -45,9 +45,7 @@ const Seasons = ({ showId, progress, added }) => {
         <>
           <FlatList
             data={seasons}
-            keyExtractor={(seasonName, index) =>
-              `${index}-${seasonName}-${Date.now()}`
-            }
+            keyExtractor={(seasonName, index) => `${index}-${seasonName}`}
             scrollEnabled={false}
             renderItem={({ item }) => (
               <SeasonItem
