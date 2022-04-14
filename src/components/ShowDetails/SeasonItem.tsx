@@ -29,24 +29,16 @@ const SeasonItem = ({ seasonName, season, showId }) => {
 
   const handleChecked = async () => {
     if (completed) {
-      markSeasonUnwatched(
-        showId.toString(),
-        seasonNumber,
-        numberOfWatchedEpisodes,
-      );
+      markSeasonUnwatched(showId.toString(), seasonNumber);
     } else {
-      markSeasonWatched(
-        showId.toString(),
-        seasonNumber,
-        numberOfWatchedEpisodes,
-      );
+      markSeasonWatched(showId.toString(), seasonNumber);
     }
   };
 
   useEffect(() => {
     setProgress(
       numberOfAiredEpisodes > 0
-        ? (numberOfWatchedEpisodes / numberOfAiredEpisodes) * 100
+        ? Math.floor((numberOfWatchedEpisodes / numberOfAiredEpisodes) * 100)
         : 0,
     );
   }, [
