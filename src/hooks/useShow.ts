@@ -4,10 +4,8 @@ import { ReducerTypes } from '../types/reducerTypes';
 import { store } from '../store';
 import docRef from '../firebase/docRef';
 import mseries from '../apis/mseries';
-import tmdb from '../apis/tmdb';
 import qs from 'query-string';
 import firestore from '@react-native-firebase/firestore';
-import axios from 'axios';
 import moment from 'moment';
 
 const useShow = (controller?: AbortController) => {
@@ -39,7 +37,7 @@ const useShow = (controller?: AbortController) => {
       dispatch(toggleLoading(true));
 
       const token = await user?.getIdToken();
-      await axios.get(`http://localhost:9000/api/v1/show/add/${_show.id}`, {
+      await mseries.get(`/show/add/${_show.id}`, {
         headers: {
           token: typeof token === 'string' && token,
         },
@@ -51,8 +49,10 @@ const useShow = (controller?: AbortController) => {
     }
   };
 
-  const removeShow = async (showId: string) => {
+  const removeShow = async (id: string) => {
     try {
+      const showId = id.toString();
+
       dispatch(toggleLoading(true));
 
       await userDataRef.collection('user_shows').doc(showId).delete();
@@ -64,12 +64,14 @@ const useShow = (controller?: AbortController) => {
   };
 
   const markEpisodeWatched = async (
-    showId: string,
+    id: string,
     seasonNumber: number,
     episodeNumber: number,
     numOfWatchedEpisodes: number,
   ) => {
     try {
+      const showId = id.toString();
+
       let _seasons = unwatchedCollection[showId].seasons;
       const key = `season ${seasonNumber}`;
 
@@ -101,12 +103,14 @@ const useShow = (controller?: AbortController) => {
   };
 
   const markEpisodeUnwatched = async (
-    showId: string,
+    id: string,
     seasonNumber: number,
     episodeNumber: number,
     numOfWatchedEpisodes: number,
   ) => {
     try {
+      const showId = id.toString();
+
       let _seasons = unwatchedCollection[showId].seasons;
       const key = `season ${seasonNumber}`;
 
@@ -133,13 +137,13 @@ const useShow = (controller?: AbortController) => {
     }
   };
 
-  const markSeasonWatched = async (
-    showId: string,
-    seasonNumber: number,
-    numOfWatchedEpisodes: number,
-  ) => {
+  const markSeasonWatched = async (id: string, seasonNumber: number) => {
     try {
-      let _seasons = unwatchedCollection[showId].seasons;
+      const showId = id.toString();
+
+      let { seasons, numOfWatchedEpisodes } = unwatchedCollection[showId];
+      let _seasons = seasons;
+
       const key = `season ${seasonNumber}`;
 
       _seasons[key].completed = true;
@@ -164,13 +168,13 @@ const useShow = (controller?: AbortController) => {
     }
   };
 
-  const markSeasonUnwatched = async (
-    showId: string,
-    seasonNumber: number,
-    numOfWatchedEpisodes: number,
-  ) => {
+  const markSeasonUnwatched = async (id: string, seasonNumber: number) => {
     try {
-      let _seasons = unwatchedCollection[showId].seasons;
+      const showId = id.toString();
+
+      let { seasons, numOfWatchedEpisodes } = unwatchedCollection[showId];
+      let _seasons = seasons;
+
       const key = `season ${seasonNumber}`;
 
       _seasons[key].completed = false;
