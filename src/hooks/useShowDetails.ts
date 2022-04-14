@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { ReducerTypes } from '../types/reducerTypes';
 import mseries from '../apis/mseries';
-import axios from 'axios';
 import useShow from './useShow';
 
 const useShowDetails = (showId: string) => {
@@ -32,9 +31,7 @@ const useShowDetails = (showId: string) => {
     try {
       setLoading(true);
 
-      const { data } = await axios.get(
-        `http://localhost:9000/api/v1/show/${showId}`,
-      );
+      const { data } = await mseries.get(`/show/${showId}`);
 
       setShowDetails(data);
     } catch (error) {
@@ -48,14 +45,11 @@ const useShowDetails = (showId: string) => {
     try {
       const token = await user?.getIdToken();
 
-      const { data } = await axios.get(
-        `http://localhost:9000/api/v1/show/${showId}/progress`,
-        {
-          headers: {
-            token: typeof token === 'string' && token,
-          },
+      const { data } = await mseries.get(`/show/${showId}/progress`, {
+        headers: {
+          token: typeof token === 'string' && token,
         },
-      );
+      });
 
       Object.keys(data).length ? setProgress(data) : setProgress({});
     } catch (error) {
