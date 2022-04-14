@@ -21,7 +21,7 @@ const SeasonDetails = ({ route }) => {
   useEffect(() => {
     setProgress(
       numberOfAiredEpisodes > 0
-        ? (numberOfWatchedEpisodes / numberOfAiredEpisodes) * 100
+        ? Math.floor((numberOfWatchedEpisodes / numberOfAiredEpisodes) * 100)
         : 0,
     );
   }, [numOfWatchedEpisodes]);
