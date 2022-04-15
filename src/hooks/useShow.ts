@@ -43,7 +43,7 @@ const useShow = (controller?: AbortController) => {
         },
       });
 
-      checkAdded(_show.id.toString());
+      await checkAdded(_show.id.toString());
     } catch (error) {
       console.log(error);
     }
@@ -57,7 +57,8 @@ const useShow = (controller?: AbortController) => {
 
       await userDataRef.collection('user_shows').doc(showId).delete();
       await userDataRef.collection('seasons').doc(showId).delete();
-      checkAdded(showId);
+
+      await checkAdded(showId);
     } catch (error) {
       console.log(error);
     }

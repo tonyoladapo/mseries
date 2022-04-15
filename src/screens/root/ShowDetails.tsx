@@ -17,8 +17,13 @@ import Seasons from '../../components/ShowDetails/Seasons';
 const AnimatedView = Animated.createAnimatedComponent(View);
 
 const ShowDetails = ({ route }) => {
+  const abortController = new AbortController();
+
   const { showId } = route.params;
-  const { added, loading, showDetails, progress } = useShowDetails(showId);
+  const { added, loading, showDetails, progress } = useShowDetails(
+    showId,
+    abortController,
+  );
 
   const [showingSeasons, setShowingSeasons] = useState(added);
   const [opacity] = useState(new Animated.Value(0));

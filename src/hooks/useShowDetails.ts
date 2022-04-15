@@ -4,7 +4,7 @@ import { ReducerTypes } from '../types/reducerTypes';
 import mseries from '../apis/mseries';
 import useShow from './useShow';
 
-const useShowDetails = (showId: string) => {
+const useShowDetails = (showId: string, abortController?: AbortController) => {
   const { unwatched, user } = useSelector(({ show, auth }: ReducerTypes) => ({
     ...show,
     ...auth,
@@ -25,13 +25,18 @@ const useShowDetails = (showId: string) => {
 
   useEffect(() => {
     getShowDetails();
+    return () => {
+      abortController?.abort();
+    };
   }, []);
 
   const getShowDetails = async () => {
     try {
       setLoading(true);
 
-      const { data } = await mseries.get(`/show/${showId}`);
+      const { data } = await mseries.get(`/show/${showId}`, {
+        signal: abortController ? abortController.signal : undefined,
+      });
 
       setShowDetails(data);
     } catch (error) {
@@ -49,6 +54,7 @@ const useShowDetails = (showId: string) => {
         headers: {
           token: typeof token === 'string' && token,
         },
+        signal: abortController ? abortController.signal : undefined,
       });
 
       Object.keys(data).length ? setProgress(data) : setProgress({});
