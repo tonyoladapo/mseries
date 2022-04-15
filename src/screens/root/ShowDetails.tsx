@@ -58,8 +58,12 @@ const ShowDetails = ({ route }) => {
           />
           <Info
             rating={showDetails.vote_average}
-            genre={showDetails.genres[0].name}
-            network={showDetails.networks[0].name}
+            genre={
+              showDetails.genres.length ? showDetails.genres[0].name : 'N/A'
+            }
+            network={
+              showDetails.networks.length ? showDetails.networks[0].name : 'N/A'
+            }
             runtime={showDetails.episode_run_time[0]}
           />
           <Overview overview={showDetails.overview} />
