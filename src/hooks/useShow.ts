@@ -1,4 +1,10 @@
 import { toggleAdded, toggleLoading, setSeasons } from '../actions/showDetails';
+import {
+  markEpWatched,
+  markEpUnwatched,
+  seasonUnwatched,
+  seasonWatched,
+} from '../actions/show';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReducerTypes } from '../types/reducerTypes';
 import { store } from '../store';
@@ -6,14 +12,14 @@ import docRef from '../firebase/docRef';
 import mseries from '../apis/mseries';
 import qs from 'query-string';
 import firestore from '@react-native-firebase/firestore';
-import moment from 'moment';
 
 const useShow = (controller?: AbortController) => {
   const { userDataRef } = docRef();
 
-  const { unwatchedCollection, user } = useSelector(
-    ({ show, auth }: ReducerTypes) => ({ ...show, ...auth }),
-  );
+  const { user } = useSelector(({ show, auth }: ReducerTypes) => ({
+    ...show,
+    ...auth,
+  }));
   const dispatch = useDispatch();
 
   const checkAdded = async (id: string) => {
@@ -64,140 +70,28 @@ const useShow = (controller?: AbortController) => {
     }
   };
 
-  const markEpisodeWatched = async (
+  const markEpisodeWatched = (
     id: string,
     seasonNumber: number,
     episodeNumber: number,
-    numOfWatchedEpisodes: number,
   ) => {
-    try {
-      const showId = id.toString();
-
-      let _seasons = unwatchedCollection[showId].seasons;
-      const key = `season ${seasonNumber}`;
-
-      let allEpisodesWatched = true;
-
-      _seasons[key].episodes.map(({ episode_number }, index) => {
-        if (episodeNumber == episode_number) {
-          _seasons[key].episodes[index].watched = true;
-        }
-
-        if (!_seasons[key].episodes[index].watched) allEpisodesWatched = false;
-      });
-
-      _seasons[key].numberOfWatchedEpisodes =
-        _seasons[key].numberOfWatchedEpisodes + 1;
-
-      _seasons[key].completed = allEpisodesWatched;
-
-      await userDataRef
-        .collection('seasons')
-        .doc(showId)
-        .update({
-          numOfWatchedEpisodes: numOfWatchedEpisodes + 1,
-          seasons: { ...unwatchedCollection[showId].seasons, ..._seasons },
-        });
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(markEpWatched(id, seasonNumber, episodeNumber));
   };
 
-  const markEpisodeUnwatched = async (
+  const markEpisodeUnwatched = (
     id: string,
     seasonNumber: number,
     episodeNumber: number,
-    numOfWatchedEpisodes: number,
   ) => {
-    try {
-      const showId = id.toString();
-
-      let _seasons = unwatchedCollection[showId].seasons;
-      const key = `season ${seasonNumber}`;
-
-      _seasons[key].episodes.map(({ episode_number }, index) => {
-        if (episodeNumber == episode_number) {
-          _seasons[key].episodes[index].watched = false;
-        }
-      });
-
-      _seasons[key].completed = false;
-
-      _seasons[key].numberOfWatchedEpisodes =
-        _seasons[key].numberOfWatchedEpisodes - 1;
-
-      await userDataRef
-        .collection('seasons')
-        .doc(showId)
-        .update({
-          numOfWatchedEpisodes: numOfWatchedEpisodes - 1,
-          seasons: { ...unwatchedCollection[showId].seasons, ..._seasons },
-        });
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(markEpUnwatched(id, seasonNumber, episodeNumber));
   };
 
-  const markSeasonWatched = async (id: string, seasonNumber: number) => {
-    try {
-      const showId = id.toString();
-
-      let { seasons, numOfWatchedEpisodes } = unwatchedCollection[showId];
-      let _seasons = seasons;
-
-      const key = `season ${seasonNumber}`;
-
-      _seasons[key].completed = true;
-
-      _seasons[key].episodes.map(episode => {
-        moment(episode.air_date).isBefore(moment()) && (episode.watched = true);
-      });
-
-      _seasons[key].numberOfWatchedEpisodes =
-        _seasons[key].numberOfAiredEpisodes;
-
-      await userDataRef
-        .collection('seasons')
-        .doc(showId)
-        .update({
-          numOfWatchedEpisodes:
-            numOfWatchedEpisodes + _seasons[key].numberOfAiredEpisodes,
-          seasons: { ...unwatchedCollection[showId].seasons, ..._seasons },
-        });
-    } catch (error) {
-      console.log(error);
-    }
+  const markSeasonWatched = (id: string, seasonNumber: number) => {
+    dispatch(seasonWatched(id, seasonNumber));
   };
 
-  const markSeasonUnwatched = async (id: string, seasonNumber: number) => {
-    try {
-      const showId = id.toString();
-
-      let { seasons, numOfWatchedEpisodes } = unwatchedCollection[showId];
-      let _seasons = seasons;
-
-      const key = `season ${seasonNumber}`;
-
-      _seasons[key].completed = false;
-
-      _seasons[key].episodes.map(episode => {
-        moment(episode.air_date).isBefore(moment()) &&
-          (episode.watched = false);
-      });
-
-      _seasons[key].numberOfWatchedEpisodes = 0;
-
-      await userDataRef
-        .collection('seasons')
-        .doc(showId)
-        .update({
-          numOfWatchedEpisodes:
-            numOfWatchedEpisodes - _seasons[key].numberOfAiredEpisodes,
-          seasons: { ...unwatchedCollection[showId].seasons, ..._seasons },
-        });
-    } catch (error) {
-      console.log(error);
-    }
+  const markSeasonUnwatched = (id: string, seasonNumber: number) => {
+    dispatch(seasonUnwatched(id, seasonNumber));
   };
 
   const resetState = () => {

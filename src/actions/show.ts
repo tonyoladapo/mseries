@@ -36,3 +36,53 @@ export const setUnwatchedCollection = (collection: any) => {
     payload: collection,
   };
 };
+
+export const markEpWatched = (
+  id: string,
+  seasonNumber: number,
+  episodeNumber: number,
+) => {
+  return {
+    type: 'MARK_EPISODE_WATCHED',
+    payload: {
+      id,
+      seasonNumber,
+      episodeNumber,
+    },
+  };
+};
+
+export const markEpUnwatched = (
+  id: string,
+  seasonNumber: number,
+  episodeNumber: number,
+) => {
+  return {
+    type: 'MARK_EPISODE_UNWATCHED',
+    payload: {
+      id,
+      seasonNumber,
+      episodeNumber,
+    },
+  };
+};
+
+export const seasonUnwatched = (id: string, seasonNumber: number) => {
+  return {
+    type: 'MARK_SEASON_UNWATCHED',
+    payload: {
+      id,
+      seasonNumber,
+    },
+  };
+};
+
+export const seasonWatched = (id: string, seasonNumber: number) => {
+  return {
+    type: 'MARK_SEASON_WATCHED',
+    payload: {
+      id,
+      seasonNumber,
+    },
+  };
+};

@@ -1,3 +1,12 @@
+import {
+  markEpisodeWatched,
+  markEpisodeUnwatched,
+} from '../helpers/episodeHelpers';
+import {
+  markSeasonWatched,
+  markSeasonUnwatched,
+} from '../helpers/seasonHelpers';
+
 const initial_state = {
   genres: [],
   userGenres: [],
@@ -31,6 +40,30 @@ const showReducer = (state = initial_state, { type, payload }: ActionTypes) => {
 
     case 'SET_UNWATCHED_COLLECTION':
       return { ...state, unwatchedCollection: payload };
+
+    case 'MARK_EPISODE_WATCHED':
+      return {
+        ...state,
+        unwatchedCollection: markEpisodeWatched(state, payload),
+      };
+
+    case 'MARK_EPISODE_UNWATCHED':
+      return {
+        ...state,
+        unwatchedCollection: markEpisodeUnwatched(state, payload),
+      };
+
+    case 'MARK_SEASON_WATCHED':
+      return {
+        ...state,
+        unwatchedCollection: markSeasonWatched(state, payload),
+      };
+
+    case 'MARK_SEASON_UNWATCHED':
+      return {
+        ...state,
+        unwatchedCollection: markSeasonUnwatched(state, payload),
+      };
 
     default:
       return state;

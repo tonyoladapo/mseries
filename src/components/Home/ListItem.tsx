@@ -27,7 +27,7 @@ const ListItem = ({ item }: Props) => {
 };
 
 const Item = ({ item }) => {
-  const { findUpNext, progress, numOfWatchedEpisodes } = useHome(item);
+  const { findUpNext, progress } = useHome(item);
 
   const { markEpisodeWatched } = useShow();
   const { navigate } = useNavigation<RootNavigationProp>();
@@ -90,12 +90,7 @@ const Item = ({ item }) => {
                 <TouchableOpacity
                   style={styles.watchButton}
                   onPress={() =>
-                    markEpisodeWatched(
-                      showId,
-                      seasonNumber,
-                      episodeNumber,
-                      numOfWatchedEpisodes,
-                    )
+                    markEpisodeWatched(showId, seasonNumber, episodeNumber)
                   }>
                   <Text fontFamily="Bold" style={styles.watchButtonText}>
                     Mark as watched

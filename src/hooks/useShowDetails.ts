@@ -5,10 +5,12 @@ import mseries from '../apis/mseries';
 import useShow from './useShow';
 
 const useShowDetails = (showId: string, abortController?: AbortController) => {
-  const { unwatched, user } = useSelector(({ show, auth }: ReducerTypes) => ({
-    ...show,
-    ...auth,
-  }));
+  const { unwatched, user, unwatchedCollection } = useSelector(
+    ({ show, auth }: ReducerTypes) => ({
+      ...show,
+      ...auth,
+    }),
+  );
   const { checkAdded } = useShow();
 
   const [showDetails, setShowDetails] = useState<any>(null);
@@ -21,7 +23,7 @@ const useShowDetails = (showId: string, abortController?: AbortController) => {
       setAdded(await checkAdded(showId));
       getProgress();
     })();
-  }, [unwatched]);
+  }, [unwatched, unwatchedCollection]);
 
   useEffect(() => {
     getShowDetails();
@@ -46,21 +48,10 @@ const useShowDetails = (showId: string, abortController?: AbortController) => {
     }
   };
 
-  const getProgress = async () => {
-    try {
-      const token = await user?.getIdToken();
-
-      const { data } = await mseries.get(`/show/${showId}/progress`, {
-        headers: {
-          token: typeof token === 'string' && token,
-        },
-        signal: abortController ? abortController.signal : undefined,
-      });
-
-      Object.keys(data).length ? setProgress(data) : setProgress({});
-    } catch (error) {
-      console.log(error);
-    }
+  const getProgress = () => {
+    unwatchedCollection[showId]
+      ? setProgress(unwatchedCollection[showId])
+      : setProgress({});
   };
 
   return { added, loading, showDetails, progress, setAdded };
