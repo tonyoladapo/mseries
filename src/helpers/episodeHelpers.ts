@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const markEpisodeWatched = (
   state,
   { id, seasonNumber, episodeNumber },
@@ -10,12 +12,16 @@ export const markEpisodeWatched = (
 
   let allEpisodesWatched = true;
 
-  _seasons[key].episodes.map(({ episode_number }, index) => {
+  _seasons[key].episodes.map(({ episode_number, air_date }, index) => {
     if (episodeNumber == episode_number) {
       _seasons[key].episodes[index].watched = true;
     }
 
-    if (!_seasons[key].episodes[index].watched) allEpisodesWatched = false;
+    if (
+      !_seasons[key].episodes[index].watched &&
+      moment(air_date).isBefore(moment())
+    )
+      allEpisodesWatched = false;
   });
 
   _seasons[key].numberOfWatchedEpisodes =
