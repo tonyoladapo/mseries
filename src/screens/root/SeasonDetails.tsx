@@ -16,8 +16,6 @@ const SeasonDetails = ({ route }) => {
   const { numberOfAiredEpisodes, numberOfWatchedEpisodes } =
     seasons[seasonName];
 
-  const absoluteNumOfWatchedEpisodes = numOfWatchedEpisodes;
-
   useEffect(() => {
     setProgress(
       numberOfAiredEpisodes > 0
@@ -38,13 +36,7 @@ const SeasonDetails = ({ route }) => {
         }
         contentContainerStyle={{ paddingVertical: 16 }}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
-        renderItem={({ item }) => (
-          <EpisodeItem
-            item={item}
-            showId={showId}
-            numOfWatchedEpisodes={absoluteNumOfWatchedEpisodes}
-          />
-        )}
+        renderItem={({ item }) => <EpisodeItem item={item} showId={showId} />}
       />
     </>
   );
