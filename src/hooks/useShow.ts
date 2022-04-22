@@ -4,14 +4,13 @@ import {
   markEpUnwatched,
   seasonUnwatched,
   seasonWatched,
+  addShowToUnwatched,
+  removeShowFromUnwatched,
 } from '../actions/show';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReducerTypes } from '../types/reducerTypes';
-import { store } from '../store';
 import docRef from '../firebase/docRef';
 import mseries from '../apis/mseries';
-import qs from 'query-string';
-import firestore from '@react-native-firebase/firestore';
 
 const useShow = (controller?: AbortController) => {
   const { userDataRef } = docRef();
@@ -43,12 +42,13 @@ const useShow = (controller?: AbortController) => {
       dispatch(toggleLoading(true));
 
       const token = await user?.getIdToken();
-      await mseries.get(`/show/add/${_show.id}`, {
+      const { data } = await mseries.get(`/show/add/${_show.id}`, {
         headers: {
           token: typeof token === 'string' && token,
         },
       });
 
+      dispatch(addShowToUnwatched(data));
       await checkAdded(_show.id.toString());
     } catch (error) {
       console.log(error);
@@ -64,6 +64,7 @@ const useShow = (controller?: AbortController) => {
       await userDataRef.collection('user_shows').doc(showId).delete();
       await userDataRef.collection('seasons').doc(showId).delete();
 
+      dispatch(removeShowFromUnwatched(showId));
       await checkAdded(showId);
     } catch (error) {
       console.log(error);
@@ -110,55 +111,6 @@ const useShow = (controller?: AbortController) => {
     markSeasonWatched,
     markSeasonUnwatched,
   };
-};
-
-export const syncShows = async () => {
-  try {
-    const {
-      auth: { user },
-      show: { userShows },
-    } = store.getState();
-
-    const userDataRef = firestore().collection('userData').doc(user?.uid);
-    const showIds = userShows.map(({ id }: { id: number }) => id.toString());
-
-    const { data } = await mseries.get('/show/sync', {
-      params: {
-        shows: JSON.stringify(showIds),
-      },
-      paramsSerializer: params => {
-        return qs.stringify(params, { arrayFormat: 'bracket' });
-      },
-    });
-
-    const updatedShows: any = [];
-    const unwatched: any = {};
-
-    data.map((show: any) => {
-      updatedShows.push(show.showDetails);
-      unwatched[show.showDetails.id] = show.unwatched[show.showDetails.id];
-    });
-
-    const batch = firestore().batch();
-
-    Object.keys(unwatched).map(key => {
-      batch.update(
-        userDataRef.collection('unwatched_shows').doc(key),
-        unwatched[key],
-      );
-    });
-
-    updatedShows.map((show: any) => {
-      batch.set(
-        userDataRef.collection('user_shows').doc(show.id.toString()),
-        show,
-      );
-    });
-
-    batch.commit();
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 export default useShow;
