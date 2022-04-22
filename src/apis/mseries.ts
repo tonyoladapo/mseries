@@ -2,7 +2,8 @@ import axios from 'axios';
 import * as RNLocalize from 'react-native-localize';
 
 const mseries = axios.create({
-  baseURL: 'https://mseries.herokuapp.com/api/v1',
+  // baseURL: 'https://mseries.herokuapp.com/api/v1',
+  baseURL: 'http://localhost:9000/api/v1',
   params: {
     language: RNLocalize.getLocales()[0].languageTag,
   },
