@@ -23,13 +23,6 @@ export const setUnwatched = (show: any) => {
   };
 };
 
-export const removeFromUnwatched = (id: string) => {
-  return {
-    type: 'REMOVE_FROM_UNWATCHED',
-    payload: id,
-  };
-};
-
 export const setUnwatchedCollection = (collection: any) => {
   return {
     type: 'SET_UNWATCHED_COLLECTION',
@@ -84,5 +77,19 @@ export const seasonWatched = (id: string, seasonNumber: number) => {
       id,
       seasonNumber,
     },
+  };
+};
+
+export const addShowToUnwatched = show => {
+  return {
+    type: 'ADD_TO_UNWATCHED',
+    payload: show,
+  };
+};
+
+export const removeShowFromUnwatched = (id: string) => {
+  return {
+    type: 'REMOVE_FROM_UNWATCHED',
+    payload: id,
   };
 };
