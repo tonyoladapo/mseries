@@ -6,7 +6,7 @@ import useShow from '../../hooks/useShow';
 import Text from '../Text';
 import CheckBox from '../CheckBox';
 
-const EpisodeItem = ({ item, showId, numOfWatchedEpisodes }) => {
+const EpisodeItem = ({ item, showId }) => {
   const { name, season_number, episode_number, air_date, watched } = item;
 
   const { markEpisodeWatched, markEpisodeUnwatched } = useShow();
@@ -16,19 +16,9 @@ const EpisodeItem = ({ item, showId, numOfWatchedEpisodes }) => {
     setChecked(!checked);
 
     if (checked) {
-      markEpisodeUnwatched(
-        showId,
-        season_number,
-        episode_number,
-        numOfWatchedEpisodes,
-      );
+      markEpisodeUnwatched(showId, season_number, episode_number);
     } else {
-      markEpisodeWatched(
-        showId,
-        season_number,
-        episode_number,
-        numOfWatchedEpisodes,
-      );
+      markEpisodeWatched(showId, season_number, episode_number);
     }
   };
 
@@ -51,7 +41,9 @@ const EpisodeItem = ({ item, showId, numOfWatchedEpisodes }) => {
         <CheckBox
           checked={checked}
           onPress={handleCheck}
-          disabled={moment(air_date).isAfter(moment())}
+          disabled={
+            !moment(air_date).isValid() || moment(air_date).isAfter(moment())
+          }
         />
       </View>
     </View>

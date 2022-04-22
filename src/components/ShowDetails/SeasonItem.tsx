@@ -9,8 +9,9 @@ import Text from '../Text';
 import Pressable from '../Pressable';
 import CheckBox from '../CheckBox';
 import useShow from '../../hooks/useShow';
+import moment from 'moment';
 
-const SeasonItem = ({ seasonName, season, showId }) => {
+const SeasonItem = ({ seasonName, season, showId, firstAirDate }) => {
   const {
     completed,
     numberOfAiredEpisodes,
@@ -91,7 +92,14 @@ const SeasonItem = ({ seasonName, season, showId }) => {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        <CheckBox checked={completed} onPress={handleChecked} />
+        <CheckBox
+          checked={completed}
+          onPress={handleChecked}
+          disabled={
+            !moment(firstAirDate).isValid() ||
+            moment(firstAirDate).isAfter(moment())
+          }
+        />
       </View>
     </Pressable>
   );

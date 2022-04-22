@@ -49,6 +49,7 @@ const Seasons = ({ showId, progress, added }) => {
             scrollEnabled={false}
             renderItem={({ item }) => (
               <SeasonItem
+                firstAirDate={progress.firstAirDate}
                 showId={showId}
                 seasonName={item}
                 season={progress.seasons[item]}
