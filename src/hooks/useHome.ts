@@ -6,8 +6,6 @@ const useHome = item => {
   const numOfWatchedEpisodes = item.numOfWatchedEpisodes;
   const numOfAiredEpisodes = item.numOfAiredEpisodes;
 
-  // console.log(numOfWatchedEpisodes, numOfAiredEpisodes);
-
   useEffect(() => {
     setProgress(Math.floor((numOfWatchedEpisodes / numOfAiredEpisodes) * 100));
   }, [numOfWatchedEpisodes, numOfAiredEpisodes]);
