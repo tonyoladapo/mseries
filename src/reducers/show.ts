@@ -34,10 +34,6 @@ const showReducer = (state = initial_state, { type, payload }: ActionTypes) => {
     case 'SET_UNWATCHED':
       return { ...state, unwatched: payload };
 
-    case 'REMOVE_FROM_UNWATCHED':
-      const shows: any = state.unwatched;
-      return { ...state, unwatched: delete shows[payload] };
-
     case 'SET_UNWATCHED_COLLECTION':
       return { ...state, unwatchedCollection: payload };
 
@@ -64,6 +60,26 @@ const showReducer = (state = initial_state, { type, payload }: ActionTypes) => {
         ...state,
         unwatchedCollection: markSeasonUnwatched(state, payload),
       };
+
+    case 'ADD_TO_UNWATCHED':
+      return {
+        ...state,
+        unwatchedCollection: {
+          ...state.unwatchedCollection,
+          [payload.id]: payload,
+        },
+        unwatched: [...state.unwatched, payload],
+      };
+
+    case 'REMOVE_FROM_UNWATCHED':
+      let collection = state.unwatchedCollection;
+      delete collection[payload];
+
+      const filtered = state.unwatched.filter(({ id }) => {
+        return id != payload;
+      });
+
+      return { ...state, unwatchedCollection: collection, unwatched: filtered };
 
     default:
       return state;
