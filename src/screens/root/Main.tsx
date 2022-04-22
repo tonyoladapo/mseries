@@ -1,64 +1,36 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  setUserGenres,
-  setUserShows,
-  setUnwatched,
-  setUnwatchedCollection,
-} from '../../actions/show';
-import { syncShows } from '../../hooks/useShow';
-//@ts-ignore
-// import BackgroundTask from 'react-native-background-task';
+import { setUserGenres, setUserShows, setUnwatched } from '../../actions/show';
+import { ReducerTypes } from '../../types/reducerTypes';
+import useSync from '../../hooks/useSync';
 import docRef from '../../firebase/docRef';
 import BottomTab from '../../navigators/BottomTab';
-import { ReducerTypes } from '../../types/reducerTypes';
-
-// BackgroundTask.define(async () => {
-//   syncShows();
-//   BackgroundTask.finish();
-// });
 
 const Main = () => {
-  const { unwatchedCollection } = useSelector(({ show }: ReducerTypes) => show);
+  const { sync } = useSync();
 
   const dispatch = useDispatch();
+  const { unwatchedCollection } = useSelector(({ show }: ReducerTypes) => show);
+
   const { userDataRef } = docRef();
 
-  // const registerShowsSnapshot = () => {
-  //   try {
-  //     userDataRef.collection('user_shows').onSnapshot(querySnapshot => {
-  //       if (!querySnapshot) return;
+  const registerShowsSnapshot = () => {
+    try {
+      userDataRef.collection('user_shows').onSnapshot(querySnapshot => {
+        if (!querySnapshot) return;
 
-  //       const data: any[] = [];
+        const data: any[] = [];
 
-  //       querySnapshot.forEach(doc => {
-  //         data.push(doc.data());
-  //       });
+        querySnapshot.forEach(doc => {
+          data.push(doc.data());
+        });
 
-  //       dispatch(setUserShows(data));
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // const registerUnwatchedShowsSnapshot = () => {
-  //   try {
-  //     userDataRef.collection('seasons').onSnapshot(querySnapshot => {
-  //       if (!querySnapshot) return;
-
-  //       let collection = {};
-
-  //       querySnapshot.forEach(doc => {
-  //         collection = { ...collection, [doc.data().id]: doc.data() };
-  //       });
-
-  //       dispatch(setUnwatchedCollection(collection));
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+        dispatch(setUserShows(data));
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const registerGenresSnapshot = async () => {
     try {
@@ -79,9 +51,13 @@ const Main = () => {
   };
 
   useEffect(() => {
+    sync();
+  }, []);
+
+  useEffect(() => {
     let arr: any[] = [];
 
-    Object.keys(unwatchedCollection).forEach(key => {
+    Object.keys(unwatchedCollection).map(key => {
       arr.push(unwatchedCollection[key]);
     });
 
@@ -89,14 +65,8 @@ const Main = () => {
   }, [unwatchedCollection]);
 
   useEffect(() => {
-    // BackgroundTask.schedule({
-    //   period: 86400,
-    // });
-    // BackgroundTask.cancel();
-
     registerGenresSnapshot();
-    // registerShowsSnapshot();
-    // registerUnwatchedShowsSnapshot();
+    registerShowsSnapshot();
   }, []);
 
   return <BottomTab />;
