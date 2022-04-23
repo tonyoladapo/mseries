@@ -36,10 +36,10 @@ const useAuth = () => {
       const user = await auth().signInWithCredential(credential);
       dispatch(setIsNewUser(user.additionalUserInfo?.isNewUser));
 
+      setAuthenticating(false);
       dispatch(setIsAuthenticated(true));
     } catch (error) {
       console.log(error);
-    } finally {
       setAuthenticating(false);
     }
   };
