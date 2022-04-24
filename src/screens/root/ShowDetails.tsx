@@ -51,7 +51,7 @@ const ShowDetails = ({ route }) => {
   return (
     <>
       {showDetails !== null && !loading ? (
-        <ScrollView>
+        <ScrollView contentInsetAdjustmentBehavior="automatic">
           <Header
             showId={showId}
             title={showDetails.name}
