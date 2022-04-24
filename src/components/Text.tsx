@@ -113,7 +113,14 @@ const Text = ({
 
   return (
     <RNText
-      style={[{ fontFamily: font(), color: colors.primaryText }, style]}
+      style={[
+        {
+          fontFamily: font(),
+          color: colors.primaryText,
+          includeFontPadding: false,
+        },
+        style,
+      ]}
       {...restProps}>
       {children}
     </RNText>
