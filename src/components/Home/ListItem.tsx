@@ -1,9 +1,10 @@
 import React from 'react';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { colors } from '../../values/colors';
 import { dimensions } from '../../values/dimensions';
 import { useNavigation } from '@react-navigation/native';
 import { RootNavigationProp } from '../../types/navigation';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import useHome from '../../hooks/useHome';
 import Text from '../Text';
 import Pressable from '../Pressable';
@@ -45,14 +46,14 @@ const Item = ({ item }) => {
     <>
       {moment(airDate).isBefore(moment()) && (
         <Pressable
-          style={styles.container}
           shrinkScale={0.98}
           onPress={() =>
             navigate('ShowDetails', {
               showId,
               title: item.name,
             })
-          }>
+          }
+          style={styles.container}>
           <View style={styles.posterContainer}>
             <Image
               source={{
@@ -61,46 +62,42 @@ const Item = ({ item }) => {
               style={styles.poster}
             />
           </View>
-          <View style={styles.contentContainer}>
+          <View style={styles.infoContainer}>
             <View style={styles.textContainer}>
-              <Text
-                fontFamily="Heavy"
-                style={styles.title}
-                numberOfLines={1}
-                ellipsizeMode="tail">
+              <Text style={styles.title} fontFamily="Heavy">
                 {item.name}
               </Text>
               <Text
+                style={styles.text}
                 fontFamily="Bold"
-                style={styles.episodeNumber}
                 numberOfLines={1}
                 ellipsizeMode="tail">
                 {`Season ${seasonNumber} Episode ${episodeNumber}`}
               </Text>
               <Text
+                style={styles.text}
                 fontFamily="Bold"
-                style={styles.episodeTitle}
                 numberOfLines={1}
                 ellipsizeMode="tail">
                 {episodeTitle}
               </Text>
             </View>
-            <View style={styles.bottomContainer}>
-              <View style={styles.watchButtonContainer}>
-                <TouchableOpacity
-                  style={styles.watchButton}
-                  onPress={() =>
-                    markEpisodeWatched(showId, seasonNumber, episodeNumber)
-                  }>
-                  <Text fontFamily="Bold" style={styles.watchButtonText}>
-                    Mark as watched
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.progressbarContainer}>
-                <AnimatedProgressbar progress={progress} />
-              </View>
+            <View style={styles.progressbarContainer}>
+              <AnimatedProgressbar
+                progress={progress}
+                height={7}
+                width="100%"
+              />
             </View>
+          </View>
+          <View style={styles.iconContainer}>
+            <Pressable
+              onPress={() =>
+                markEpisodeWatched(showId, seasonNumber, episodeNumber)
+              }
+              style={styles.watchBtn}>
+              <Icon name="eye-outline" size={24} color={colors.primaryGreen} />
+            </Pressable>
           </View>
         </Pressable>
       )}
@@ -110,23 +107,26 @@ const Item = ({ item }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    height: 130,
+    height: 95,
     flexDirection: 'row',
-    marginVertical: 8,
     marginHorizontal: 16,
-    borderRadius: dimensions.cardBorderRadius,
-    overflow: 'hidden',
   },
 
   posterContainer: {
-    flex: 2.5,
+    flex: 1.8,
     borderRadius: dimensions.cardBorderRadius,
     overflow: 'hidden',
   },
 
-  contentContainer: {
-    flex: 7.5,
+  infoContainer: {
+    flex: 6.2,
+    paddingHorizontal: 8,
+  },
+
+  iconContainer: {
+    flex: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   poster: {
@@ -136,51 +136,30 @@ const styles = StyleSheet.create({
   },
 
   textContainer: {
-    flex: 5,
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-  },
-
-  bottomContainer: {
-    flex: 5,
-    justifyContent: 'space-evenly',
-    paddingHorizontal: 8,
+    flex: 7.5,
+    justifyContent: 'space-around',
   },
 
   progressbarContainer: {
-    flex: 4,
+    flex: 2.5,
     justifyContent: 'center',
-    paddingHorizontal: 8,
-  },
-
-  watchButtonContainer: {
-    flex: 6,
-  },
-
-  watchButton: {
-    alignSelf: 'flex-start',
-    flex: 1,
-    paddingHorizontal: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  watchButtonText: {
-    color: colors.primaryGreen,
   },
 
   title: {
     fontSize: 16,
   },
 
-  episodeNumber: {
+  text: {
     fontSize: 14,
     color: colors.mutedText,
   },
 
-  episodeTitle: {
-    fontSize: 14,
-    color: colors.mutedText,
+  watchBtn: {
+    padding: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: dimensions.cardBorderRadius,
+    backgroundColor: colors.darkGreen,
   },
 });
 
