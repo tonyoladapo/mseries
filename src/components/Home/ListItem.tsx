@@ -87,6 +87,7 @@ const Item = ({ item }) => {
                 progress={progress}
                 height={7}
                 width="100%"
+                trackColor={colors.primaryBackground}
               />
             </View>
           </View>
@@ -96,7 +97,7 @@ const Item = ({ item }) => {
                 markEpisodeWatched(showId, seasonNumber, episodeNumber)
               }
               style={styles.watchBtn}>
-              <Icon name="eye-outline" size={24} color={colors.primaryGreen} />
+              <Icon name="eye-outline" size={20} color={colors.mutedText} />
             </Pressable>
           </View>
         </Pressable>
@@ -159,7 +160,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: dimensions.cardBorderRadius,
-    backgroundColor: colors.darkGreen,
+    borderWidth: 1,
+    borderColor: colors.secondaryBackground,
   },
 });
 
