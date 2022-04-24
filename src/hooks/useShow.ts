@@ -6,11 +6,14 @@ import {
   seasonWatched,
   addShowToUnwatched,
   removeShowFromUnwatched,
+  setUnwatchedCollection,
+  setUnwatched,
 } from '../actions/show';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReducerTypes } from '../types/reducerTypes';
 import docRef from '../firebase/docRef';
 import mseries from '../apis/mseries';
+import firestore from '@react-native-firebase/firestore';
 
 const useShow = (controller?: AbortController) => {
   const { userDataRef } = docRef();
@@ -95,6 +98,29 @@ const useShow = (controller?: AbortController) => {
     dispatch(seasonUnwatched(id, seasonNumber));
   };
 
+  const getInitialUnwatched = async (uid: string) => {
+    try {
+      const shows = await firestore()
+        .collection('userData')
+        .doc(uid)
+        .collection('seasons')
+        .get();
+
+      const arr: any[] = [];
+      const collection = {};
+
+      shows.forEach(doc => {
+        arr.push(doc.data());
+        collection[doc.data().id] = doc.data();
+      });
+
+      dispatch(setUnwatchedCollection(collection));
+      dispatch(setUnwatched(arr));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const resetState = () => {
     controller && controller.abort();
     dispatch(toggleAdded(false));
@@ -110,6 +136,7 @@ const useShow = (controller?: AbortController) => {
     markEpisodeUnwatched,
     markSeasonWatched,
     markSeasonUnwatched,
+    getInitialUnwatched,
   };
 };
 
