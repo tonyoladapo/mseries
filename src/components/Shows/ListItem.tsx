@@ -44,7 +44,7 @@ const ListItem = ({ item }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: 290,
+    height: 190,
     borderRadius: dimensions.cardBorderRadius,
     overflow: 'hidden',
   },
