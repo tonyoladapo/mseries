@@ -1,18 +1,21 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import SectionList from '../../components/BottomTabList/SectionList';
+import { StyleSheet, View } from 'react-native';
 import useMyShows from '../../hooks/useMyShows';
 import SectionHeader from '../../components/BottomTabList/SectionHeader';
 import ListItem from '../../components/Shows/ListItem';
+import { SectionGrid } from 'react-native-super-grid';
 
 const Shows = () => {
   const { listData } = useMyShows();
 
   return (
     <View style={styles.container}>
-      <SectionList
-        title="My Shows"
+      <SectionGrid
+        spacing={16}
+        itemDimension={80}
+        contentInsetAdjustmentBehavior="automatic"
         sections={listData}
+        showsVerticalScrollIndicator={false}
         extraData={listData}
         keyExtractor={({ id, name }, index) => `${index}-${name}-${id}`}
         renderItem={({ item }) => <ListItem item={item} />}

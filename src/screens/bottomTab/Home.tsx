@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ReducerTypes } from '../../types/reducerTypes';
 import { useNavigation } from '@react-navigation/native';
 import { RootNavigationProp } from '../../types/navigation';
 import { colors } from '../../values/colors';
-import BottomTabList from '../../components/BottomTabList/BottomTabList';
 import ListItem from '../../components/Home/ListItem';
 import HomeEmptyList from '../../components/Home/HomeEmptyList';
 
 const Home = () => {
-  const { isNewUser, unwatched, headerHeight } = useSelector(
+  const { isNewUser, unwatched } = useSelector(
     ({ pref, show }: ReducerTypes) => ({ ...pref, ...show }),
   );
   const { navigate } = useNavigation<RootNavigationProp>();
@@ -23,23 +22,14 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
-      <BottomTabList
-        title="Home"
+      <FlatList
+        contentInsetAdjustmentBehavior="automatic"
+        showsVerticalScrollIndicator={false}
         data={unwatched}
         extraData={unwatched}
-        contentContainerStyle={
-          unwatched.length
-            ? {
-                paddingTop: headerHeight,
-              }
-            : {
-                paddingTop: headerHeight,
-                flex: 1,
-              }
-        }
         keyExtractor={({ name }, index) => `${index}-${name}`}
         renderItem={({ item }) => <ListItem item={item} />}
-        ListEmptyComponent={<HomeEmptyList />}
+        // ListEmptyComponent={<HomeEmptyList />}
         ItemSeparatorComponent={({
           leadingItem: { numOfAiredEpisodes, numOfWatchedEpisodes },
         }) => {

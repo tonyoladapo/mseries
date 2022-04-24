@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useEffect, useLayoutEffect } from 'react';
+import { View, StyleSheet, FlatList } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { ReducerTypes } from '../../types/reducerTypes';
 import { setSearchResults } from '../../actions/search';
 import SearchItem from '../../components/Search/SearchItem';
-import Searchlist from '../../components/Search/Searchlist';
 import Searchbar from '../../components/Search/Searchbar';
 
 const Search = () => {
@@ -21,9 +20,10 @@ const Search = () => {
   return (
     <View style={styles.container}>
       <Searchbar />
-      <Searchlist
+      <FlatList
+        style={{ flex: 1 }}
         data={searchResults}
-        title="Search"
+        contentInsetAdjustmentBehavior="automatic"
         keyExtractor={({ id, name }, index) => `${index}-${name}-${id}`}
         renderItem={({ item }) => <SearchItem item={item} />}
       />

@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, RefreshControl } from 'react-native';
+import { StyleSheet, RefreshControl, FlatList, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ReducerTypes } from '../../types/reducerTypes';
 import useDiscover from '../../hooks/useDiscover';
-import BottomTabList from '../../components/BottomTabList/BottomTabList';
 import DiscoverCategory from '../../components/Discover/DiscoverCategory';
+import SearchbarToggle from '../../components/Discover/SearchbarToggle';
 
 const Discover = () => {
-  const { discoverShows, headerHeight } = useSelector(
-    ({ discover, pref }: ReducerTypes) => ({ ...discover, ...pref }),
-  );
+  const { discoverShows } = useSelector(({ discover, pref }: ReducerTypes) => ({
+    ...discover,
+    ...pref,
+  }));
   const { getDiscoverShows, loading } = useDiscover();
 
   useEffect(() => {
@@ -18,17 +19,17 @@ const Discover = () => {
 
   return (
     <View style={styles.container}>
-      <BottomTabList
-        searchbarShown
-        title="Discover"
+      <FlatList
         data={discoverShows}
+        contentInsetAdjustmentBehavior="automatic"
         keyExtractor={({ listTitle }, index) => `${index}-${listTitle}`}
         renderItem={({ item }) => <DiscoverCategory item={item} />}
+        ListHeaderComponent={<SearchbarToggle />}
         refreshControl={
           <RefreshControl
             refreshing={loading}
             onRefresh={getDiscoverShows}
-            progressViewOffset={headerHeight}
+            tintColor="#b9b9b9"
           />
         }
       />
