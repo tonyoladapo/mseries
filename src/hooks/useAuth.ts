@@ -13,10 +13,15 @@ import {
 import { setDiscoverShows } from '../actions/discover';
 //@ts-ignore
 import { IOS_CLIENT_ID, WEB_CLIENT_ID } from 'react-native-dotenv';
+import useShow from './useShow';
+import useDiscover from './useDiscover';
 
 const useAuth = () => {
   const [initializing, setInitializing] = useState(true);
   const [authenticating, setAuthenticating] = useState(false);
+
+  const { getInitialUnwatched } = useShow();
+  const { getDiscoverShows } = useDiscover();
 
   const dispatch = useDispatch();
 
@@ -33,8 +38,16 @@ const useAuth = () => {
       const { idToken } = await GoogleSignin.signIn();
       const credential = auth.GoogleAuthProvider.credential(idToken);
 
-      const user = await auth().signInWithCredential(credential);
-      dispatch(setIsNewUser(user.additionalUserInfo?.isNewUser));
+      const { additionalUserInfo, user } = await auth().signInWithCredential(
+        credential,
+      );
+
+      dispatch(setUser(user));
+      dispatch(setIsNewUser(additionalUserInfo?.isNewUser));
+
+      !additionalUserInfo?.isNewUser && getInitialUnwatched(user.uid);
+
+      await getDiscoverShows();
 
       setAuthenticating(false);
       dispatch(setIsAuthenticated(true));
@@ -46,12 +59,17 @@ const useAuth = () => {
 
   const authAnonymously = async () => {
     try {
-      await auth().signInAnonymously();
+      const { user } = await auth().signInAnonymously();
       dispatch(setIsNewUser(true));
+
+      dispatch(setUser(user));
+
+      await getDiscoverShows();
+
+      setAuthenticating(false);
       dispatch(setIsAuthenticated(true));
     } catch (error) {
       console.log(error);
-    } finally {
       setAuthenticating(false);
     }
   };
@@ -64,14 +82,15 @@ const useAuth = () => {
       dispatch(setUserShows([]));
       dispatch(setUnwatched([]));
       dispatch(setUnwatchedCollection({}));
+
       dispatch(setIsAuthenticated(false));
+      dispatch(setUser(null));
     } catch (error) {
       console.error(error);
     }
   };
 
   const authStateListener = (user: FirebaseAuthTypes.User | null) => {
-    dispatch(setUser(user));
     if (initializing) setInitializing(false);
     setAuthenticating(false);
   };
