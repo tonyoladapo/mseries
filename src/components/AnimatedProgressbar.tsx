@@ -4,7 +4,12 @@ import { colors } from '../values/colors';
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 
-const AnimatedProgressbar = ({ progress, width = '50%', height = 5 }) => {
+const AnimatedProgressbar = ({
+  progress,
+  width = '50%',
+  height = 5,
+  trackColor = colors.secondaryBackground,
+}) => {
   const [progressAnimVal] = useState(new Animated.Value(0));
 
   useEffect(() => {
@@ -38,7 +43,11 @@ const AnimatedProgressbar = ({ progress, width = '50%', height = 5 }) => {
   });
 
   return (
-    <View style={[styles.container, { width, height }]}>
+    <View
+      style={[
+        styles.container,
+        { width, height, backgroundColor: trackColor },
+      ]}>
       <AnimatedView
         style={[styles.progress, { backgroundColor: color, width: animWidth }]}
       />
@@ -48,7 +57,6 @@ const AnimatedProgressbar = ({ progress, width = '50%', height = 5 }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.secondaryBackground,
     borderRadius: 5,
   },
 
