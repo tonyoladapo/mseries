@@ -87,7 +87,7 @@ const Item = ({ item }) => {
                 progress={progress}
                 height={7}
                 width="100%"
-                trackColor={colors.primaryBackground}
+                trackColor="#111"
               />
             </View>
           </View>
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   container: {
     height: 95,
     flexDirection: 'row',
-    marginHorizontal: 16,
+    margin: 16,
   },
 
   posterContainer: {
