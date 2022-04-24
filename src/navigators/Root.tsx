@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
-import { StatusBar } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { StatusBar, Platform } from 'react-native';
+import {
+  NavigationContainer,
+  getFocusedRouteNameFromRoute,
+} from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux';
 import { ReducerTypes } from '../types/reducerTypes';
 import { RootStackParamList } from '../types/navigation';
 import { appTheme } from '../constants/appTheme';
 import { colors } from '../values/colors';
-import Icon from 'react-native-vector-icons/AntDesign';
 import auth from '@react-native-firebase/auth';
 import useAuth from '../hooks/useAuth';
 import Setup from './Setup';
@@ -17,8 +19,9 @@ import DiscoverMore from '../screens/root/DiscoverMore';
 import ShowDetails from '../screens/root/ShowDetails';
 import Search from '../screens/root/Search';
 import SeasonDetails from '../screens/root/SeasonDetails';
+import Text from '../components/Text';
 
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Root = () => {
   const { isAuthenticated } = useSelector(({ auth, pref }: ReducerTypes) => ({
@@ -33,6 +36,20 @@ const Root = () => {
     return subscriber;
   }, []);
 
+  const isIOS = Platform.OS === 'ios' || false;
+
+  const headerTitle = route => {
+    const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home';
+
+    switch (routeName) {
+      case 'Shows':
+        return 'My Shows';
+
+      default:
+        return routeName;
+    }
+  };
+
   return (
     <>
       <StatusBar
@@ -44,10 +61,10 @@ const Root = () => {
       <NavigationContainer theme={appTheme}>
         <Stack.Navigator
           screenOptions={{
-            headerBackTitleVisible: false,
-            headerBackImage: () => (
-              <Icon name="left" size={24} color={colors.primaryText} />
-            ),
+            headerBackTitle: 'Back',
+            headerStyle: {
+              backgroundColor: colors.primaryBackground,
+            },
           }}>
           {!isAuthenticated ? (
             <Stack.Screen
@@ -60,7 +77,21 @@ const Root = () => {
               <Stack.Screen
                 name="Main"
                 component={Main}
-                options={{ headerShown: false, title: 'Home' }}
+                options={({ route }) => ({
+                  headerTitle: isIOS
+                    ? headerTitle(route)
+                    : () => (
+                        <Text fontFamily="Black" style={{ fontSize: 30 }}>
+                          {headerTitle(route)}
+                        </Text>
+                      ),
+                  headerLargeTitle: true,
+                  headerLargeTitleStyle: {
+                    fontFamily: 'SFProDisplay-Black',
+                    fontSize: 30,
+                  },
+                  headerTransparent: isIOS,
+                })}
               />
 
               <Stack.Screen
@@ -74,29 +105,9 @@ const Root = () => {
               />
 
               <Stack.Screen name="DiscoverMore" component={DiscoverMore} />
-              <Stack.Screen
-                name="ShowDetails"
-                component={ShowDetails}
-                options={{
-                  headerStyle: { backgroundColor: colors.transparent },
-                  headerTitle: '',
-                }}
-              />
-              <Stack.Screen
-                name="Search"
-                component={Search}
-                options={{
-                  headerStyle: { backgroundColor: colors.transparent },
-                }}
-              />
-              <Stack.Screen
-                name="SeasonDetails"
-                component={SeasonDetails}
-                options={{
-                  headerStyle: { backgroundColor: colors.transparent },
-                  headerTitle: '',
-                }}
-              />
+              <Stack.Screen name="ShowDetails" component={ShowDetails} />
+              <Stack.Screen name="Search" component={Search} />
+              <Stack.Screen name="SeasonDetails" component={SeasonDetails} />
             </>
           )}
         </Stack.Navigator>
