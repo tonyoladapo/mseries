@@ -17,7 +17,7 @@ const BottomTab = () => {
       initialRouteName="Home"
       backBehavior="none"
       screenOptions={{
-        header: props => <AnimatedHeader {...props} />,
+        headerShown: false,
         tabBarStyle: { backgroundColor: colors.primaryBackground },
       }}>
       <Tab.Screen
