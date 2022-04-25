@@ -29,12 +29,14 @@ const Root = () => {
     ...pref,
   }));
 
-  const { authStateListener } = useAuth();
+  const { authStateListener, initializing } = useAuth();
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(authStateListener);
     return subscriber;
   }, []);
+
+  if (initializing) return null;
 
   const isIOS = Platform.OS === 'ios' || false;
 

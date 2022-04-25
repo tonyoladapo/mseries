@@ -38,14 +38,13 @@ const useAuth = () => {
       const { idToken } = await GoogleSignin.signIn();
       const credential = auth.GoogleAuthProvider.credential(idToken);
 
-      const { additionalUserInfo, user } = await auth().signInWithCredential(
+      const { additionalUserInfo } = await auth().signInWithCredential(
         credential,
       );
 
-      dispatch(setUser(user));
       dispatch(setIsNewUser(additionalUserInfo?.isNewUser));
 
-      !additionalUserInfo?.isNewUser && getInitialUnwatched(user.uid);
+      !additionalUserInfo?.isNewUser && getInitialUnwatched();
 
       await getDiscoverShows();
 
@@ -59,10 +58,8 @@ const useAuth = () => {
 
   const authAnonymously = async () => {
     try {
-      const { user } = await auth().signInAnonymously();
+      await auth().signInAnonymously();
       dispatch(setIsNewUser(true));
-
-      dispatch(setUser(user));
 
       await getDiscoverShows();
 
@@ -84,7 +81,6 @@ const useAuth = () => {
       dispatch(setUnwatchedCollection({}));
 
       dispatch(setIsAuthenticated(false));
-      dispatch(setUser(null));
     } catch (error) {
       console.error(error);
     }
