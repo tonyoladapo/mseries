@@ -78,7 +78,11 @@ const SeasonItem = ({ seasonName, season, showId, firstAirDate }) => {
           flexDirection: 'row',
           alignItems: 'center',
         }}>
-        <AnimatedProgressbar progress={progress} width="70%" />
+        <AnimatedProgressbar
+          progress={progress}
+          width="70%"
+          trackColor={colors.mutedText}
+        />
         <Text
           fontFamily="Semibold"
           style={{ color: colors.mutedText, fontSize: 15 }}>
