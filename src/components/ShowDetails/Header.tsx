@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import { colors } from '../../values/colors';
 import { dimensions } from '../../values/dimensions';
@@ -26,26 +26,25 @@ const Header = ({ title, posterPath, status, year, show, added }: Props) => {
           }}
         />
       </View>
-      <View style={styles.detailsContainer}>
-        <View
-          style={{
-            flex: 7,
-            justifyContent: 'space-around',
-            paddingHorizontal: 16,
-          }}>
-          <Text fontFamily="Heavy" style={styles.title}>
-            {title}
-          </Text>
-          <Text fontFamily="Bold" style={styles.year}>
-            {year}
-          </Text>
-          <Text fontFamily="Bold" style={styles.year}>
-            {status}
-          </Text>
-        </View>
-        <View style={{ flex: 3 }}>
-          <AddButton show={show} added={added} />
-        </View>
+      <View style={styles.infoContainer}>
+        <Text
+          fontFamily="Heavy"
+          numberOfLines={3}
+          ellipsizeMode="tail"
+          style={styles.title}>
+          {title}
+        </Text>
+
+        <Text fontFamily="Bold" style={styles.status}>
+          {status}
+        </Text>
+
+        <Text fontFamily="Bold" style={styles.status}>
+          {year}
+        </Text>
+      </View>
+      <View style={styles.addBtnContainer}>
+        <AddButton show={show} added={added} />
       </View>
     </View>
   );
@@ -53,35 +52,47 @@ const Header = ({ title, posterPath, status, year, show, added }: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     height: 130,
     flexDirection: 'row',
-    marginHorizontal: 16,
-    marginVertical: 8,
+    margin: 16,
   },
 
   posterContainer: {
     flex: 2.5,
+    borderRadius: dimensions.cardBorderRadius,
+    overflow: 'hidden',
   },
 
-  detailsContainer: {
-    flex: 7.5,
+  infoContainer: {
+    flex: 5.5,
+    paddingHorizontal: 8,
+  },
+
+  addBtnContainer: {
+    flex: 2,
   },
 
   poster: {
     width: '100%',
     height: '100%',
-    resizeMode: 'cover',
-    borderRadius: dimensions.cardBorderRadius,
+    resizeMode: 'contain',
   },
 
   title: {
-    fontSize: 16,
+    fontSize: 18,
+    marginBottom: 4,
+  },
+
+  status: {
+    fontSize: 14,
+    color: colors.mutedText,
+    marginVertical: 4,
   },
 
   year: {
     fontSize: 14,
     color: colors.mutedText,
+    marginVertical: 4,
   },
 });
 

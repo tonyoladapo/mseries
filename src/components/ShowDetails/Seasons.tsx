@@ -38,7 +38,7 @@ const Seasons = ({ showId, progress, added }) => {
       horizontal
       scrollEnabled={false}>
       <View style={{ width: scrollviewWidth }}>
-        <Text style={styles.title} fontFamily="Bold">
+        <Text style={styles.title} fontFamily="Heavy">
           Seasons
         </Text>
 
@@ -69,8 +69,8 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    color: colors.primaryGreen,
-    marginVertical: 6,
+    fontSize: 15,
+    marginBottom: 8,
   },
 });
 

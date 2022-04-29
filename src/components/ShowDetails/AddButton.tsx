@@ -1,15 +1,12 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
+import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { colors } from '../../values/colors';
 import { useSelector } from 'react-redux';
 import { ReducerTypes } from '../../types/reducerTypes';
+import { dimensions } from '../../values/dimensions';
 import useShow from '../../hooks/useShow';
-import Text from '../Text';
+import Pressable from '../Pressable';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const AddButton = ({ show, added }) => {
   const { loading } = useSelector(
@@ -19,38 +16,40 @@ const AddButton = ({ show, added }) => {
   const { addShow, removeShow } = useShow();
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        disabled={loading}
-        onPress={
-          added ? () => removeShow(show.id.toString()) : () => addShow(show)
-        }
+    <Pressable
+      disabled={loading}
+      style={styles.container}
+      onPress={
+        added ? () => removeShow(show.id.toString()) : () => addShow(show)
+      }>
+      <ActivityIndicator
+        animating={loading}
+        size={24}
+        style={{ padding: 12, alignSelf: 'flex-end' }}
+        color={colors.mutedText}
+      />
+      <View
         style={{
-          alignContent: 'flex-start',
-          justifyContent: 'center',
+          padding: 12,
+          backgroundColor: added ? colors.darkGreen : colors.transparent,
+          borderRadius: dimensions.buttonBorderRadius,
+          borderWidth: 1,
+          borderColor: added ? colors.darkGreen : colors.mutedText,
+          alignSelf: 'flex-end',
         }}>
-        <Text
-          style={{
-            fontSize: 16,
-            color: added ? colors.primaryRed : colors.primaryGreen,
-          }}
-          fontFamily="Bold">
-          {added ? 'Remove show' : 'Add show'}
-        </Text>
-      </TouchableOpacity>
-
-      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-        <ActivityIndicator animating={loading} />
+        <Icon
+          name={added ? 'check' : 'plus'}
+          size={24}
+          color={added ? colors.primaryGreen : colors.mutedText}
+        />
       </View>
-    </View>
+    </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 16,
-    flexDirection: 'row',
     justifyContent: 'space-between',
   },
 });

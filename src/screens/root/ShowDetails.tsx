@@ -13,6 +13,7 @@ import Info from '../../components/ShowDetails/Info';
 import Overview from '../../components/ShowDetails/Overview';
 import SimilarShows from '../../components/ShowDetails/SimilarShows';
 import Seasons from '../../components/ShowDetails/Seasons';
+import Separator from '../../components/Separator';
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 
@@ -61,6 +62,7 @@ const ShowDetails = ({ route }) => {
             added={added}
             show={showDetails}
           />
+
           <Info
             rating={showDetails.vote_average}
             genre={
@@ -71,10 +73,19 @@ const ShowDetails = ({ route }) => {
             }
             runtime={showDetails.episode_run_time[0]}
           />
+
+          <Separator />
+
           <Overview overview={showDetails.overview} />
+
+          <Separator />
+
           <AnimatedView style={{ opacity }}>
             {showingSeasons && progress.seasons && (
-              <Seasons showId={showId} progress={progress} added={added} />
+              <>
+                <Seasons showId={showId} progress={progress} added={added} />
+                <Separator />
+              </>
             )}
           </AnimatedView>
           <SimilarShows similar={showDetails.similar.results} />

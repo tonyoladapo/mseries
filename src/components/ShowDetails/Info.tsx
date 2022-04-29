@@ -14,7 +14,7 @@ const Info = ({ rating, runtime, genre, network }: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.column}>
-        <Text fontFamily="Bold" style={styles.columnTitle}>
+        <Text fontFamily="Heavy" style={styles.columnTitle}>
           RATING
         </Text>
         <Text fontFamily="Bold" style={styles.columnValue}>
@@ -23,7 +23,7 @@ const Info = ({ rating, runtime, genre, network }: Props) => {
       </View>
 
       <View style={styles.column}>
-        <Text fontFamily="Bold" style={styles.columnTitle}>
+        <Text fontFamily="Heavy" style={styles.columnTitle}>
           GENRE
         </Text>
         <Text fontFamily="Bold" style={styles.columnValue}>
@@ -32,7 +32,7 @@ const Info = ({ rating, runtime, genre, network }: Props) => {
       </View>
 
       <View style={styles.column}>
-        <Text fontFamily="Bold" style={styles.columnTitle}>
+        <Text fontFamily="Heavy" style={styles.columnTitle}>
           NETWORK
         </Text>
         <Text fontFamily="Bold" style={styles.columnValue}>
@@ -41,7 +41,7 @@ const Info = ({ rating, runtime, genre, network }: Props) => {
       </View>
 
       <View style={styles.column}>
-        <Text fontFamily="Bold" style={styles.columnTitle}>
+        <Text fontFamily="Heavy" style={styles.columnTitle}>
           RUNTIME
         </Text>
         <Text fontFamily="Bold" style={styles.columnValue}>
@@ -68,12 +68,12 @@ const styles = StyleSheet.create({
 
   columnTitle: {
     color: colors.mutedText,
-    fontSize: 12,
+    fontSize: 10,
     flex: 1,
   },
 
   columnValue: {
-    fontSize: 17,
+    fontSize: 15,
     flex: 9,
     textAlign: 'center',
   },

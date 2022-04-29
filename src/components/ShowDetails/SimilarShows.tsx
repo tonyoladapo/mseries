@@ -7,7 +7,7 @@ import SimilarShowItem from './SimilarShowItem';
 const SimilarShows = ({ similar }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title} fontFamily="Bold">
+      <Text style={styles.title} fontFamily="Heavy">
         Similar shows
       </Text>
 
@@ -33,9 +33,9 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    color: colors.primaryGreen,
-    marginVertical: 16,
+    marginBottom: 16,
     marginHorizontal: 16,
+    fontSize: 15,
   },
 });
 

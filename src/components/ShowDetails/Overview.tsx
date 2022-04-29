@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { colors } from '../../values/colors';
 import Text from '../Text';
 
 const Overview = ({ overview }) => {
+  const [expanded, setExpanded] = useState(false);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title} fontFamily="Bold">
+      <Text style={styles.title} fontFamily="Heavy">
         Overview
       </Text>
-      <Text numberOfLines={3}>{overview}</Text>
-      <TouchableOpacity style={styles.readMoreButton}>
+      <Text numberOfLines={expanded ? undefined : 3}>{overview}</Text>
+      <TouchableOpacity
+        style={styles.readMoreButton}
+        onPress={() => setExpanded(!expanded)}>
         <Text style={styles.readMore} fontFamily="Bold">
           Read more
         </Text>
@@ -27,16 +31,17 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    color: colors.primaryGreen,
-    marginVertical: 6,
+    fontSize: 15,
+    marginBottom: 8,
   },
 
   readMore: {
-    color: colors.darkGreen,
+    color: colors.primaryGreen,
   },
 
   readMoreButton: {
     paddingVertical: 8,
+    alignSelf: 'flex-start',
   },
 });
 
