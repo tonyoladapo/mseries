@@ -26,13 +26,11 @@ const SeasonDetails = ({ route }) => {
 
   return (
     <>
+      <View style={{ paddingHorizontal: 16, marginTop: 16 }}>
+        <AnimatedProgressbar progress={progress} width="100%" />
+      </View>
       <FlatList
         contentInsetAdjustmentBehavior="automatic"
-        ListHeaderComponent={() => (
-          <View style={{ paddingHorizontal: 16, marginBottom: 16 }}>
-            <AnimatedProgressbar progress={progress} width="100%" />
-          </View>
-        )}
         data={episodes}
         keyExtractor={({ id, episode_number, season_number }, index) =>
           `${index}-s${season_number}e${episode_number}-${id}`
