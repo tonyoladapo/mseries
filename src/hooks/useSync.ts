@@ -27,10 +27,12 @@ const useSync = () => {
           },
         },
       );
+
       let arr: any[] = [];
       Object.keys(data).forEach(key => {
         arr.push(data[key]);
       });
+
       dispatch(setUnwatchedCollection(data));
       dispatch(setUnwatched(arr));
     }

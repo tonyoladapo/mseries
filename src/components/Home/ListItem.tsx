@@ -64,21 +64,21 @@ const Item = ({ item }) => {
           </View>
           <View style={styles.infoContainer}>
             <View style={styles.textContainer}>
-              <Text style={styles.title} fontFamily="Heavy">
+              <Text
+                style={styles.title}
+                numberOfLines={1}
+                ellipsizeMode="tail"
+                fontFamily="Bold">
                 {item.name}
               </Text>
               <Text
-                style={styles.text}
-                fontFamily="Bold"
+                style={[styles.text, { fontSize: 14 }]}
+                fontFamily="Medium"
                 numberOfLines={1}
                 ellipsizeMode="tail">
                 {`Season ${seasonNumber} Episode ${episodeNumber}`}
               </Text>
-              <Text
-                style={styles.text}
-                fontFamily="Bold"
-                numberOfLines={1}
-                ellipsizeMode="tail">
+              <Text style={styles.text} numberOfLines={1} ellipsizeMode="tail">
                 {episodeTitle}
               </Text>
             </View>
@@ -87,7 +87,6 @@ const Item = ({ item }) => {
                 progress={progress}
                 height={7}
                 width="100%"
-                trackColor="#111"
               />
             </View>
           </View>
@@ -97,7 +96,7 @@ const Item = ({ item }) => {
                 markEpisodeWatched(showId, seasonNumber, episodeNumber)
               }
               style={styles.watchBtn}>
-              <Icon name="eye-outline" size={20} color={colors.mutedText} />
+              <Icon name="eye-outline" size={20} color={colors.primaryText} />
             </Pressable>
           </View>
         </Pressable>
@@ -151,7 +150,6 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 14,
     color: colors.mutedText,
   },
 
@@ -160,7 +158,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: dimensions.cardBorderRadius,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: colors.secondaryBackground,
   },
 });
