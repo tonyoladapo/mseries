@@ -107,9 +107,21 @@ const Root = () => {
               />
 
               <Stack.Screen name="DiscoverMore" component={DiscoverMore} />
-              <Stack.Screen name="ShowDetails" component={ShowDetails} />
+              <Stack.Screen
+                name="ShowDetails"
+                component={ShowDetails}
+                options={{
+                  title: '',
+                }}
+              />
               <Stack.Screen name="Search" component={Search} />
-              <Stack.Screen name="SeasonDetails" component={SeasonDetails} />
+              <Stack.Screen
+                name="SeasonDetails"
+                component={SeasonDetails}
+                options={({ route }) => ({
+                  title: route.params.seasonName,
+                })}
+              />
             </>
           )}
         </Stack.Navigator>
