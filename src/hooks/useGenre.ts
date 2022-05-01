@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { setIsNewUser, setSetupComplete } from '../actions/pref';
+import { setUserGenres } from '../actions/show';
 import docRef from '../firebase/docRef';
 import firestore from '@react-native-firebase/firestore';
 
@@ -44,6 +45,7 @@ const useGenre = () => {
 
       await batch.commit();
 
+      dispatch(setUserGenres(selectedGenres));
       dispatch(setIsNewUser(false));
       dispatch(setSetupComplete(true));
     } catch (error) {
