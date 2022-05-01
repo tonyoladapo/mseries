@@ -1,9 +1,10 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { SectionGrid } from 'react-native-super-grid';
 import useMyShows from '../../hooks/useMyShows';
 import SectionHeader from '../../components/BottomTabList/SectionHeader';
 import ListItem from '../../components/Shows/ListItem';
-import { SectionGrid } from 'react-native-super-grid';
+import Separator from '../../components/Separator';
 
 const Shows = () => {
   const { listData } = useMyShows();
@@ -22,6 +23,7 @@ const Shows = () => {
         renderSectionHeader={({ section: { title, data } }) => (
           <SectionHeader title={title} data={data} />
         )}
+        ListHeaderComponent={() => <Separator />}
       />
     </View>
   );
@@ -30,6 +32,16 @@ const Shows = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // paddingHorizontal: 16,
+  },
+
+  sectionTitle: {
+    fontSize: 15,
+    marginHorizontal: 16,
+  },
+
+  contentContainer: {
+    marginVertical: 16,
   },
 });
 
