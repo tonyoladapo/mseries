@@ -11,9 +11,9 @@ import {
 } from '../actions/show';
 import { useDispatch } from 'react-redux';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import docRef from '../firebase/docRef';
 import mseries from '../apis/mseries';
-import firestore from '@react-native-firebase/firestore';
 
 const useShow = (controller?: AbortController) => {
   const { userDataRef } = docRef();
@@ -98,11 +98,9 @@ const useShow = (controller?: AbortController) => {
 
   const getInitialUnwatched = async () => {
     try {
-      const uid = auth().currentUser?.uid;
-
       const shows = await firestore()
         .collection('userData')
-        .doc(uid)
+        .doc(auth().currentUser?.uid)
         .collection('seasons')
         .get();
 

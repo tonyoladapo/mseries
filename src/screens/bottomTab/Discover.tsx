@@ -1,5 +1,11 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, RefreshControl, FlatList, View } from 'react-native';
+import {
+  StyleSheet,
+  FlatList,
+  View,
+  ActivityIndicator,
+  SafeAreaView,
+} from 'react-native';
 import { useSelector } from 'react-redux';
 import { ReducerTypes } from '../../types/reducerTypes';
 import useDiscover from '../../hooks/useDiscover';
@@ -19,20 +25,24 @@ const Discover = () => {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={discoverShows}
-        contentInsetAdjustmentBehavior="automatic"
-        keyExtractor={({ listTitle }, index) => `${index}-${listTitle}`}
-        renderItem={({ item }) => <DiscoverCategory item={item} />}
-        ListHeaderComponent={<SearchbarToggle />}
-        refreshControl={
-          <RefreshControl
-            refreshing={loading}
-            onRefresh={getDiscoverShows}
-            tintColor="#b9b9b9"
-          />
-        }
-      />
+      {loading ? (
+        <SafeAreaView
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <ActivityIndicator />
+        </SafeAreaView>
+      ) : (
+        <FlatList
+          data={discoverShows}
+          contentInsetAdjustmentBehavior="automatic"
+          keyExtractor={({ listTitle }, index) => `${index}-${listTitle}`}
+          renderItem={({ item }) => <DiscoverCategory item={item} />}
+          ListHeaderComponent={<SearchbarToggle />}
+        />
+      )}
     </View>
   );
 };
