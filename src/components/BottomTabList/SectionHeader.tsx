@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { colors } from '../../values/colors';
 import Text from '../Text';
 
 interface Props {
@@ -30,8 +29,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    color: colors.primaryGreen,
-    fontSize: 15,
+    fontSize: 18,
   },
 });
 
