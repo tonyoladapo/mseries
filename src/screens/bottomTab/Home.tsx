@@ -7,6 +7,7 @@ import { RootNavigationProp } from '../../types/navigation';
 import { colors } from '../../values/colors';
 import ListItem from '../../components/Home/ListItem';
 import HomeEmptyList from '../../components/Home/HomeEmptyList';
+import Separator from '../../components/Separator';
 
 const Home = () => {
   const { isNewUser, unwatched } = useSelector(
@@ -23,13 +24,15 @@ const Home = () => {
   return (
     <View style={styles.container}>
       <FlatList
+        contentContainerStyle={{ flexGrow: 1 }}
         contentInsetAdjustmentBehavior="automatic"
         showsVerticalScrollIndicator={false}
         data={unwatched}
         extraData={unwatched}
         keyExtractor={({ name }, index) => `${index}-${name}`}
         renderItem={({ item }) => <ListItem item={item} />}
-        // ListEmptyComponent={<HomeEmptyList />}
+        ListHeaderComponent={() => <Separator />}
+        ListEmptyComponent={<HomeEmptyList />}
       />
     </View>
   );
