@@ -12,16 +12,18 @@ const CategoryTitle = ({ item }: Props) => {
     if (item.show_id)
       return (
         <View>
-          <Text fontFamily="Semibold" style={{ color: colors.mutedText }}>
+          <Text
+            fontFamily="Semibold"
+            style={{ color: colors.mutedText, fontSize: 15 }}>
             More like
           </Text>
-          <Text fontFamily="Bold" style={{ fontSize: 15 }}>
+          <Text numberOfLines={2} fontFamily="Bold" style={{ fontSize: 18 }}>
             {item.listTitle}
           </Text>
         </View>
       );
     return (
-      <Text fontFamily="Bold" style={styles.title}>
+      <Text numberOfLines={2} fontFamily="Bold" style={styles.title}>
         {item.listTitle}
       </Text>
     );
@@ -35,7 +37,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 16,
+    fontSize: 18,
   },
 });
 
