@@ -3,14 +3,12 @@ import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useDispatch } from 'react-redux';
 import { setIsAuthenticated, setIsNewUser } from '../actions/pref';
-import { setUser } from '../actions/auth';
 import {
   setUserGenres,
   setUserShows,
   setUnwatched,
   setUnwatchedCollection,
 } from '../actions/show';
-import { setDiscoverShows } from '../actions/discover';
 //@ts-ignore
 import { IOS_CLIENT_ID, WEB_CLIENT_ID } from 'react-native-dotenv';
 import useShow from './useShow';
@@ -44,12 +42,10 @@ const useAuth = () => {
 
       dispatch(setIsNewUser(additionalUserInfo?.isNewUser));
 
-      !additionalUserInfo?.isNewUser && getInitialUnwatched();
-
-      await getDiscoverShows();
-
       setAuthenticating(false);
       dispatch(setIsAuthenticated(true));
+
+      !additionalUserInfo?.isNewUser && getInitialUnwatched();
     } catch (error) {
       console.log(error);
       setAuthenticating(false);
@@ -74,7 +70,6 @@ const useAuth = () => {
   const signOut = async () => {
     try {
       await auth().signOut();
-      dispatch(setDiscoverShows([]));
       dispatch(setUserGenres([]));
       dispatch(setUserShows([]));
       dispatch(setUnwatched([]));

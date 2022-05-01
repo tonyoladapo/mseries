@@ -7,7 +7,9 @@ import mseries from '../apis/mseries';
 import tmdb from '../apis/tmdb';
 
 const useDiscover = () => {
-  const { userGenres } = useSelector(({ show }: ReducerTypes) => show);
+  const { userGenres, userShows } = useSelector(
+    ({ show }: ReducerTypes) => show,
+  );
   const [loading, setLoading] = useState(false);
   const [moreDiscoverShows, setMoreDiscoverShows] = useState([]);
 
@@ -17,26 +19,29 @@ const useDiscover = () => {
     try {
       setLoading(true);
 
-      const similarShowIds = [
-        { id: '60059', name: 'Better Call Saul' },
-        { id: '1399', name: 'Game of Thrones' },
-        { id: '60625', name: 'Rick and Morty' },
-      ];
+      function getRandom() {
+        let maxIdx = 5;
+        let result = new Array(maxIdx),
+          len = userShows.length,
+          taken = new Array(len);
 
-      const genreParams =
-        userGenres.length > 0
-          ? userGenres
-          : [
-              { id: '16', name: 'Animation' },
-              { id: '35', name: 'Comedy' },
-              { id: '10759', name: 'Action & Adventure' },
-            ];
+        while (maxIdx--) {
+          let x = Math.floor(Math.random() * len);
+          result[maxIdx] = {
+            id: userShows[x in taken ? taken[x] : x].id,
+            name: userShows[x in taken ? taken[x] : x].name,
+          };
+          taken[x] = --len in taken ? taken[len] : len;
+        }
+        return result;
+      }
 
-      const { data } = await mseries.get('/discover', {
-        params: {
-          genres: JSON.stringify(genreParams),
-          similar_ids: JSON.stringify(similarShowIds),
-        },
+      const similarShows = userShows.length >= 5 ? getRandom() : [];
+      const genres = userGenres.length > 0 ? userGenres : [];
+
+      const { data } = await mseries.post('/discover', {
+        genres,
+        similarShows,
       });
 
       dispatch(setDiscoverShows(data));
