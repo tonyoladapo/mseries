@@ -13,7 +13,7 @@ import searchReducer from './reducers/search';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  blacklist: [],
+  blacklist: ['discover'],
 };
 
 const reducers = combineReducers({
