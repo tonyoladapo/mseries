@@ -32,24 +32,6 @@ const Main = () => {
     }
   };
 
-  const registerGenresSnapshot = async () => {
-    try {
-      userDataRef.collection('user_genres').onSnapshot(querySnapshot => {
-        if (!querySnapshot) return;
-
-        const data: any = [];
-
-        querySnapshot.forEach((doc: any) => {
-          data.push(doc.data());
-        });
-
-        dispatch(setUserGenres(data));
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     sync();
   }, []);
@@ -65,7 +47,6 @@ const Main = () => {
   }, [unwatchedCollection]);
 
   useEffect(() => {
-    registerGenresSnapshot();
     registerShowsSnapshot();
   }, []);
 
