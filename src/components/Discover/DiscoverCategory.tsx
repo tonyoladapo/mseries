@@ -11,26 +11,30 @@ interface Props {
 
 const DiscoverCategory = ({ item }: Props) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <CategoryTitle item={item} />
-        <TouchableOpacity style={styles.seeAllButton}>
-          <Text fontFamily="Bold" style={styles.seeAll}>
-            See All
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.body}>
-        <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingHorizontal: 16 }}
-          data={item.shows}
-          keyExtractor={({ name, id }, index) => `${index}-${name}-${id}`}
-          renderItem={({ item }) => <CategoryItem item={item} />}
-        />
-      </View>
-    </View>
+    <>
+      {item.shows.length > 0 && (
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <CategoryTitle item={item} />
+            <TouchableOpacity style={styles.seeAllButton}>
+              <Text fontFamily="Bold" style={styles.seeAll}>
+                See All
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.body}>
+            <FlatList
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ paddingHorizontal: 16 }}
+              data={item.shows}
+              keyExtractor={({ name, id }, index) => `${index}-${name}-${id}`}
+              renderItem={({ item }) => <CategoryItem item={item} />}
+            />
+          </View>
+        </View>
+      )}
+    </>
   );
 };
 
