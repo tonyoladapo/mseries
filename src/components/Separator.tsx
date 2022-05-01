@@ -1,9 +1,13 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ViewStyle } from 'react-native';
 import { colors } from '../values/colors';
 
-const Separator = () => {
-  return <View style={styles.container} />;
+interface Props {
+  style?: ViewStyle;
+}
+
+const Separator = ({ style }: Props) => {
+  return <View style={[styles.container, style]} />;
 };
 
 const styles = StyleSheet.create({
