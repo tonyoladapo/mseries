@@ -16,7 +16,7 @@ const Overview = ({ overview }) => {
         style={styles.readMoreButton}
         onPress={() => setExpanded(!expanded)}>
         <Text style={styles.readMore} fontFamily="Bold">
-          Read more
+          {expanded ? 'Close' : 'Read more'}
         </Text>
       </TouchableOpacity>
     </View>
