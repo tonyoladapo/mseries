@@ -3,7 +3,7 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 
 export type RootStackParamList = {
   Main: undefined;
-  Setup: undefined;
+  Welcome: undefined;
   Genres: undefined;
   DiscoverMore: ListParams;
   ShowDetails: {
@@ -28,11 +28,6 @@ export interface ListParams {
       };
 }
 
-export type SetupStackParamList = {
-  Welcome: undefined;
-  SignIn: undefined;
-};
-
 export type BottomTabParamList = {
   Home: undefined;
   Shows: undefined;
@@ -40,6 +35,5 @@ export type BottomTabParamList = {
   More: undefined;
 };
 
-export type SetupNavigationProp = StackNavigationProp<SetupStackParamList>;
 export type RootNavigationProp = StackNavigationProp<RootStackParamList>;
 export type BottomNavigationProp = BottomTabNavigationProp<BottomTabParamList>;

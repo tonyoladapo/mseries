@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StatusBar, Platform } from 'react-native';
+import { StatusBar, Platform, View } from 'react-native';
 import {
   NavigationContainer,
   getFocusedRouteNameFromRoute,
@@ -20,6 +20,8 @@ import ShowDetails from '../screens/root/ShowDetails';
 import Search from '../screens/root/Search';
 import SeasonDetails from '../screens/root/SeasonDetails';
 import Text from '../components/Text';
+import Logo from '../components/Logo';
+import Welcome from '../screens/root/Welcome';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -70,9 +72,9 @@ const Root = () => {
           }}>
           {!isAuthenticated ? (
             <Stack.Screen
-              name="Setup"
-              component={Setup}
-              options={{ headerShown: false }}
+              name="Welcome"
+              component={Welcome}
+              options={{ headerTitle: '' }}
             />
           ) : (
             <>
