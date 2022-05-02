@@ -8,6 +8,7 @@ import {
   removeShowFromUnwatched,
   setUnwatchedCollection,
   setUnwatched,
+  setUserGenres,
 } from '../actions/show';
 import { useDispatch } from 'react-redux';
 import auth from '@react-native-firebase/auth';
@@ -104,16 +105,29 @@ const useShow = (controller?: AbortController) => {
         .collection('seasons')
         .get();
 
-      const arr: any[] = [];
+      const genres = await firestore()
+        .collection('userData')
+        .doc(auth().currentUser?.uid)
+        .collection('user_genres')
+        .get();
+
+      const showsArr: any[] = [];
+      const genresArr: any[] = [];
+
       const collection = {};
 
       shows.forEach(doc => {
-        arr.push(doc.data());
+        showsArr.push(doc.data());
         collection[doc.data().id] = doc.data();
       });
 
+      genres.forEach(doc => {
+        genresArr.push(doc.data());
+      });
+
       dispatch(setUnwatchedCollection(collection));
-      dispatch(setUnwatched(arr));
+      dispatch(setUnwatched(showsArr));
+      dispatch(setUserGenres(genresArr));
     } catch (error) {
       console.log(error);
     }
