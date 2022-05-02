@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StatusBar, Platform, View } from 'react-native';
+import { StatusBar, Platform } from 'react-native';
 import {
   NavigationContainer,
   getFocusedRouteNameFromRoute,
@@ -12,7 +12,6 @@ import { appTheme } from '../constants/appTheme';
 import { colors } from '../values/colors';
 import auth from '@react-native-firebase/auth';
 import useAuth from '../hooks/useAuth';
-import Setup from './Setup';
 import Main from '../screens/root/Main';
 import Genres from '../screens/root/Genres';
 import DiscoverMore from '../screens/root/DiscoverMore';
@@ -20,7 +19,6 @@ import ShowDetails from '../screens/root/ShowDetails';
 import Search from '../screens/root/Search';
 import SeasonDetails from '../screens/root/SeasonDetails';
 import Text from '../components/Text';
-import Logo from '../components/Logo';
 import Welcome from '../screens/root/Welcome';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
