@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { setIsNewUser, setSetupComplete } from '../actions/pref';
 import { setUserGenres } from '../actions/show';
+import { BottomNavigationProp } from '../types/navigation';
 import docRef from '../firebase/docRef';
 import firestore from '@react-native-firebase/firestore';
 
@@ -12,7 +13,7 @@ const useGenre = () => {
 
   const dispatch = useDispatch();
   const { userDataRef } = docRef();
-  const { goBack } = useNavigation();
+  const { goBack, navigate } = useNavigation<BottomNavigationProp>();
 
   const addGenre = async (genre: Genre) => {
     try {
@@ -48,6 +49,8 @@ const useGenre = () => {
       dispatch(setUserGenres(selectedGenres));
       dispatch(setIsNewUser(false));
       dispatch(setSetupComplete(true));
+
+      navigate('Discover');
     } catch (error) {
       console.log(error);
     }
