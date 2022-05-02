@@ -9,10 +9,10 @@ interface Props {
 
 const Logo = ({ fontSize = 20 }: Props) => {
   return (
-    <Text fontFamily="Bold" style={{ fontSize }}>
+    <Text fontFamily="Black" style={{ fontSize }}>
       mSe
       <Text
-        fontFamily="Bold"
+        fontFamily="Black"
         style={{
           color: colors.primaryGreen,
           fontSize,
