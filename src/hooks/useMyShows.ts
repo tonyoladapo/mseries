@@ -34,7 +34,7 @@ const useMyShows = () => {
     ]);
   }, [userShows]);
 
-  return { listData };
+  return { listData, userShows };
 };
 
 export default useMyShows;
