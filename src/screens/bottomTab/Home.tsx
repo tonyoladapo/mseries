@@ -6,7 +6,6 @@ import { useNavigation } from '@react-navigation/native';
 import { RootNavigationProp } from '../../types/navigation';
 import { colors } from '../../values/colors';
 import ListItem from '../../components/Home/ListItem';
-import HomeEmptyList from '../../components/Home/HomeEmptyList';
 import Separator from '../../components/Separator';
 
 const Home = () => {
@@ -32,7 +31,6 @@ const Home = () => {
         keyExtractor={({ name }, index) => `${index}-${name}`}
         renderItem={({ item }) => <ListItem item={item} />}
         ListHeaderComponent={() => <Separator />}
-        ListEmptyComponent={<HomeEmptyList />}
       />
     </View>
   );
