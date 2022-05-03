@@ -13,6 +13,9 @@ import DiscoverCategory from '../../components/Discover/DiscoverCategory';
 import SearchbarToggle from '../../components/Discover/SearchbarToggle';
 
 const Discover = () => {
+  const renderItem = ({ item }) => <DiscoverCategory item={item} />;
+  const keyExtractor = ({ listTitle }, index) => `${index}-${listTitle}`;
+
   const { discoverShows } = useSelector(({ discover, pref }: ReducerTypes) => ({
     ...discover,
     ...pref,
@@ -38,8 +41,8 @@ const Discover = () => {
         <FlatList
           data={discoverShows}
           contentInsetAdjustmentBehavior="automatic"
-          keyExtractor={({ listTitle }, index) => `${index}-${listTitle}`}
-          renderItem={({ item }) => <DiscoverCategory item={item} />}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
           ListHeaderComponent={<SearchbarToggle />}
         />
       )}

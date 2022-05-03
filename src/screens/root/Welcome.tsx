@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, Image, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { colors } from '../../values/colors';
 import { dimensions } from '../../values/dimensions';
 import WelcomeSvg from '../../assets/svg/watching_tv.svg';
@@ -8,6 +8,7 @@ import useSetup from '../../hooks/useSetup';
 import Logo from '../../components/Logo';
 import Pressable from '../../components/Pressable';
 import useAuth from '../../hooks/useAuth';
+import Image from '../../components/Image';
 
 const Welcome = () => {
   const { authWithGoogle, authAnonymously, authenticating } = useAuth();

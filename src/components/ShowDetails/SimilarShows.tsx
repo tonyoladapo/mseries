@@ -1,10 +1,12 @@
 import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
-import { colors } from '../../values/colors';
 import Text from '../Text';
 import SimilarShowItem from './SimilarShowItem';
 
 const SimilarShows = ({ similar }) => {
+  const keyExtractor = ({ id, name }, index) => `${index}-${name}-${id}`;
+  const renderItem = ({ item }) => <SimilarShowItem item={item} />;
+
   return (
     <View style={styles.container}>
       <Text style={styles.title} fontFamily="Heavy">
@@ -16,8 +18,8 @@ const SimilarShows = ({ similar }) => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.contentContainer}
         data={similar}
-        keyExtractor={({ id, name }, index) => `${index}-${name}-${id}`}
-        renderItem={({ item }) => <SimilarShowItem item={item} />}
+        keyExtractor={keyExtractor}
+        renderItem={renderItem}
       />
     </View>
   );

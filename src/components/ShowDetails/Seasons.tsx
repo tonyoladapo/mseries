@@ -1,10 +1,19 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { StyleSheet, View, ScrollView, FlatList } from 'react-native';
-import { colors } from '../../values/colors';
 import Text from '../Text';
 import SeasonItem from './SeasonItem';
 
 const Seasons = ({ showId, progress, added }) => {
+  const renderItem = ({ item }) => (
+    <SeasonItem
+      firstAirDate={progress.firstAirDate}
+      showId={showId}
+      seasonName={item}
+      season={progress.seasons[item]}
+    />
+  );
+  const keyExtractor = (seasonName, index) => `${index}-${seasonName}`;
+
   const [seasons, setSeasons] = useState<string[]>([]);
   const [scrollviewWidth, setScrollviewWidth] = useState(0);
 
@@ -45,16 +54,9 @@ const Seasons = ({ showId, progress, added }) => {
         <>
           <FlatList
             data={seasons}
-            keyExtractor={(seasonName, index) => `${index}-${seasonName}`}
+            keyExtractor={keyExtractor}
             scrollEnabled={false}
-            renderItem={({ item }) => (
-              <SeasonItem
-                firstAirDate={progress.firstAirDate}
-                showId={showId}
-                seasonName={item}
-                season={progress.seasons[item]}
-              />
-            )}
+            renderItem={renderItem}
           />
         </>
       </View>

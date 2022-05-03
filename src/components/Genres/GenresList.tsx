@@ -11,16 +11,20 @@ interface Props {
 }
 
 const GenresList = ({ addGenre, removeGenre }: Props) => {
+  const renderItem = ({ item }) => (
+    <GenreItem item={item} addGenre={addGenre} removeGenre={removeGenre} />
+  );
+
+  const keyExtractor = ({ id, name }, index) => `${index}-${name}-${id}`;
+
   const { genres } = useSelector(({ show }: ReducerTypes) => show);
   return (
     <FlatList
       data={genres}
       numColumns={3}
       contentContainerStyle={{ alignItems: 'center' }}
-      keyExtractor={({ id, name }, index) => `${index}-${name}-${id}`}
-      renderItem={({ item }) => (
-        <GenreItem item={item} addGenre={addGenre} removeGenre={removeGenre} />
-      )}
+      keyExtractor={keyExtractor}
+      renderItem={renderItem}
     />
   );
 };

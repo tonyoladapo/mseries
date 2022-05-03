@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import { colors } from '../../values/colors';
 import { dimensions } from '../../values/dimensions';
@@ -48,7 +48,7 @@ const SearchItem = ({ item }: Props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: 290,
+    height: 190,
     borderRadius: dimensions.cardBorderRadius,
     overflow: 'hidden',
   },
@@ -75,4 +75,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SearchItem;
+export default memo(SearchItem);

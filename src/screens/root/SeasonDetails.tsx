@@ -7,6 +7,10 @@ import EpisodeItem from '../../components/SeasonDetails/EpisodeItem';
 import AnimatedProgressbar from '../../components/AnimatedProgressbar';
 
 const SeasonDetails = ({ route }) => {
+  const renderItem = ({ item }) => <EpisodeItem item={item} showId={showId} />;
+  const keyExtractor = ({ id, episode_number, season_number }, index) =>
+    `${index}-s${season_number}e${episode_number}-${id}`;
+
   const { episodes, showId, seasonName } = route.params;
 
   const [progress, setProgress] = useState(0);
@@ -32,12 +36,10 @@ const SeasonDetails = ({ route }) => {
       <FlatList
         contentInsetAdjustmentBehavior="automatic"
         data={episodes}
-        keyExtractor={({ id, episode_number, season_number }, index) =>
-          `${index}-s${season_number}e${episode_number}-${id}`
-        }
+        keyExtractor={keyExtractor}
         contentContainerStyle={{ paddingVertical: 16 }}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
-        renderItem={({ item }) => <EpisodeItem item={item} showId={showId} />}
+        renderItem={renderItem}
       />
     </>
   );

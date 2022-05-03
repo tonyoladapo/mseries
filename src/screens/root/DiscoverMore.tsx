@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-} from 'react-native';
+import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import useDiscover from '../../hooks/useDiscover';
+import Image from '../../components/Image';
 
 const DiscoverMore = ({ route }: any) => {
   const [shows, setShows] = useState<any[]>([]);

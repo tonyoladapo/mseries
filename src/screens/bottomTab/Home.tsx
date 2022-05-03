@@ -9,6 +9,9 @@ import ListItem from '../../components/Home/ListItem';
 import Separator from '../../components/Separator';
 
 const Home = () => {
+  const renderItem = ({ item }) => <ListItem item={item} />;
+  const keyExtractor = ({ name }, index) => `${index}-${name}`;
+
   const { isNewUser, unwatched } = useSelector(
     ({ pref, show }: ReducerTypes) => ({ ...pref, ...show }),
   );
@@ -28,8 +31,8 @@ const Home = () => {
         showsVerticalScrollIndicator={false}
         data={unwatched}
         extraData={unwatched}
-        keyExtractor={({ name }, index) => `${index}-${name}`}
-        renderItem={({ item }) => <ListItem item={item} />}
+        keyExtractor={keyExtractor}
+        renderItem={renderItem}
         ListHeaderComponent={() => <Separator />}
       />
     </View>

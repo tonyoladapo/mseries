@@ -8,6 +8,9 @@ import Separator from '../../components/Separator';
 import ShowsListEmpty from '../../components/Shows/ShowsListEmpty';
 
 const Shows = () => {
+  const renderItem = ({ item }) => <ListItem item={item} />;
+  const keyExtractor = ({ id, name }, index) => `${index}-${name}-${id}`;
+
   const { listData, userShows } = useMyShows();
 
   return (
@@ -21,8 +24,8 @@ const Shows = () => {
           sections={listData}
           showsVerticalScrollIndicator={false}
           extraData={listData}
-          keyExtractor={({ id, name }, index) => `${index}-${name}-${id}`}
-          renderItem={({ item }) => <ListItem item={item} />}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
           renderSectionHeader={({ section: { title, data } }) => (
             <SectionHeader title={title} data={data} />
           )}

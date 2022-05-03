@@ -10,6 +10,9 @@ interface Props {
 }
 
 const DiscoverCategory = ({ item }: Props) => {
+  const renderItem = ({ item }) => <CategoryItem item={item} />;
+  const keyExtractor = ({ name, id }, index) => `${index}-${name}-${id}`;
+
   return (
     <>
       {item.shows.length > 0 && (
@@ -28,8 +31,8 @@ const DiscoverCategory = ({ item }: Props) => {
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={{ paddingHorizontal: 16 }}
               data={item.shows}
-              keyExtractor={({ name, id }, index) => `${index}-${name}-${id}`}
-              renderItem={({ item }) => <CategoryItem item={item} />}
+              keyExtractor={keyExtractor}
+              renderItem={renderItem}
             />
           </View>
         </View>
