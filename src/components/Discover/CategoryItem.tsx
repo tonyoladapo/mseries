@@ -1,11 +1,12 @@
 import React, { memo } from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { colors } from '../../values/colors';
 import { dimensions } from '../../values/dimensions';
 import { useNavigation } from '@react-navigation/native';
 import { RootNavigationProp } from '../../types/navigation';
 import Pressable from '../Pressable';
 import Text from '../Text';
+import Image from '../Image';
 
 interface Props {
   item: any;

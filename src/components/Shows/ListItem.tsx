@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { dimensions } from '../../values/dimensions';
 import { useNavigation } from '@react-navigation/native';
 import { RootNavigationProp } from '../../types/navigation';
 import { colors } from '../../values/colors';
 import Text from '../Text';
 import Pressable from '../Pressable';
+import Image from '../Image';
 
 const ListItem = ({ item }) => {
   const { navigate } = useNavigation<RootNavigationProp>();

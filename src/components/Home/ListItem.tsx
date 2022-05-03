@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { colors } from '../../values/colors';
 import { dimensions } from '../../values/dimensions';
 import { useNavigation } from '@react-navigation/native';
@@ -11,6 +11,7 @@ import Pressable from '../Pressable';
 import moment from 'moment';
 import useShow from '../../hooks/useShow';
 import AnimatedProgressbar from '../AnimatedProgressbar';
+import Image from '../Image';
 
 interface Props {
   item: any;

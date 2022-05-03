@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { colors } from '../../values/colors';
 import { dimensions } from '../../values/dimensions';
 import Text from '../Text';
 import AddButton from './AddButton';
+import Image from '../Image';
 
 interface Props {
   showId: number | string;
