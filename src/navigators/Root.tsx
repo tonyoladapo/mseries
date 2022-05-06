@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
-import { StatusBar, Platform } from 'react-native';
-import {
-  NavigationContainer,
-  getFocusedRouteNameFromRoute,
-} from '@react-navigation/native';
+import { StatusBar } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux';
 import { ReducerTypes } from '../types/reducerTypes';
@@ -18,7 +15,6 @@ import DiscoverMore from '../screens/root/DiscoverMore';
 import ShowDetails from '../screens/root/ShowDetails';
 import Search from '../screens/root/Search';
 import SeasonDetails from '../screens/root/SeasonDetails';
-import Text from '../components/Text';
 import Welcome from '../screens/root/Welcome';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -37,20 +33,6 @@ const Root = () => {
   }, []);
 
   if (initializing) return null;
-
-  const isIOS = Platform.OS === 'ios' || false;
-
-  const headerTitle = route => {
-    const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home';
-
-    switch (routeName) {
-      case 'Shows':
-        return 'My Shows';
-
-      default:
-        return routeName;
-    }
-  };
 
   return (
     <>
@@ -79,21 +61,7 @@ const Root = () => {
               <Stack.Screen
                 name="Main"
                 component={Main}
-                options={({ route }) => ({
-                  headerTitle: isIOS
-                    ? headerTitle(route)
-                    : () => (
-                        <Text fontFamily="Black" style={{ fontSize: 30 }}>
-                          {headerTitle(route)}
-                        </Text>
-                      ),
-                  headerLargeTitle: true,
-                  headerLargeTitleStyle: {
-                    fontFamily: 'SFProDisplay-Black',
-                    fontSize: 30,
-                  },
-                  headerTransparent: isIOS,
-                })}
+                options={{ headerShown: false }}
               />
 
               <Stack.Screen
