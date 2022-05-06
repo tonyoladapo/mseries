@@ -1,77 +1,94 @@
-import React, { useEffect, useState } from 'react';
-import {
-  StyleSheet,
-  Animated,
-  Text,
-  Platform,
-  SafeAreaView,
-  NativeModules,
-} from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, Animated, Platform } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../values/colors';
-import { useSelector, useDispatch } from 'react-redux';
-import { ReducerTypes } from '../types/reducerTypes';
-import { setHeaderHeight } from '../actions/pref';
-import { BlurView } from '@react-native-community/blur';
+import { BlurView } from 'expo-blur';
 
-const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 const AnimatedText = Animated.createAnimatedComponent(Text);
+const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
+const AnimatedView = Animated.createAnimatedComponent(View);
 
-const AnimatedHeader = props => {
-  const { name } = props.route;
+const HEADER_HEIGHT = 80;
 
-  const [opacity] = useState(new Animated.Value(0));
-  const statusBarHeight = NativeModules.StatusBarManager.HEIGHT;
+interface Props {
+  animatedValue: Animated.Value;
+  title: string;
+  children?: React.ReactNode;
+}
 
-  const { isHeaderTransparent } = useSelector(({ pref }: ReducerTypes) => pref);
-  const dispatch = useDispatch();
+const AnimatedHeader = ({ children, animatedValue, title }: Props) => {
+  const insets = useSafeAreaInsets();
 
-  const show = () => {
-    Animated.timing(opacity, {
-      toValue: 1,
-      duration: 200,
-      useNativeDriver: true,
-    }).start();
-  };
+  const headerHeight = animatedValue.interpolate({
+    inputRange: [0, HEADER_HEIGHT + insets.top],
+    outputRange: [HEADER_HEIGHT + insets.top, insets.top + 44],
+    extrapolateRight: 'clamp',
+  });
 
-  useEffect(() => {
-    isHeaderTransparent ? show() : hide();
-  }, [isHeaderTransparent]);
+  const fontSize = animatedValue.interpolate({
+    inputRange: [0, HEADER_HEIGHT + insets.top],
+    outputRange: [30, 20],
+    extrapolate: 'clamp',
+  });
 
-  const hide = () => {
-    Animated.timing(opacity, {
-      toValue: 0,
-      duration: 200,
-      useNativeDriver: true,
-    }).start();
-  };
+  const blurIntensity = animatedValue.interpolate({
+    inputRange: [0, HEADER_HEIGHT + insets.top],
+    outputRange: [0, 100],
+    extrapolate: 'clamp',
+  });
+
+  const separatorOpacity = animatedValue.interpolate({
+    inputRange: [0, HEADER_HEIGHT + insets.top],
+    outputRange: [1, 0],
+    extrapolate: 'clamp',
+  });
 
   return (
-    <SafeAreaView
-      onLayout={e => dispatch(setHeaderHeight(e.nativeEvent.layout.height))}
-      style={[{ paddingTop: statusBarHeight }, styles.container]}>
+    <Animated.View style={[styles.container, { height: headerHeight }]}>
       <AnimatedBlurView
-        style={[StyleSheet.absoluteFill, { opacity }]}
-        blurType="dark"
+        style={StyleSheet.absoluteFill}
+        intensity={blurIntensity}
+        tint="dark"
       />
-      <AnimatedText style={[{ opacity }, styles.title]}>{name}</AnimatedText>
-    </SafeAreaView>
+      <AnimatedText
+        style={[
+          styles.title,
+          {
+            fontSize,
+            fontFamily:
+              Platform.OS === 'ios'
+                ? 'SFProDisplay-Black'
+                : 'sfprodisplay_black',
+          },
+        ]}>
+        {title}
+      </AnimatedText>
+      <AnimatedView style={[styles.separator, { opacity: separatorOpacity }]} />
+    </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
     position: 'absolute',
-    width: '100%',
-    overflow: 'hidden',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 10,
+    backgroundColor: colors.transparent,
+    justifyContent: 'flex-end',
   },
 
   title: {
-    fontFamily:
-      Platform.OS === 'ios' ? 'SFProDisplay-Bold' : 'sfprodisplay_bold',
     color: colors.primaryText,
-    fontSize: 18,
-    padding: 16,
+    marginVertical: 8,
+    includeFontPadding: false,
+    paddingHorizontal: 16,
+  },
+
+  separator: {
+    backgroundColor: colors.secondaryBackground,
+    height: 1,
   },
 });
 
