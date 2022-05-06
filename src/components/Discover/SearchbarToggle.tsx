@@ -46,9 +46,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderRadius: dimensions.cardBorderRadius,
     overflow: 'hidden',
-    marginTop: Platform.OS === 'ios' ? 8 : 0,
     marginHorizontal: 16,
-    marginBottom: 4,
   },
 
   searchText: {
