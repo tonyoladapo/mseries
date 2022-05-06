@@ -25,6 +25,7 @@
 		72E3578A4A3544759D16FC16 /* SFProDisplay-LightItalic.OTF in Resources */ = {isa = PBXBuildFile; fileRef = 035D422B6EFD427A9402410B /* SFProDisplay-LightItalic.OTF */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		9CABABBE08554A4FB3C9BFFD /* SFProDisplay-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = CA818BA03E1D4165A1ADF6C6 /* SFProDisplay-Ultralight.otf */; };
+		A2101C37660502B75D2AE5B3 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DFC217EC2EC3234FB8D8BA /* ExpoModulesProvider.swift */; };
 		B1A975D3697B4A04A80F8087 /* SFProDisplay-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 87E390880B2047DC89509044 /* SFProDisplay-MediumItalic.otf */; };
 		B635E712C0054113B27DC879 /* SFProDisplay-Bold.OTF in Resources */ = {isa = PBXBuildFile; fileRef = 83C084330AFD472AAC57AF61 /* SFProDisplay-Bold.OTF */; };
 		C50403218DC14D8CA1B04938 /* SFProDisplay-ThinItalic.OTF in Resources */ = {isa = PBXBuildFile; fileRef = D1D235005B4449D1A6D9E5BC /* SFProDisplay-ThinItalic.OTF */; };
@@ -32,6 +33,7 @@
 		DBC046E412B34BE9B988ADF4 /* SFProDisplay-BlackItalic.OTF in Resources */ = {isa = PBXBuildFile; fileRef = 07DAE1E5A3104A9497A51DF0 /* SFProDisplay-BlackItalic.OTF */; };
 		EAE300F427B902BD00BF174C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EAE300F327B902BD00BF174C /* GoogleService-Info.plist */; };
 		EBF9D76A0C134382BFE692F2 /* SFProDisplay-SemiboldItalic.OTF in Resources */ = {isa = PBXBuildFile; fileRef = 382FA72BA41F455DB10EA968 /* SFProDisplay-SemiboldItalic.OTF */; };
+		F73C7FD419634D1B0BDE2B2F /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A6A3EA6CF9129E893E7268 /* ExpoModulesProvider.swift */; };
 		F7C6A8ED52A14E6FA0B73A4E /* SFProDisplay-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 59F17B5A2FD34B19952BB3EF /* SFProDisplay-Heavy.otf */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +61,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = mseries/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = mseries/main.m; sourceTree = "<group>"; };
 		30EA4A57C3C4F81CF711D882 /* libPods-mseries.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mseries.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		33DFC217EC2EC3234FB8D8BA /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-mseries/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		36CC6371EB9CC73D45236ECA /* Pods-mseries-mseriesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mseries-mseriesTests.debug.xcconfig"; path = "Target Support Files/Pods-mseries-mseriesTests/Pods-mseries-mseriesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		37D318D5BE914A6BAEC9F134 /* SFProDisplay-Regular.OTF */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Regular.OTF"; path = "../src/assets/fonts/SFProDisplay-Regular.OTF"; sourceTree = "<group>"; };
 		382933B06CDD485195754702 /* SFProDisplay-UltralightItalic.OTF */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-UltralightItalic.OTF"; path = "../src/assets/fonts/SFProDisplay-UltralightItalic.OTF"; sourceTree = "<group>"; };
@@ -66,6 +69,7 @@
 		4247CFB3CEA0CE53DB3B0A1F /* libPods-mseries-mseriesTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mseries-mseriesTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		59F17B5A2FD34B19952BB3EF /* SFProDisplay-Heavy.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Heavy.otf"; path = "../src/assets/fonts/SFProDisplay-Heavy.otf"; sourceTree = "<group>"; };
 		61AB6362A0EDD8F0AB4630AC /* Pods-mseries.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mseries.release.xcconfig"; path = "Target Support Files/Pods-mseries/Pods-mseries.release.xcconfig"; sourceTree = "<group>"; };
+		66A6A3EA6CF9129E893E7268 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-mseries-mseriesTests/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		72A78697D69243E9A2E72560 /* SFProDisplay-RegularItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-RegularItalic.otf"; path = "../src/assets/fonts/SFProDisplay-RegularItalic.otf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = mseries/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		82493410433E48CA9EA01081 /* SFProDisplay-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-BoldItalic.otf"; path = "../src/assets/fonts/SFProDisplay-BoldItalic.otf"; sourceTree = "<group>"; };
@@ -134,6 +138,22 @@
 			name = mseries;
 			sourceTree = "<group>";
 		};
+		21BEFEA08ABC3F601C65AC99 /* mseries */ = {
+			isa = PBXGroup;
+			children = (
+				33DFC217EC2EC3234FB8D8BA /* ExpoModulesProvider.swift */,
+			);
+			name = mseries;
+			sourceTree = "<group>";
+		};
+		2AEC22C111BB43A166AB50B9 /* mseriesTests */ = {
+			isa = PBXGroup;
+			children = (
+				66A6A3EA6CF9129E893E7268 /* ExpoModulesProvider.swift */,
+			);
+			name = mseriesTests;
+			sourceTree = "<group>";
+		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -142,6 +162,15 @@
 				4247CFB3CEA0CE53DB3B0A1F /* libPods-mseries-mseriesTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3F98CF285288E991971DEB35 /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				21BEFEA08ABC3F601C65AC99 /* mseries */,
+				2AEC22C111BB43A166AB50B9 /* mseriesTests */,
+			);
+			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -162,6 +191,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				E233CBF5F47BEE60B243DCF8 /* Pods */,
 				FC018028E63C4957BB78EAC6 /* Resources */,
+				3F98CF285288E991971DEB35 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -502,6 +532,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00E356F31AD99517003FC87E /* mseriesTests.m in Sources */,
+				F73C7FD419634D1B0BDE2B2F /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,6 +542,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				A2101C37660502B75D2AE5B3 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -535,7 +567,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = mseriesTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -559,7 +591,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = mseriesTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -677,7 +709,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -735,7 +767,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
