@@ -13,14 +13,14 @@ const SimilarShowItem = ({ item }) => {
 
   return (
     <Pressable
-      shrinkScale={0.98}
-      style={styles.container}
       onPress={() =>
         push('ShowDetails', {
           showId: item.id,
           title: item.name,
         })
-      }>
+      }
+      shrinkScale={0.98}
+      style={styles.container}>
       <View style={{ flex: 8 }}>
         <Image
           style={styles.poster}
@@ -32,9 +32,8 @@ const SimilarShowItem = ({ item }) => {
       <View style={{ flex: 2, justifyContent: 'center' }}>
         <Text
           fontFamily="Bold"
-          numberOfLines={3}
-          ellipsizeMode="tail"
-          style={{ color: colors.mutedText, textAlign: 'center' }}>
+          numberOfLines={2}
+          style={{ color: colors.mutedText }}>
           {item.name}
         </Text>
       </View>
@@ -44,12 +43,13 @@ const SimilarShowItem = ({ item }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: 80,
+    height: 170,
+    width: 100,
     marginHorizontal: 4,
   },
 
   poster: {
-    height: 120,
+    height: '100%',
     width: '100%',
     resizeMode: 'cover',
     borderRadius: dimensions.cardBorderRadius,
