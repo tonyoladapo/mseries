@@ -4,12 +4,14 @@ import {
   FlatList,
   View,
   ActivityIndicator,
-  SafeAreaView,
   Animated,
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ReducerTypes } from '../../types/reducerTypes';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  useSafeAreaInsets,
+  SafeAreaView,
+} from 'react-native-safe-area-context';
 import useDiscover from '../../hooks/useDiscover';
 import DiscoverCategory from '../../components/Discover/DiscoverCategory';
 import SearchbarToggle from '../../components/Discover/SearchbarToggle';
@@ -29,7 +31,7 @@ const Discover = () => {
   const { getDiscoverShows, loading } = useDiscover();
 
   useEffect(() => {
-    getDiscoverShows();
+    // getDiscoverShows();
   }, []);
 
   return (
@@ -46,7 +48,6 @@ const Discover = () => {
         </SafeAreaView>
       ) : (
         <FlatList
-          style={{ paddingTop: 16 }}
           data={discoverShows}
           keyExtractor={keyExtractor}
           contentContainerStyle={{ paddingTop: 80 + insets.top }}

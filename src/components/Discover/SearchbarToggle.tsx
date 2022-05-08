@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
     borderRadius: dimensions.cardBorderRadius,
     overflow: 'hidden',
     marginHorizontal: 16,
+    marginTop: 16,
   },
 
   searchText: {
