@@ -5,7 +5,10 @@ export type RootStackParamList = {
   Main: undefined;
   Welcome: undefined;
   Genres: undefined;
-  DiscoverMore: ListParams;
+  DiscoverMore: {
+    category: 'trending' | 'anticipated';
+    listTitle: string;
+  };
   ShowDetails: {
     showId: string | number;
     title?: string;

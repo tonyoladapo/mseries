@@ -31,7 +31,7 @@ const Discover = () => {
   const { getDiscoverShows, loading } = useDiscover();
 
   useEffect(() => {
-    // getDiscoverShows();
+    getDiscoverShows();
   }, []);
 
   return (

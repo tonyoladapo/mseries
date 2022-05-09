@@ -74,7 +74,14 @@ const Root = () => {
                 }}
               />
 
-              <Stack.Screen name="DiscoverMore" component={DiscoverMore} />
+              <Stack.Screen
+                name="DiscoverMore"
+                component={DiscoverMore}
+                options={({ route }) => ({
+                  headerTitle: route.params.listTitle,
+                })}
+              />
+
               <Stack.Screen
                 name="ShowDetails"
                 component={ShowDetails}
