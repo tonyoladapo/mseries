@@ -21,18 +21,21 @@ const useShowDetails = (showId: string, abortController?: AbortController) => {
   const [progress, setProgress] = useState<any>(null);
 
   useEffect(() => {
+    mounted = true;
+
     (async () => {
-      mounted && setAdded(await checkAdded(showId));
+      setAdded(await checkAdded(showId));
       getProgress();
     })();
+
+    return () => {
+      mounted = false;
+    };
   }, [unwatched, unwatchedCollection]);
 
   useEffect(() => {
-    mounted = true;
-
     getShowDetails();
     return () => {
-      mounted = false;
       abortController?.abort();
     };
   }, []);
@@ -45,7 +48,7 @@ const useShowDetails = (showId: string, abortController?: AbortController) => {
         signal: abortController ? abortController.signal : undefined,
       });
 
-      mounted && setShowDetails(data);
+      setShowDetails(data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -55,8 +58,8 @@ const useShowDetails = (showId: string, abortController?: AbortController) => {
 
   const getProgress = () => {
     unwatchedCollection[showId]
-      ? mounted && setProgress(unwatchedCollection[showId])
-      : mounted && setProgress({});
+      ? setProgress(unwatchedCollection[showId])
+      : setProgress({});
   };
 
   return { added, loading, showDetails, progress, setAdded };
