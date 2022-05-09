@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, ActivityIndicator, FlatList } from 'react-native';
+import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
 import ListItem from '../../components/DiscoverMore/ListItem';
-import Text from '../../components/Text';
 import useDiscoverMore from '../../hooks/useDiscoverMore';
 
 const DiscoverMore = ({ route }) => {
